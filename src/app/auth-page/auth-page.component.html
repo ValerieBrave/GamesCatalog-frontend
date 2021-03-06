@@ -1,0 +1,46 @@
+
+<div class="card-wrapper">
+    <ul ngbNav #nav="ngbNav"  class="nav-tabs">
+        <li [ngbNavItem]='1'>
+        <a ngbNavLink>SIGN IN</a>
+        <ng-template ngbNavContent>
+            <div class="card" style="width: 40vh; height: 50vh; margin: auto; ">
+                <div class="card-body">
+                    <h5 class="card-title">Login</h5>
+                    <form [formGroup]="loginForm">
+                        <label> Email:
+                            <input type="email" formControlName="email">
+                        </label>
+                        <label> Password:
+                            <input type="password" formControlName="password">
+                        </label>
+                    </form>
+                </div>
+            </div>
+        </ng-template>
+        </li>
+        <li [ngbNavItem]="2">
+        <a ngbNavLink>JOIN US!</a>
+        <ng-template ngbNavContent>
+            <div class="card" style="width: 40vh; height: 50vh; margin: auto; ">
+                <div class="card-body">
+                    <h5 class="card-title">Register</h5>
+                    <form [formGroup]="registerForm">
+                        <label> Name:
+                            <input type="text" formControlName="name">
+                        </label>
+                        <label> Email:
+                            <input type="email" formControlName="email">
+                        </label>
+                        <label> Password:
+                            <input type="password" formControlName="password">
+                        </label>
+                    </form>
+                </div>
+            </div>
+        </ng-template>
+        </li>
+    </ul>
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+</div>
+  
