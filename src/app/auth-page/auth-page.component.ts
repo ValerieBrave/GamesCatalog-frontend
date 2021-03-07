@@ -7,6 +7,9 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./auth-page.component.scss']
 })
 export class AuthPageComponent implements OnInit {
+  active = 1;
+  
+
 
   loginForm = new FormGroup({
     email : new FormControl(''),

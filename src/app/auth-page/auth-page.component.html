@@ -1,46 +1,69 @@
 
 <div class="card-wrapper">
-    <ul ngbNav #nav="ngbNav"  class="nav-tabs">
-        <li [ngbNavItem]='1'>
-        <a ngbNavLink>SIGN IN</a>
-        <ng-template ngbNavContent>
-            <div class="card" style="width: 40vh; height: 50vh; margin: auto; ">
-                <div class="card-body">
-                    <h5 class="card-title">Login</h5>
-                    <form [formGroup]="loginForm">
-                        <label> Email:
-                            <input type="email" formControlName="email">
-                        </label>
-                        <label> Password:
-                            <input type="password" formControlName="password">
-                        </label>
-                    </form>
+    <div style=" border: 4px solid rgb(219, 218, 218); padding: 1rem; ">
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active"  class="nav-tabs">
+            <li [ngbNavItem]='1' class="my-tab" >
+            <a ngbNavLink style="width: 13vw;" 
+            [ngStyle]="{'background-color': active == 1? 'rgb(211, 0, 0)' : 'white', 'color': active==1? 'white':'blue'}"
+            >SIGN IN</a>
+            <ng-template ngbNavContent>
+                <div class="card my-card" style="  margin: auto; ">
+                    <div class="card-body">
+                        <form [formGroup]="loginForm">
+                            <div class="form-group">
+                                <label><b>Email Address</b></label>
+                                <input class="form-control" type="email" formControlName="email">
+                                <label><b>Password</b> </label>
+                                <input class="form-control" type="password" formControlName="password">
+                            </div>
+                            <button type="submit" class="submits">Sign In</button>
+                            <a href="" style="margin-left: 1vw;">Forgot Password?</a>
+                            
+                        </form>
+                        <p style="font-size: small; margin: 3vh; text-align: center;">
+                            -----------------Sign In With-----------------
+                        </p>
+                        <div class="button-line">
+                            <button class="soc-btn" style="background-color: rgb(40, 40, 146);">Facebook</button>
+                            <button class="soc-btn" style="background-color: rgb(245, 1, 1);">Google+</button>
+                            <button class="soc-btn" style="background-color: rgb(28, 156, 234);">Twitter</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </ng-template>
-        </li>
-        <li [ngbNavItem]="2">
-        <a ngbNavLink>JOIN US!</a>
-        <ng-template ngbNavContent>
-            <div class="card" style="width: 40vh; height: 50vh; margin: auto; ">
-                <div class="card-body">
-                    <h5 class="card-title">Register</h5>
-                    <form [formGroup]="registerForm">
-                        <label> Name:
-                            <input type="text" formControlName="name">
-                        </label>
-                        <label> Email:
-                            <input type="email" formControlName="email">
-                        </label>
-                        <label> Password:
-                            <input type="password" formControlName="password">
-                        </label>
-                    </form>
+            </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+            <a ngbNavLink style="width: 13vw;" 
+            [ngStyle]="{'background-color': active == 2? 'rgb(211, 0, 0)' : 'white', 'color': active==2? 'white':'blue'}"
+            >JOIN US!</a>
+            <ng-template ngbNavContent>
+                <div class="card my-card" style="  margin: auto; ">
+                    <div class="card-body">
+                        <form [formGroup]="registerForm">
+                            <div class="form-group">
+                                <label><b>Name</b></label>
+                                <input class="form-control" type="text" formControlName="name">
+                                <label><b>Email Address</b></label>
+                                <input class="form-control" type="email" formControlName="email">
+                                <label><b>Password</b></label>
+                                <input class="form-control" type="password" formControlName="password">
+                            </div>
+                            <button type="submit" class="submits">Join now</button>
+                        </form>
+                        <p style="font-size: small; margin: 3vh; text-align: center;">
+                            -----------------Register With-----------------
+                        </p>
+                        <div class="button-line">
+                            <button class="soc-btn" style="background-color: rgb(40, 40, 146);">Facebook</button>
+                            <button class="soc-btn" style="background-color: rgb(245, 1, 1);">Google+</button>
+                            <button class="soc-btn" style="background-color: rgb(28, 156, 234);">Twitter</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </ng-template>
-        </li>
-    </ul>
-    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+            </ng-template>
+            </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </div>
 </div>
   
