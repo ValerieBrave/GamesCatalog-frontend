@@ -1,24 +1,64 @@
 
 <div class="card-wrapper">
-    <div style=" border: 4px solid rgb(219, 218, 218); padding: 1rem; ">
+    <div style=" border: 4px solid rgb(219, 218, 218); padding: 1rem; margin-bottom: 1rem;">
         <ul ngbNav #nav="ngbNav" [(activeId)]="active"  class="nav-tabs">
             <li [ngbNavItem]='1' class="my-tab" >
             <a ngbNavLink style="width: 13vw;" 
-            [ngStyle]="{'background-color': active == 1? 'rgb(211, 0, 0)' : 'white', 'color': active==1? 'white':'blue'}"
-            >SIGN IN</a>
+                [ngStyle]="{'background-color': active == 1? 'rgb(211, 0, 0)' : 'white', 'color': active==1? 'white':'blue'}"
+                >SIGN IN
+            </a>
             <ng-template ngbNavContent>
                 <div class="card my-card" style="  margin: auto; ">
                     <div class="card-body">
-                        <form [formGroup]="loginForm">
+                        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
                             <div class="form-group">
-                                <label><b>Email Address</b></label>
-                                <input class="form-control" type="email" formControlName="email">
-                                <label><b>Password</b> </label>
-                                <input class="form-control" type="password" formControlName="password">
+                                <div>
+                                    <label for="email"><b>Email Address</b></label>
+                                    <input 
+                                        class="form-control" 
+                                        id="email"
+                                        type="email" 
+                                        formControlName="email"
+                                    >
+                                    <span style="color: red;"
+                                        *ngIf="loginForm.get('email').invalid  && loginForm.get('email').touched"
+                                    >
+                                        <span *ngIf="loginForm.get('email').errors['required']">
+                                            Email is required
+                                        </span>
+                                        <span *ngIf="loginForm.get('email').errors['email']">
+                                            Email is not correct
+                                        </span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <label for="password"><b>Password</b></label>
+                                    <input 
+                                        class="form-control" 
+                                        id="password"
+                                        type="password" 
+                                        formControlName="password"
+                                    >
+                                    <span style="color: red;"
+                                        *ngIf="loginForm.get('password').invalid  && loginForm.get('password').touched"
+                                    >
+                                        <span *ngIf="loginForm.get('password').errors['required']">
+                                            Password is required
+                                        </span>
+                                        <span *ngIf="loginForm.get('password').errors['minlength']">
+                                            Password must be longer than 6 symbols
+                                        </span>
+                                    </span>
+                                </div>
+                                
                             </div>
-                            <button type="submit" class="submits">Sign In</button>
+                            <button 
+                                type="submit" 
+                                class="submits"
+                                [disabled]="loginForm.invalid"
+                                [ngStyle]="{'background-color':loginForm.invalid? 'gray':'rgb(245, 1, 1)'}"
+                            >Sign In</button>
                             <a href="" style="margin-left: 1vw;">Forgot Password?</a>
-                            
                         </form>
                         <p style="font-size: small; margin: 3vh; text-align: center;">
                             -----------------Sign In With-----------------
@@ -34,21 +74,76 @@
             </li>
             <li [ngbNavItem]="2">
             <a ngbNavLink style="width: 13vw;" 
-            [ngStyle]="{'background-color': active == 2? 'rgb(211, 0, 0)' : 'white', 'color': active==2? 'white':'blue'}"
-            >JOIN US!</a>
+                [ngStyle]="{'background-color': active == 2? 'rgb(211, 0, 0)' : 'white', 'color': active==2? 'white':'blue'}"
+                >JOIN US!
+            </a>
             <ng-template ngbNavContent>
                 <div class="card my-card" style="  margin: auto; ">
                     <div class="card-body">
-                        <form [formGroup]="registerForm">
+                        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
                             <div class="form-group">
-                                <label><b>Name</b></label>
-                                <input class="form-control" type="text" formControlName="name">
-                                <label><b>Email Address</b></label>
-                                <input class="form-control" type="email" formControlName="email">
-                                <label><b>Password</b></label>
-                                <input class="form-control" type="password" formControlName="password">
+                                <div>
+                                    <label><b>Name</b></label>
+                                    <input 
+                                        class="form-control" 
+                                        id="name"
+                                        type="text" 
+                                        formControlName="name"
+                                    >
+                                    <span style="color: red;"
+                                        *ngIf="registerForm.get('name').invalid && registerForm.get('name').touched"
+                                    >
+                                        <span *ngIf="registerForm.get('name').errors['required']">
+                                            Name is required
+                                        </span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <label><b>Email Address</b></label>
+                                    <input 
+                                        class="form-control"
+                                        id="email" 
+                                        type="email" 
+                                        formControlName="email"
+                                    >
+                                    <span style="color: red;"
+                                        *ngIf="registerForm.get('email').invalid  && registerForm.get('email').touched"
+                                    >
+                                        <span *ngIf="registerForm.get('email').errors['required']">
+                                            Email is required
+                                        </span>
+                                        <span *ngIf="registerForm.get('email').errors['email']">
+                                            Email is not correct
+                                        </span>
+                                    </span>
+                                </div>
+                                <div>
+                                    <label><b>Password</b></label>
+                                    <input 
+                                    class="form-control" 
+                                    id="password"
+                                    type="password" 
+                                    formControlName="password"
+                                    >
+                                    <span style="color: red;"
+                                        *ngIf="registerForm.get('password').invalid  && registerForm.get('password').touched"
+                                    >
+                                        <span *ngIf="registerForm.get('password').errors['required']">
+                                            Password is required
+                                        </span>
+                                        <span *ngIf="registerForm.get('password').errors['minlength']">
+                                            Password must be longer than 6 symbols
+                                        </span>
+                                    </span>
+                                </div>
+                                
                             </div>
-                            <button type="submit" class="submits">Join now</button>
+                            <button 
+                                type="submit" 
+                                class="submits"
+                                [disabled]="registerForm.invalid"
+                                [ngStyle]="{'background-color':registerForm.invalid? 'gray':'rgb(245, 1, 1)'}"
+                            >Join now</button>
                         </form>
                         <p style="font-size: small; margin: 3vh; text-align: center;">
                             -----------------Register With-----------------
