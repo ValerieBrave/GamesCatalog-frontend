@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
+
+import { HttpClientModule } from '@angular/common/http';
+
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { AppComponent } from './app.component';
 import { AuthPageComponent } from './auth-page/auth-page.component';
@@ -16,6 +20,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {MatNativeDateModule} from '@angular/material/core';
+import { FillFilterService } from './shared/services/fill-filter.service';
 
 @NgModule({
   declarations: [
@@ -29,6 +34,7 @@ import {MatNativeDateModule} from '@angular/material/core';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,

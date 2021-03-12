@@ -13,10 +13,10 @@ const routes: Routes = [
         path:'', component: ExploreLayoutComponent, children: [
            {path: '', component: ExplorePageComponent},
            {path: 'explore', component: ExplorePageComponent},
-           {path:'games', component: GamesPageComponent}
+           {path:'games', component: GamesPageComponent},
+           {path:'user/:id', component: UserPageComponent}
         ]
-    },
-    {path:'user/:id', component: UserPageComponent}
+    }
 ]
 
 @NgModule({
