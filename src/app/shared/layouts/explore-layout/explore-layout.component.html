@@ -22,63 +22,57 @@
                 </mat-panel-description>
                 </mat-expansion-panel-header>
                 <form class="header__filter-list" [formGroup]='filterForm'>
-                    <mat-form-field >
+                    <mat-form-field class="filter-input">
                         <mat-label>Release date</mat-label>
                         <input matInput [matDatepicker]="picker" formControlName='releaseDate'>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
-                    <mat-form-field >
+                    <mat-form-field class="filter-input">
                         <mat-label>Genres</mat-label>
-                        <mat-select formControlName='genre'>
-                            <mat-option value="RTS">Real Time Strategy (RTS)</mat-option>
-                            <mat-option value="Puzzle">Puzzle</mat-option>
-                            <mat-option value="RPG">Role Playing (RPG)</mat-option>
-                            <mat-option value="Adventure">Adventure</mat-option>
-                            <mat-option value="Shooter">Shooter</mat-option>
-                            <mat-option value="Simulator">Simulator</mat-option>
+                        <mat-select formControlName='genre' [(ngModel)]='selectedInputs.selectedGenre'>
+                            <mat-option *ngFor="let g of genres" [value]='g'>{{g}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field >
+                    <mat-form-field class="filter-input">
                         <mat-label>Platforms</mat-label>
-                        <mat-select formControlName='platform'>
-                            <mat-option value="SMD">Sega Mega Drive</mat-option>
-                            <mat-option value="Web">Web browser</mat-option>
-                            <mat-option value="PC">PC</mat-option>
-                            <mat-option value="PS4">PS4</mat-option>
-                            <mat-option value="PS3">PS3</mat-option>
-                            <mat-option value="XBOX">XBOX One</mat-option>
+                        <mat-select formControlName='platform' [(ngModel)]='selectedInputs.selectedPlatform'>
+                            <mat-option *ngFor="let p of platforms" [value]='p'>{{p}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field >
+                    <mat-form-field class="filter-input">
                         <mat-label>Game Engines</mat-label>
-                        <mat-select formControlName='engine'>
-                            <mat-option value="Frostbite">Frostbite</mat-option>
-                            <mat-option value="React">React Native</mat-option>
-                            <mat-option value="Unity">Unity</mat-option>
+                        <mat-select formControlName='engine' [(ngModel)]='selectedInputs.selectedEngine'>
+                            <mat-option *ngFor="let e of gameEngines" [value]='e'>{{e}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field>
+                    <mat-form-field class="filter-input">
                         <mat-label>PEGI Rating</mat-label>
-                        <mat-select formControlName='rating'>
-                            <mat-option value="3">3</mat-option>
-                            <mat-option value="7">7</mat-option>
-                            <mat-option value="12">12</mat-option>
-                            <mat-option value="16">16</mat-option>
-                            <mat-option value="18">18</mat-option>
+                        <mat-select formControlName='pegirating' [(ngModel)]='selectedInputs.selectedPegiRating'>
+                            <mat-option *ngFor="let r of pegiRatings" [value]='r'>{{r}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field >
+                    <mat-form-field class="filter-input">
                         <mat-label>Game Modes</mat-label>
-                        <mat-select>
-                            <mat-option value="MMO">MMO</mat-option>
-                            <mat-option value="Co-operative">Co-operative</mat-option>
-                            <mat-option value="Single player">Single player</mat-option>
-                            <mat-option value="Multiplayer">Multiplayer</mat-option>
-                            <mat-option value="Split screen">Split screen</mat-option>
+                        <mat-select formControlName='mode' [(ngModel)]='selectedInputs.selectedMode'>
+                            <mat-option *ngFor="let m of gameModes" [value]='m'>{{m}}</mat-option>
                         </mat-select>
                     </mat-form-field>
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <mat-label>Rating</mat-label>
+                        <mat-slider class="filter-input"
+                            formControlName = 'rating'
+                            [(ngModel)] = 'selectedInputs.selectedRating'
+                            [max]="10"
+                            [min]="1"
+                            [step]="1">
+                        </mat-slider>
+                    </div>                  
                 </form>
+                <div class="header__button-block">
+                    <button mat-button>CANCEL</button>
+                    <button mat-button style="color: blue;">SEARCH</button>
+                </div>
             </mat-expansion-panel>
         </div>
     </div>

@@ -41,7 +41,17 @@
 .header__filter-list {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content:start;
+    align-items: center;
+}
+.filter-input {
+    width: 24vh;
+    margin: 1vw;
+}
+.header__button-block {
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
     align-items: center;
 }
 .content {

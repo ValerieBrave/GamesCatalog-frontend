@@ -1,4 +1,4 @@
-export enum Rating {
+export enum PEGIRating {
     Three = 1,
     Seven,
     Twelve,
@@ -13,19 +13,19 @@ export enum Rating {
     AO
 }
 
-// export function getRatingStringValue(r): String {
-//     switch(r) {
-//         case Rating.Three: return 'Three'
-//         case Rating.Seven: return 'Seven'
-//         case Rating.Twelve: return 'Twelve'
-//         case Rating.Sixteen: return 'Sixteen'
-//         case Rating.Eighteen: return 'Eighteen'
-//         case Rating.RP: return 'RP'
-//         case Rating.EC: return 'EC'
-//         case Rating.E: return 'E'
-//         case Rating.E10: return 'E10'
-//         case Rating.T: return 'T'
-//         case Rating.M: return 'M'
-//         case Rating.AO: return 'AO'
-//     }
-// }
+export function getRatingStringValue(r): String {
+    switch(r) {
+        case PEGIRating.Three: return '3'
+        case PEGIRating.Seven: return '7'
+        case PEGIRating.Twelve: return '12'
+        case PEGIRating.Sixteen: return '16'
+        case PEGIRating.Eighteen: return '18'
+        case PEGIRating.RP: return 'RP'
+        case PEGIRating.EC: return 'EC'
+        case PEGIRating.E: return 'E'
+        case PEGIRating.E10: return 'E10'
+        case PEGIRating.T: return 'T'
+        case PEGIRating.M: return 'M'
+        case PEGIRating.AO: return 'AO'
+    }
+}

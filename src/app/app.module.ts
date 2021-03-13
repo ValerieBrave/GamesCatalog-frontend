@@ -20,7 +20,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import {MatNativeDateModule} from '@angular/material/core';
-import { FillFilterService } from './shared/services/fill-filter.service';
+import {MatSliderModule} from '@angular/material/slider';
+import {MatButtonModule} from '@angular/material/button';
+
+
 
 @NgModule({
   declarations: [
@@ -44,7 +47,9 @@ import { FillFilterService } from './shared/services/fill-filter.service';
     MatFormFieldModule,
     MatDatepickerModule,
     MatSelectModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSliderModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
