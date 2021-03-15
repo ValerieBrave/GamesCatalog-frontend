@@ -1,2 +1,83 @@
-<h3>Explore Layout</h3>
-<router-outlet></router-outlet>
+<div class="outer-container">
+    <div class="header">
+        <div class="header__app-bar">
+            <div class="header__left-block">
+                <span>ICON</span>
+                <a routerLinkActive="active" routerLink="/explore">DISCOVERY</a>
+                <a routerLink="/games">MY GAMES</a>
+            </div>
+            <div class="header__right-block">
+                <a routerLink="/user/4">USER PAGE</a>
+            </div>
+        </div>
+        <div class="header__filter">
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel-header style="margin-top: 1rem;">
+                <mat-panel-title>Filters</mat-panel-title>
+                <mat-panel-description>
+                    <mat-form-field>
+                        <mat-label>Search games</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </mat-panel-description>
+                </mat-expansion-panel-header>
+                <form class="header__filter-list" [formGroup]='filterForm'>
+                    <mat-form-field class="filter-input">
+                        <mat-label>Release date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName='releaseDate'>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field class="filter-input">
+                        <mat-label>Genres</mat-label>
+                        <mat-select formControlName='genre' [(ngModel)]='selectedInputs.selectedGenre'>
+                            <mat-option *ngFor="let g of genres" [value]='g'>{{g}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="filter-input">
+                        <mat-label>Platforms</mat-label>
+                        <mat-select formControlName='platform' [(ngModel)]='selectedInputs.selectedPlatform'>
+                            <mat-option *ngFor="let p of platforms" [value]='p'>{{p}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="filter-input">
+                        <mat-label>Game Engines</mat-label>
+                        <mat-select formControlName='engine' [(ngModel)]='selectedInputs.selectedEngine'>
+                            <mat-option *ngFor="let e of gameEngines" [value]='e'>{{e}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="filter-input">
+                        <mat-label>PEGI Rating</mat-label>
+                        <mat-select formControlName='pegirating' [(ngModel)]='selectedInputs.selectedPegiRating'>
+                            <mat-option *ngFor="let r of pegiRatings" [value]='r'>{{r}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="filter-input">
+                        <mat-label>Game Modes</mat-label>
+                        <mat-select formControlName='mode' [(ngModel)]='selectedInputs.selectedMode'>
+                            <mat-option *ngFor="let m of gameModes" [value]='m'>{{m}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <mat-label>Rating</mat-label>
+                        <mat-slider class="filter-input"
+                            formControlName = 'rating'
+                            [(ngModel)] = 'selectedInputs.selectedRating'
+                            [max]="10"
+                            [min]="1"
+                            [step]="1">
+                        </mat-slider>
+                    </div>                  
+                </form>
+                <div class="header__button-block">
+                    <button mat-button>CANCEL</button>
+                    <button mat-button style="color: blue;">SEARCH</button>
+                </div>
+            </mat-expansion-panel>
+        </div>
+    </div>
+    <div class="content">
+        <router-outlet></router-outlet>
+        
+    </div>
+</div>
