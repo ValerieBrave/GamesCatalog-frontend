@@ -5,12 +5,12 @@
     height: 100%;
 }
 .header {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    //height: auto;
     position: fixed;
     top: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    width: 100%;    
 }
 .header__app-bar {
     display: flex;
@@ -41,7 +41,7 @@
 .header__filter-list {
     display: flex;
     flex-direction: row;
-    justify-content:start;
+    justify-content:flex-start;
     align-items: center;
 }
 .filter-input {
@@ -56,4 +56,6 @@
 }
 .content {
     margin-top: 15%;
+    height: 85%;
+    
 }

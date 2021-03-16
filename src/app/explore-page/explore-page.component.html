@@ -1,1 +1,29 @@
-<p>explore-page works!</p>
+<div fxLayout="row wrap" fxLayoutGap="25px grid" class="cards-container">
+  <div 
+        fxFlex="25%" 
+        fxFlex.xs="100%" 
+        fxFlex.sm="33%" 
+        *ngFor="let game of gamesList">
+    <mat-card class="game-card mat-elevation-z4" >
+      <mat-card-header class="card-header"> <!--20% -->
+          <div mat-card-avatar class="card-avatar">{{game.rating | number: '2.1-1'}}</div>
+          <mat-card-header-text >
+            <p class="title">{{game.name}}</p>
+            <p class="date">{{game.first_release_date * 1000 | date}}</p>
+          </mat-card-header-text>
+      </mat-card-header>
+      
+      <img  height="30%" width="100%" style="object-fit: cover;" src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"/>
+      
+      <mat-card-content class="card-content">
+        <p >
+          {{game.summary}}
+        </p>
+      </mat-card-content>
+      <mat-card-actions style="height: 10%;">
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

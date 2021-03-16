@@ -1,0 +1,38 @@
+
+.cards-container {
+    // display: flex;
+    // flex-direction: row;
+    //height: 100%;
+    padding: 2vw;
+}
+
+.game-card {
+    height: 500px;
+    width: 300px;
+}
+.card-header {  //20%
+    background-color: white;
+    height: 80px;
+    
+}
+.card-avatar {
+    background-color: orangered;
+    color: white;
+    text-align: center;
+    font-size: large;
+    padding-top: 3%;
+}
+.card-content {
+    height: 40%;
+    overflow: auto;
+}
+.title {
+    font-size: medium;
+}
+.date {
+    font-size: small;
+    font-weight: lighter;
+}
+.game-pic {
+    object-fit: fill;
+}

@@ -22,8 +22,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatButtonModule} from '@angular/material/button';
-
-
+import {MatCardModule} from '@angular/material/card';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,10 @@ import {MatButtonModule} from '@angular/material/button';
     MatSelectModule,
     MatNativeDateModule,
     MatSliderModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule,
+    MatToolbarModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
