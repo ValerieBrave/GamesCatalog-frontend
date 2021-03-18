@@ -25,6 +25,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatIconModule} from '@angular/material/icon';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -53,7 +56,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatButtonModule,
     MatCardModule,
     MatToolbarModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatIconModule,
+    InfiniteScrollModule,
+    NgxSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

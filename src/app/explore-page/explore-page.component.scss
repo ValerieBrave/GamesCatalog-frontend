@@ -1,38 +1,70 @@
 
 .cards-container {
-    // display: flex;
-    // flex-direction: row;
-    //height: 100%;
-    padding: 2vw;
+    display: block;
+    padding: 1vw;
 }
 
 .game-card {
-    height: 500px;
-    width: 300px;
+    height: 400px;
+    width: 250px;
 }
-.card-header {  //20%
+.game-card:hover {
+    box-shadow: 0 12px 18px -6px black;
+    -webkit-box-shadow: 0 12px 18px -6px black;
+}
+.card-header {  
     background-color: white;
-    height: 80px;
-    
+    height: 50px;
+    // font-size:smaller;
+    padding: 1vh;
+    margin: 1vh;
 }
 .card-avatar {
     background-color: orangered;
     color: white;
     text-align: center;
     font-size: large;
-    padding-top: 3%;
+    padding-top: 2%;
 }
-.card-content {
-    height: 40%;
-    overflow: auto;
-}
-.title {
-    font-size: medium;
-}
-.date {
-    font-size: small;
-    font-weight: lighter;
+.game-pic-block {
+    height: 38%;
+    max-height: 38%;
+    width: 100%;
+    object-fit: cover;
 }
 .game-pic {
+    
     object-fit: fill;
+}
+.card-content {
+    height: 38%;
+    width: 100%;
+    margin: 1vh 0;
+    
+}
+.summary {
+    font-size: 80%; max-height: 100%;
+    overflow: hidden;
+}
+.title {
+    font-size: 75%;
+    width: 120px;
+    margin: 0%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.date {
+    font-size: 70%;
+    font-weight: lighter;
+    margin: 0%;
+}
+.bottom-actions {
+    height: 10%;
+    padding: 0%;
+    margin: 0%;
+}
+.action-icons {
+    height: 20px; 
+    color: gray; 
+    vertical-align: baseline;
 }
