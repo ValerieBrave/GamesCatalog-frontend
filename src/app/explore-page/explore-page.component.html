@@ -1,1 +1,49 @@
-<p>explore-page works!</p>
+<div   
+infiniteScroll
+infiniteScrollDistance="1"
+infiniteScrollThrottle="300"
+(scrolled)="onScroll()"
+>
+  <div class="cards-container"
+  fxLayout="row wrap" fxLayoutGap="16px grid"
+  >
+    <div class="search-results"
+          fxFlex="25%" 
+          fxFlex.xs="100%" 
+          fxFlex.sm="50%" 
+          *ngFor="let game of gamesList">
+      <mat-card class="game-card mat-elevation-z4" >
+        <mat-card-header class="card-header"> 
+            <div mat-card-avatar class="card-avatar">{{game.rating | number: '2.1-1'}}</div>
+            <mat-card-header-text >
+              <p class="title">{{game.name}}</p>
+              <label class="date">{{game.first_release_date * 1000 | date}}</label>
+            </mat-card-header-text>
+        </mat-card-header>
+        <div class="game-pic-block">
+          <img  class="game-pic" src={{game?.cover_url}} alt="game cover"/>
+        </div>
+        <mat-card-content class="card-content">
+          <p class="summary">
+            {{game.summary}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions class="bottom-actions">
+          <mat-icon class="action-icons">favorite</mat-icon>
+          <mat-icon class="action-icons">share</mat-icon>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <!--  -->
+  </div>
+  <!--  -->
+</div>
+<div style="position: relative; width: 100%;">
+  <ngx-spinner 
+    size="small"
+    color="blue"
+    bdColor = "rgba(255,255,255,0)"
+    type = "ball-spin-clockwise-fade-rotating" 
+    [fullScreen] = "false">
+  </ngx-spinner>
+</div>
