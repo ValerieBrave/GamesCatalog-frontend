@@ -76,4 +76,13 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     }
   }
   
+  public searchByName(name: string): void {
+    this.gameserv.getGamesByName(name).subscribe({
+      next: (data) => {this.gamesList = []; this.gamesList = data},
+      error: (err)=>{console.log(err)},
+      complete: ()=>{
+        console.log('complete')
+      }
+    })
+  }
 }

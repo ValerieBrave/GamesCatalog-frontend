@@ -17,7 +17,7 @@ export class FillFilterService {
       }
     return this.http.post<[{id: number, rating: number}]>(
     'http://localhost:3000/age_ratings', 
-    'fields  rating; where category = 2;', {headers: headerDict})
+    'fields  rating; where category = 2; limit 20;', {headers: headerDict})
   }
 
   getEngines(): Observable<[{id: number, name: string}]> {

@@ -18,9 +18,8 @@ export class GameService {
         return this.http.post<Game[]>(
         'http://localhost:3000/games', 
         'fields cover, first_release_date,'+ 
-        ' name, rating, summary; limit 20;', {headers: headerDict})
+        ' name, rating, summary; sort first_release_date asc; limit 20;', {headers: headerDict})
     }
-
     getNextGames(limit: number, offset: number): Observable<Game[]> {
         const headerDict = {
             'Client-ID': client_id,
@@ -29,7 +28,7 @@ export class GameService {
         return this.http.post<Game[]>(
             'http://localhost:3000/games', 
             'fields cover, first_release_date,'+
-            ' name, rating, summary; limit '+limit.toString()+'; offset '+offset.toString()+';', 
+            ' name, rating, summary; sort first_release_date asc; limit '+limit.toString()+'; offset '+offset.toString()+';', 
             {headers: headerDict})
     }
 
@@ -45,5 +44,18 @@ export class GameService {
             'fields game, url; where id = ('+ids.toString()+');',
             {headers: headerDict})
         else return new Observable<Cover[]>()
+    }
+
+    getGamesByName(name: string): Observable<Game[]> {
+        const headerDict = {
+            'Client-ID': client_id,
+            'Authorization': api_token
+        }
+        return this.http.post<Game[]>(
+        'https://api.igdb.com/v4/games',
+        'fields cover, first_release_date,'+ 
+        ' name, rating, summary; sort first_release_date asc; limit 20; '+'search "'+name+'";', 
+        {headers: headerDict}
+        )
     }
 }

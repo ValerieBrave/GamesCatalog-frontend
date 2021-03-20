@@ -1,27 +1,24 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Game } from '../../interfaces/game';
+import { ExplorePageComponent } from 'src/app/explore-page/explore-page.component';
 import { getRatingStringValue } from '../../models/filter/rating';
 import { FillFilterService } from '../../services/fill-filter.service';
-import { GameService } from '../../services/game.service';
+
 
 @Component({
   selector: 'app-explore-layout',
   templateUrl: './explore-layout.component.html',
-  styleUrls: ['./explore-layout.component.scss']
+  styleUrls: ['./explore-layout.component.scss'],
+ // providers: [ExplorePageComponent]
 })
 export class ExploreLayoutComponent implements OnInit, AfterViewInit {
+  @ViewChild(ExplorePageComponent) explorePage: ExplorePageComponent    ///////////////
+
+  
+
   panelOpenState = false
   filterForm: FormGroup
-  selectedInputs={
-    selectedDate: '',
-    selectedGenre: '',
-    selectedPlatform: '',
-    selectedPegiRating:'',
-    selectedEngine:'',
-    selectedMode: '',
-    selectedRating:''
-  }
+  searchForm: FormGroup
   genres = []
   platforms = []
   pegiRatings = []
@@ -54,13 +51,17 @@ export class ExploreLayoutComponent implements OnInit, AfterViewInit {
       genre: new FormControl(),
       platform: new FormControl(),
       engine: new FormControl(),
-      pegirating: new FormControl(),
+      pegiRating: new FormControl(),
       mode: new FormControl(),
       rating: new FormControl()
     })
+    this.searchForm = new FormGroup({
+      gameName: new FormControl()
+    })
   }
 
-  
-  ngOnDestroy() {}
+  public search(): void {
+    this.explorePage.searchByName(this.searchForm.get('gameName').value)  ///////////////
+  }
 
 }
