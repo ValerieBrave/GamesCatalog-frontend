@@ -10,7 +10,7 @@ import { Game } from "../interfaces/game";
 })
 export class GameService {
     constructor(private http: HttpClient){   }
-    getAllGames(): Observable<Game[]> {
+    getAllGames(limit: number): Observable<Game[]> {
         const headerDict = {
             'Client-ID': client_id,
             'Authorization': api_token
@@ -18,7 +18,8 @@ export class GameService {
         return this.http.post<Game[]>(
         'http://localhost:3000/games', 
         'fields cover, first_release_date,'+ 
-        ' name, rating, summary; sort first_release_date asc; limit 20;', {headers: headerDict})
+        ' name, rating, summary; sort first_release_date asc; limit '+limit.toString() +';',
+        {headers: headerDict})
     }
     getNextGames(limit: number, offset: number): Observable<Game[]> {
         const headerDict = {
@@ -26,10 +27,10 @@ export class GameService {
             'Authorization': api_token
           }
         return this.http.post<Game[]>(
-            'http://localhost:3000/games', 
-            'fields cover, first_release_date,'+
-            ' name, rating, summary; sort first_release_date asc; limit '+limit.toString()+'; offset '+offset.toString()+';', 
-            {headers: headerDict})
+        'http://localhost:3000/games', 
+        'fields cover, first_release_date,'+
+        ' name, rating, summary; sort first_release_date asc; limit '+limit.toString()+'; offset '+offset.toString()+';', 
+        {headers: headerDict})
     }
 
     getGameCover(ids: number[]): Observable<Cover[]> {
@@ -46,16 +47,28 @@ export class GameService {
         else return new Observable<Cover[]>()
     }
 
-    getGamesByName(name: string): Observable<Game[]> {
+    getGamesByName(name: string, limit: number): Observable<Game[]> {
         const headerDict = {
             'Client-ID': client_id,
             'Authorization': api_token
         }
         return this.http.post<Game[]>(
-        'https://api.igdb.com/v4/games',
+        'http://localhost:3000/games',
         'fields cover, first_release_date,'+ 
-        ' name, rating, summary; sort first_release_date asc; limit 20; '+'search "'+name+'";', 
-        {headers: headerDict}
-        )
+        ' name, rating, summary; limit '+limit.toString()+'; search "'+name+'";', 
+        {headers: headerDict})
+    }
+
+    getNextGamesByName(name: string, limit: number, offset: number):Observable<Game[]>{
+        const headerDict = {
+            'Client-ID': client_id,
+            'Authorization': api_token
+        }
+        return this.http.post<Game[]>(
+        'http://localhost:3000/games', 
+        'fields cover, first_release_date,'+
+        ' name, rating, summary; search "'+name+'"; limit '+limit.toString()
+        +'; offset '+offset.toString()+';', 
+        {headers: headerDict})
     }
 }
