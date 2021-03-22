@@ -153,6 +153,7 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   }
   
   public searchGamesByName(): void {
+    this.curOffset = this.limit //new search - results from the beginning
     let name = this.searchForm.get('gameName').value
     if(name == '' || name == null) {
       this.fillGamesList()
