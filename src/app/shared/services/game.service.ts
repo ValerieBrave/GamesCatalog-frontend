@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient} from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { from, Observable } from "rxjs";
-import {client_id, api_token} from "../../../assets/creds"
+import { Observable } from "rxjs";
+import {creds} from "../constants"
 import { Cover } from "../interfaces/cover";
 import { Game } from "../interfaces/game";
 
@@ -12,8 +12,8 @@ export class GameService {
     constructor(private http: HttpClient){   }
     getAllGames(limit: number): Observable<Game[]> {
         const headerDict = {
-            'Client-ID': client_id,
-            'Authorization': api_token
+            'Client-ID': creds.client_id,
+            'Authorization': creds.api_token
           }
         return this.http.post<Game[]>(
         'http://localhost:3000/games', 
@@ -23,8 +23,8 @@ export class GameService {
     }
     getNextGames(limit: number, offset: number): Observable<Game[]> {
         const headerDict = {
-            'Client-ID': client_id,
-            'Authorization': api_token
+            'Client-ID': creds.client_id,
+            'Authorization': creds.api_token
           }
         return this.http.post<Game[]>(
         'http://localhost:3000/games', 
@@ -35,8 +35,8 @@ export class GameService {
 
     getGameCover(ids: number[]): Observable<Cover[]> {
         const headerDict = {
-            'Client-ID': client_id,
-            'Authorization': api_token
+            'Client-ID': creds.client_id,
+            'Authorization': creds.api_token
           }
         ids = ids.filter(e => {return e!= null})
         if(ids.length > 0)
@@ -49,8 +49,8 @@ export class GameService {
 
     getGamesByName(name: string, limit: number): Observable<Game[]> {
         const headerDict = {
-            'Client-ID': client_id,
-            'Authorization': api_token
+            'Client-ID': creds.client_id,
+            'Authorization': creds.api_token
         }
         return this.http.post<Game[]>(
         'http://localhost:3000/games',
@@ -61,8 +61,8 @@ export class GameService {
 
     getNextGamesByName(name: string, limit: number, offset: number):Observable<Game[]>{
         const headerDict = {
-            'Client-ID': client_id,
-            'Authorization': api_token
+            'Client-ID': creds.client_id,
+            'Authorization': creds.api_token
         }
         return this.http.post<Game[]>(
         'http://localhost:3000/games', 

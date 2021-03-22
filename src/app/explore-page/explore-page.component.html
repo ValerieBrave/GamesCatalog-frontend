@@ -1,5 +1,5 @@
 <div class="header__filter">
-  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+  <mat-expansion-panel>
       <mat-expansion-panel-header style="margin-top: 1rem;">
       <mat-panel-title>Filters</mat-panel-title>
       <mat-panel-description>
@@ -52,9 +52,9 @@
               <mat-label>Rating</mat-label>
               <mat-slider class="filter-input"
                   formControlName = 'rating'
-                  [max]="100"
-                  [min]="1"
-                  [step]="1">
+                  max= {{formSliderParams.max}}
+                  min= {{formSliderParams.min}}
+                  step= {{formSliderParams.step}}>
               </mat-slider>
           </div>                  
       </form>
@@ -66,8 +66,8 @@
 </div>
 <div   
 infiniteScroll
-infiniteScrollDistance="1"
-infiniteScrollThrottle="300"
+infiniteScrollDistance={{exploreScrollParams.infiniteScrollDistance}}
+infiniteScrollThrottle={{exploreScrollParams.infiniteScrollThrottle}}
 (scrolled)="onScroll()"
 >
   <div class="cards-container"
@@ -100,16 +100,14 @@ infiniteScrollThrottle="300"
         </mat-card-actions>
       </mat-card>
     </div>
-    <!--  -->
   </div>
-  <!--  -->
 </div>
 <div style="position: relative; width: 100%;">
   <ngx-spinner 
-    size="small"
-    color="blue"
-    bdColor = "rgba(255,255,255,0)"
-    type = "ball-spin-clockwise-fade-rotating" 
-    [fullScreen] = "false">
+    [size] = ngxSpinnerParams.size
+    [color] = ngxSpinnerParams.color
+    [bdColor] = ngxSpinnerParams.bdColor
+    [type] = ngxSpinnerParams.type
+    [fullScreen] = ngxSpinnerParams.fullScreen>
   </ngx-spinner>
 </div>
