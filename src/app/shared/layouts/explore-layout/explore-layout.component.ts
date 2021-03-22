@@ -7,6 +7,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./explore-layout.component.scss']
 })
 export class ExploreLayoutComponent implements OnInit, AfterViewInit {
+  public userID: number = 4
   constructor() { }
   ngAfterViewInit(): void { }
   ngOnInit(): void { }

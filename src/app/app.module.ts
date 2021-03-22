@@ -7,7 +7,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { AppComponent } from './app.component';
-import { AuthPageComponent } from './auth-page/auth-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExploreLayoutComponent } from './shared/layouts/explore-layout/explore-layout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,15 +27,20 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatIconModule} from '@angular/material/icon';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AuthLayoutComponent } from './shared/layouts/auth-layout/auth-layout.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { RegisterPageComponent } from './register-page/register-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthPageComponent,
     ExploreLayoutComponent,
     ExplorePageComponent,
     GamesPageComponent,
-    UserPageComponent
+    UserPageComponent,
+    AuthLayoutComponent,
+    LoginPageComponent,
+    RegisterPageComponent
   ],
   imports: [
     BrowserModule,
