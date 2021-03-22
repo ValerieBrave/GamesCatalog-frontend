@@ -1,3 +1,23 @@
+.header__filter {
+    height: auto;
+   
+}
+.header__filter-list {
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+    align-items: center;
+}
+.filter-input {
+    width: 24vh;
+    margin: 1vw;
+}
+.header__button-block {
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
 
 .cards-container {
     display: block;
@@ -8,6 +28,7 @@
     height: 400px;
     width: 250px;
 }
+
 .game-card:hover {
     box-shadow: 0 12px 18px -6px black;
     -webkit-box-shadow: 0 12px 18px -6px black;
@@ -15,10 +36,10 @@
 .card-header {  
     background-color: white;
     height: 50px;
-    // font-size:smaller;
     padding: 1vh;
     margin: 1vh;
 }
+
 .card-avatar {
     background-color: orangered;
     color: white;
@@ -26,12 +47,14 @@
     font-size: large;
     padding-top: 2%;
 }
+
 .game-pic-block {
     height: 38%;
     max-height: 38%;
     width: 100%;
     object-fit: cover;
 }
+
 .game-pic {
     
     object-fit: fill;
@@ -52,6 +75,7 @@
     margin: 0%;
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 .date {
     font-size: 70%;
