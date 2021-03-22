@@ -28,6 +28,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatIconModule} from '@angular/material/icon';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AuthLayoutComponent } from './shared/layouts/auth-layout/auth-layout.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { RegisterPageComponent } from './register-page/register-page.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ExploreLayoutComponent,
     ExplorePageComponent,
     GamesPageComponent,
-    UserPageComponent
+    UserPageComponent,
+    AuthLayoutComponent,
+    LoginPageComponent,
+    RegisterPageComponent
   ],
   imports: [
     BrowserModule,
