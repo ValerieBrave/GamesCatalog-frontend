@@ -6,7 +6,7 @@ import { Game } from '../shared/interfaces/game';
 import { getRatingStringValue } from '../shared/models/filter/rating';
 import { FillFilterService } from '../shared/services/fill-filter.service';
 import { GameService } from '../shared/services/game.service';
-
+import {formSliderParams, exploreScrollParams, ngxSpinnerParams} from '../shared/constants'
 
 
 @Component({
@@ -19,14 +19,18 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
               private gameserv: GameService, 
               private spinner: NgxSpinnerService) { }
   //for filter
-  panelOpenState = false
-  filterForm: FormGroup
-  searchForm: FormGroup
-  genres = []
-  platforms = []
-  pegiRatings = []
-  gameEngines = []
-  gameModes =[]
+  public filterForm: FormGroup
+  public searchForm: FormGroup
+  public genres = []
+  public platforms = []
+  public pegiRatings = []
+  public gameEngines = []
+  public gameModes =[]
+
+  //ui component parameters
+  public formSliderParams = formSliderParams
+  public exploreScrollParams = exploreScrollParams
+  public ngxSpinnerParams = ngxSpinnerParams
 
   //list of games displayed
   public gamesList: Game[] = []

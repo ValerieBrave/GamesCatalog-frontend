@@ -1,0 +1,77 @@
+<div class="card my-card">
+    <div class="card-body">
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+            <div class="form-group">
+                <div>
+                    <label><b>Name</b></label>
+                    <input 
+                        class="form-control" 
+                        id="name"
+                        type="text" 
+                        formControlName="name"
+                    >
+                    <span class="error-messages"
+                        *ngIf="registerForm.get('name').invalid && registerForm.get('name').touched"
+                    >
+                        <span *ngIf="registerForm.get('name').errors['required']">
+                            Name is required
+                        </span>
+                    </span>
+                </div>
+                <div>
+                    <label><b>Email Address</b></label>
+                    <input 
+                        class="form-control"
+                        id="email" 
+                        type="email" 
+                        formControlName="email"
+                    >
+                    <span class="error-messages"
+                        *ngIf="registerForm.get('email').invalid  && registerForm.get('email').touched"
+                    >
+                        <span *ngIf="registerForm.get('email').errors['required']">
+                            Email is required
+                        </span>
+                        <span *ngIf="registerForm.get('email').errors['email']">
+                            Email is not correct
+                        </span>
+                    </span>
+                </div>
+                <div>
+                    <label><b>Password</b></label>
+                    <input 
+                    class="form-control" 
+                    id="password"
+                    type="password" 
+                    formControlName="password"
+                    >
+                    <span class="error-messages"
+                        *ngIf="registerForm.get('password').invalid  && registerForm.get('password').touched"
+                    >
+                        <span *ngIf="registerForm.get('password').errors['required']">
+                            Password is required
+                        </span>
+                        <span *ngIf="registerForm.get('password').errors['minlength']">
+                            Password must be longer than 6 symbols
+                        </span>
+                    </span>
+                </div>
+                
+            </div>
+            <button 
+                type="submit" 
+                class="submits"
+                [disabled]="registerForm.invalid"
+                [ngClass]="{'disabled-submit': registerForm.invalid}"
+            >Join now</button>
+        </form>
+        <p class="inviting-text-block">
+            -----------------Register With-----------------
+        </p>
+        <div class="button-line">
+            <button class="soc-btn" id="facebook">Facebook</button>
+            <button class="soc-btn" id="google">Google+</button>
+            <button class="soc-btn" id="twitter">Twitter</button>
+        </div>
+    </div>
+</div>

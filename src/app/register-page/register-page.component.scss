@@ -1,0 +1,47 @@
+@import '/src/assets/static/colors.scss';
+
+.my-card {
+    border: none;
+    margin: auto;
+}
+.submits {
+    background-color:$allowed-submit;
+    border: none;
+    height: 7vh;
+    width: 10vw;
+    color: white;
+}
+
+.button-line {
+    width: 100%;
+    margin-top: 3vh;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+.soc-btn {
+    border: none;
+    height: 7vh;
+    color: white;
+    width: 10vw;
+}
+#facebook.soc-btn {
+    background-color: $facebook-blue;
+}
+#google.soc-btn {
+    background-color: $google-red;
+}
+#twitter.soc-btn {
+    background-color: $twitter-blue;
+}
+.inviting-text-block {
+    font-size: small; 
+    margin: 3vh; 
+    text-align: center;
+}
+.error-messages {
+    color: $error-red;
+}
+.disabled-submit {
+    background-color: $blocked-submit;
+}
