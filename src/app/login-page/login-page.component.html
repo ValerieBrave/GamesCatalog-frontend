@@ -1,0 +1,62 @@
+<div class="card my-card">
+    <div class="card-body">
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <div class="form-group">
+                <div>
+                    <label for="email"><b>Email Address</b></label>
+                    <input 
+                        class="form-control" 
+                        id="email"
+                        type="email" 
+                        formControlName="email"
+                    >
+                    <span class="error-messages"
+                        *ngIf="loginForm.get('email').invalid  && loginForm.get('email').touched"
+                    >
+                        <span *ngIf="loginForm.get('email').errors['required']">
+                            Email is required
+                        </span>
+                        <span *ngIf="loginForm.get('email').errors['email']">
+                            Email is not correct
+                        </span>
+                    </span>
+                </div>
+                <div>
+                    <label for="password"><b>Password</b></label>
+                    <input 
+                        class="form-control" 
+                        id="password"
+                        type="password" 
+                        formControlName="password"
+                    >
+                    <span class="error-messages"
+                        *ngIf="loginForm.get('password').invalid  && loginForm.get('password').touched"
+                    >
+                        <span *ngIf="loginForm.get('password').errors['required']">
+                            Password is required
+                        </span>
+                        <span *ngIf="loginForm.get('password').errors['minlength']">
+                            Password must be longer than 6 symbols
+                        </span>
+                    </span>
+                </div>
+                
+            </div>
+            <button 
+                type="submit" 
+                class="submits"
+                [disabled]="loginForm.invalid"
+                [ngClass]="{'disabled-submit': loginForm.invalid}"
+            >Sign In</button>
+            <a href="" style="margin-left: 1vw;">Forgot Password?</a>
+        </form>
+        <p class="inviting-text-block">
+            -----------------Sign In With-----------------
+        </p>
+        <div class="button-line">
+            <button class="soc-btn" id="facebook">Facebook</button>
+            <button class="soc-btn" id="google">Google+</button>
+            <button class="soc-btn" id="twitter">Twitter</button>
+        </div>
+    </div>
+</div>

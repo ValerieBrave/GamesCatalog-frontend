@@ -1,0 +1,113 @@
+<div class="header__filter">
+  <mat-expansion-panel>
+      <mat-expansion-panel-header style="margin-top: 1rem;">
+      <mat-panel-title>Filters</mat-panel-title>
+      <mat-panel-description>
+          <form [formGroup]='searchForm'>
+              <mat-form-field>
+                  <mat-label>Search games</mat-label>
+                  <input matInput formControlName='gameName' (keydown.enter)='searchGamesByName()'>
+              </mat-form-field>
+          </form>
+      </mat-panel-description>
+      </mat-expansion-panel-header>
+      <form class="header__filter-list" [formGroup]='filterForm'>
+          <mat-form-field class="filter-input">
+              <mat-label>Release date</mat-label>
+              <input matInput [matDatepicker]="releaseDatePicker" formControlName='releaseDate'>
+              <mat-datepicker-toggle matSuffix [for]="releaseDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #releaseDatePicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="filter-input">
+              <mat-label>Genres</mat-label>
+              <mat-select formControlName='genre'>
+                  <mat-option *ngFor="let genre of genres" [value]='genre'>{{genre}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <mat-form-field class="filter-input">
+              <mat-label>Platforms</mat-label>
+              <mat-select formControlName='platform'>
+                  <mat-option *ngFor="let platform of platforms" [value]='platform'>{{platform}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <mat-form-field class="filter-input">
+              <mat-label>Game Engines</mat-label>
+              <mat-select formControlName='engine'>
+                  <mat-option *ngFor="let engine of gameEngines" [value]='engine'>{{engine}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <mat-form-field class="filter-input">
+              <mat-label>PEGI Rating</mat-label>
+              <mat-select formControlName='pegiRating'>
+                  <mat-option *ngFor="let rating of pegiRatings" [value]='rating'>{{rating}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <mat-form-field class="filter-input">
+              <mat-label>Game Modes</mat-label>
+              <mat-select formControlName='mode'>
+                  <mat-option *ngFor="let mode of gameModes" [value]='mode'>{{mode}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <mat-label>Rating</mat-label>
+              <mat-slider class="filter-input"
+                  formControlName = 'rating'
+                  max= {{formSliderParams.max}}
+                  min= {{formSliderParams.min}}
+                  step= {{formSliderParams.step}}>
+              </mat-slider>
+          </div>                  
+      </form>
+      <div class="header__button-block">
+          <button mat-button>CANCEL</button>
+          <button mat-button style="color: blue;">SEARCH</button>
+      </div>
+  </mat-expansion-panel>
+</div>
+<div   
+infiniteScroll
+infiniteScrollDistance={{exploreScrollParams.infiniteScrollDistance}}
+infiniteScrollThrottle={{exploreScrollParams.infiniteScrollThrottle}}
+(scrolled)="onScroll()"
+>
+  <div class="cards-container"
+  fxLayout="row wrap" fxLayoutGap="16px grid"
+  >
+    <div class="search-results"
+          fxFlex="25%" 
+          fxFlex.xs="100%" 
+          fxFlex.sm="50%" 
+          *ngFor="let game of gamesList">
+      <mat-card class="game-card mat-elevation-z4" >
+        <mat-card-header class="card-header"> 
+            <div mat-card-avatar class="card-avatar">{{game.rating | number: '2.1-1'}}</div>
+            <mat-card-header-text >
+              <p class="title">{{game.name}}</p>
+              <label class="date">{{game.first_release_date * 1000 | date}}</label>
+            </mat-card-header-text>
+        </mat-card-header>
+        <div class="game-pic-block">
+          <img  class="game-pic" src={{game?.cover_url}} alt="game cover"/>
+        </div>
+        <mat-card-content class="card-content">
+          <p class="summary">
+            {{game.summary}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions class="bottom-actions">
+          <mat-icon class="action-icons">favorite</mat-icon>
+          <mat-icon class="action-icons">share</mat-icon>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<div style="position: relative; width: 100%;">
+  <ngx-spinner 
+    [size] = ngxSpinnerParams.size
+    [color] = ngxSpinnerParams.color
+    [bdColor] = ngxSpinnerParams.bdColor
+    [type] = ngxSpinnerParams.type
+    [fullScreen] = ngxSpinnerParams.fullScreen>
+  </ngx-spinner>
+</div>

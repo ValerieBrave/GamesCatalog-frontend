@@ -1,2 +1,16 @@
-<h3>Explore Layout</h3>
-<router-outlet></router-outlet>
+    <div class="header">
+        <div class="header__app-bar">
+            <div class="header__left-block">
+                <span>ICON</span>
+                <a routerLink="/explore">DISCOVERY</a>
+                <a routerLink="/games">MY GAMES</a>
+            </div>
+            <div class="header__right-block">
+                <a routerLink="/user/{{this.userID}}">USER PAGE</a>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <router-outlet></router-outlet>  
+    </div>
+
