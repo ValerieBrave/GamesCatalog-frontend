@@ -19,7 +19,7 @@ export class FillFilterService {
       }
     return this.http.post<Rating[]>(
     'http://localhost:3000/age_ratings', 
-    'fields  rating; where category = 2; limit 20;', {headers: headerDict})
+    'fields  rating; where category = 2; limit 60;', {headers: headerDict})
   }
 
   getEngines(): Observable<FormOption[]> {

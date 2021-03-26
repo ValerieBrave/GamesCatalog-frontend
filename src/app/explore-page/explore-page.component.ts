@@ -3,29 +3,35 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Game } from '../shared/interfaces/game';
-import { getRatingStringValue } from '../shared/models/filter/rating';
+import { getRatingStringValue, getRatingNumber } from '../shared/models/filter/rating';
 import { FillFilterService } from '../shared/services/fill-filter.service';
 import { GameService } from '../shared/services/game.service';
 import {formSliderParams, exploreScrollParams, ngxSpinnerParams} from '../shared/constants'
+import { DatePipe } from '@angular/common';
+import { atLeastOneValidator } from '../shared/validators/at-least-one-validator';
+import { Rating } from '../shared/interfaces/rating';
+import { FormOption } from '../shared/interfaces/form_option';
 
 
 @Component({
   selector: 'app-explore-page',
   templateUrl: './explore-page.component.html',
-  styleUrls: ['./explore-page.component.scss']
+  styleUrls: ['./explore-page.component.scss'],
+  providers: [DatePipe]
 })
 export class ExplorePageComponent implements OnInit, AfterViewInit {
-  constructor(private filterService: FillFilterService, 
+  constructor(private filterService: FillFilterService,
               private gameserv: GameService, 
               private spinner: NgxSpinnerService) { }
   //for filter
   public filterForm: FormGroup
   public searchForm: FormGroup
-  public genres = []
-  public platforms = []
+  public genres: FormOption[] = []
+  public platforms: FormOption[] = []
   public pegiRatings = []
-  public gameEngines = []
-  public gameModes =[]
+  public pegiWithIds: Rating[] = []
+  public gameEngines: FormOption[] = []
+  public gameModes: FormOption[] = []
 
   //ui component parameters
   public formSliderParams = formSliderParams
@@ -36,10 +42,10 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   public gamesList: Game[] = []
 
   //for infinite scroll
-  public notEmptyResp = true
-  public notScrolly = true
-  private limit = 20
-  private curOffset = this.limit
+  public notEmptyResp: boolean = true
+  public notScrolly: boolean = true
+  private limit: number = 20
+  private curOffset: number = this.limit
   
   
   ngOnInit(): void {
@@ -51,7 +57,7 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
       pegiRating: new FormControl(),
       mode: new FormControl(),
       rating: new FormControl()
-    })
+    }, {validators: atLeastOneValidator})
     this.searchForm = new FormGroup({
       gameName: new FormControl()
     })
@@ -64,38 +70,35 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   
   private fillForm(): void {
     this.filterService.getRatings().subscribe(data => {
-      data.forEach(element => this.pegiRatings.push(getRatingStringValue(element['rating'])))
+      data.forEach(element => {
+        this.pegiRatings.push(getRatingStringValue(element['rating']))
+        this.pegiWithIds.push(element)
+      })
       this.pegiRatings = [...new Set(this.pegiRatings)].sort((n1,n2) => n1-n2)
     })
     this.filterService.getEngines().subscribe(data =>{
-      data.forEach(element => this.gameEngines.push(element['name']))
+      data.forEach(element => this.gameEngines.push(element))
     })
     this.filterService.getModes().subscribe(data => {
-      data.forEach(element => this.gameModes.push(element['name']))
+      data.forEach(element => this.gameModes.push(element))
     })
     this.filterService.getPlatforms().subscribe(data => {
-      data.forEach(element => this.platforms.push(element['name']))
+      data.forEach(element => this.platforms.push(element))
     })
     this.filterService.getGenres().subscribe(data => {
-      data.forEach(element => this.genres.push(element['name']))
+      data.forEach(element => this.genres.push(element))
     })
   }
 
-  private fillGamesList(): void {
+  public fillGamesList(): void {
     this.gameserv.getAllGames(this.limit).subscribe({
       next: (data)=>{this.gamesList = []; data.forEach(element => this.gamesList.push(element))},
       error: (err)=>{console.log(err)},
       complete: ()=> {
-        let copy = this.gamesList
-        let by_two = copy.reduce((a, c, i) => {
-          return i % 2 === 0 ? a.concat([copy.slice(i, i + 2)]) : a;
-        }, [])
-        by_two.forEach(e => {
-          this.gameserv.getGameCover([e[0].cover, e[1].cover]).subscribe(data => {
-            data.forEach(e => {
-              this.gamesList.find(g => g.id==e.game).cover_url=e.url
-            })
-          })
+        let ids = []  //cover ids
+        this.gamesList.map(e => ids.push(e.cover))
+        this.gameserv.getGameCover(ids).subscribe(data => {
+          data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)
         })
       }
     }) 
@@ -110,16 +113,10 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
       this.gameserv.getNextGames(this.limit, this.curOffset).subscribe(data => {
         if(data.length == 0) this.notEmptyResp = false
         if(this.notEmptyResp) {
-          let copy = data
-          let by_four =  copy.reduce((a, c, i) => {
-            return i % 4 === 0 ? a.concat([copy.slice(i, i + 4)]) : a;
-          }, [])
-          by_four.forEach(e => {
-            this.gameserv.getGameCover([e[0].cover, e[1]?.cover, e[2]?.cover, e[3]?.cover]).subscribe(data2 => {
-              data2.forEach(e => {
-                data.find(g => g.id==e.game).cover_url=e.url
-              })
-            })
+          let ids = []
+          data.map(e => ids.push(e.cover))
+          this.gameserv.getGameCover(ids).subscribe(data2 => {
+            data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url)
           })
         }
         this.gamesList = this.gamesList.concat(data)
@@ -134,16 +131,10 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
       this.gameserv.getNextGamesByName(this.searchForm.get('gameName').value, this.limit, this.curOffset).subscribe(data => {
         if(data.length == 0) this.notEmptyResp = false
         if(this.notEmptyResp) {
-          let copy = data
-          let by_four =  copy.reduce((a, c, i) => {
-            return i % 4 === 0 ? a.concat([copy.slice(i, i + 4)]) : a;
-          }, [])
-          by_four.forEach(e => {
-            this.gameserv.getGameCover([e[0].cover, e[1]?.cover, e[2]?.cover, e[3]?.cover]).subscribe(data2 => {
-              data2.forEach(e => {
-                data.find(g => g.id==e.game).cover_url=e.url
-              })
-            })
+          let ids = []
+          data.map(e => ids.push(e.cover))
+          this.gameserv.getGameCover(ids).subscribe(data2 => {
+            data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url)
           })
         }
         this.gamesList = this.gamesList.concat(data)
@@ -166,16 +157,10 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
         next: (data) => {this.gamesList = []; this.gamesList = data},
         error: (err)=>{console.log(err)},
         complete: ()=>{
-          let copy = this.gamesList
-          let by_four =  copy.reduce((a, c, i) => {
-            return i % 4 === 0 ? a.concat([copy.slice(i, i + 4)]) : a;
-          }, [])
-          by_four.forEach(e => {
-            this.gameserv.getGameCover([e[0].cover, e[1]?.cover, e[2]?.cover, e[3]?.cover]).subscribe(data2 => {
-              data2.forEach(e => {
-                this.gamesList.find(g => g.id==e.game).cover_url=e.url
-              })
-            })
+          let ids = []
+          this.gamesList.map(e => ids.push(e.cover))
+          this.gameserv.getGameCover(ids).subscribe(data => {
+            data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
           })
         }
       })
@@ -183,5 +168,37 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     
   }
 
+  public cancelSearch(): void {
+    //cleaning form
+    this.filterForm.get('releaseDate').setValue(null)
+    this.filterForm.get('genre').setValue(null)
+    this.filterForm.get('platform').setValue(null)
+    this.filterForm.get('engine').setValue(null)
+    this.filterForm.get('pegiRating').setValue(null)
+    this.filterForm.get('mode').setValue(null)
+    this.filterForm.get('rating').setValue(null)
+    //standart list
+    this.fillGamesList()
+  }
+
+  public filterSearch(): void {
+    if(!this.filterForm.invalid) {  // invalid = none of the fields is filled
+      let pegi_ids = this.pegiWithIds.filter(e => 
+        e.rating == getRatingNumber(this.filterForm.get('pegiRating').value).toString())
+      console.log(this.pegiWithIds)
+      console.log(pegi_ids)
+      
+    }
+    
+    // if(this.filterForm.dirty) {console.log('dirty')}
+    // if(this.filterForm.touched) {console.log('touched')}
+    // if(this.filterForm.pristine) {console.log('pristine')}
+    // if(this.filterForm) {console.log('dirty')}
+    // console.log(this.filterForm.value)
+    // console.log(this.gameEngines)
+    // let offset = new Date().getTimezoneOffset()*60  //my timezone offset in seconds
+    // let date_search = Date.parse(this.filterForm.value['releaseDate'])/1000 // seconds in epoch time
+    // console.log(date_search-offset) //GMT date for search
+  }
 }
 
