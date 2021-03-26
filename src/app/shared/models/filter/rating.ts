@@ -29,3 +29,20 @@ export function getRatingStringValue(r): String {
         case PEGIRating.AO: return 'AO'
     }
 }
+
+export function getRatingNumber(r): number {
+    switch(r) {
+        case '3': return PEGIRating.Three
+        case '7': return PEGIRating.Seven
+        case '12': return PEGIRating.Twelve
+        case '16': return PEGIRating.Sixteen
+        case '18': return PEGIRating.Eighteen
+        case 'RP': return PEGIRating.RP
+        case 'EC': return PEGIRating.EC
+        case 'E': return PEGIRating.E
+        case 'E10': return PEGIRating.E10
+        case 'T': return PEGIRating.T
+        case 'M': return PEGIRating.M
+        case 'AO': return PEGIRating.AO
+    }
+}
