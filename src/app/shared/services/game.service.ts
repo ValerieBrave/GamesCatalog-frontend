@@ -18,7 +18,7 @@ export class GameService {
         return this.http.post<Game[]>(
         'http://localhost:3000/games', 
         'fields cover, first_release_date,'+ 
-        ' name, rating, summary; sort first_release_date asc; limit '+limit.toString() +';',
+        ' name, rating, summary; sort first_release_date desc; limit '+limit.toString() +';',
         {headers: headerDict})
     }
     getNextGames(limit: number, offset: number): Observable<Game[]> {
@@ -29,7 +29,7 @@ export class GameService {
         return this.http.post<Game[]>(
         'http://localhost:3000/games', 
         'fields cover, first_release_date,'+
-        ' name, rating, summary; sort first_release_date asc; limit '+limit.toString()+'; offset '+offset.toString()+';', 
+        ' name, rating, summary; sort first_release_date desc; limit '+limit.toString()+'; offset '+offset.toString()+';', 
         {headers: headerDict})
     }
 

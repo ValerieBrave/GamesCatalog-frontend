@@ -31,6 +31,7 @@ import { AuthLayoutComponent } from './shared/layouts/auth-layout/auth-layout.co
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,6 +57,7 @@ import { RegisterPageComponent } from './register-page/register-page.component';
     MatDatepickerModule,
     MatSelectModule,
     MatNativeDateModule,
+    //DatePipe,
     MatSliderModule,
     MatButtonModule,
     MatCardModule,

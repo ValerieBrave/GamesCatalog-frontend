@@ -14,26 +14,28 @@
       <form class="header__filter-list" [formGroup]='filterForm'>
           <mat-form-field class="filter-input">
               <mat-label>Release date</mat-label>
-              <input matInput [matDatepicker]="releaseDatePicker" formControlName='releaseDate'>
+              <input matInput [matDatepicker]="releaseDatePicker"
+               formControlName='releaseDate'
+               >
               <mat-datepicker-toggle matSuffix [for]="releaseDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #releaseDatePicker></mat-datepicker>
           </mat-form-field>
           <mat-form-field class="filter-input">
               <mat-label>Genres</mat-label>
               <mat-select formControlName='genre'>
-                  <mat-option *ngFor="let genre of genres" [value]='genre'>{{genre}}</mat-option>
+                  <mat-option *ngFor="let genre of genres" [value]='genre.id'>{{genre.name}}</mat-option>
               </mat-select>
           </mat-form-field>
           <mat-form-field class="filter-input">
               <mat-label>Platforms</mat-label>
               <mat-select formControlName='platform'>
-                  <mat-option *ngFor="let platform of platforms" [value]='platform'>{{platform}}</mat-option>
+                  <mat-option *ngFor="let platform of platforms" [value]='platform.id'>{{platform.name}}</mat-option>
               </mat-select>
           </mat-form-field>
           <mat-form-field class="filter-input">
               <mat-label>Game Engines</mat-label>
               <mat-select formControlName='engine'>
-                  <mat-option *ngFor="let engine of gameEngines" [value]='engine'>{{engine}}</mat-option>
+                  <mat-option *ngFor="let engine of gameEngines" [value]='engine.id'>{{engine.name}}</mat-option>
               </mat-select>
           </mat-form-field>
           <mat-form-field class="filter-input">
@@ -45,10 +47,10 @@
           <mat-form-field class="filter-input">
               <mat-label>Game Modes</mat-label>
               <mat-select formControlName='mode'>
-                  <mat-option *ngFor="let mode of gameModes" [value]='mode'>{{mode}}</mat-option>
+                  <mat-option *ngFor="let mode of gameModes" [value]='mode.id'>{{mode.name}}</mat-option>
               </mat-select>
           </mat-form-field>
-          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <div class="filter__slider-block">
               <mat-label>Rating</mat-label>
               <mat-slider class="filter-input"
                   formControlName = 'rating'
@@ -59,8 +61,8 @@
           </div>                  
       </form>
       <div class="header__button-block">
-          <button mat-button>CANCEL</button>
-          <button mat-button style="color: blue;">SEARCH</button>
+          <button mat-button (click)="cancelSearch()">CANCEL</button>
+          <button mat-button (click)="filterSearch()">SEARCH</button>
       </div>
   </mat-expansion-panel>
 </div>
