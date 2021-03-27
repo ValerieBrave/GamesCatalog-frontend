@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 import { atLeastOneValidator } from '../shared/validators/at-least-one-validator';
 import { Rating } from '../shared/interfaces/rating';
 import { FormOption } from '../shared/interfaces/form_option';
+import { FormService } from '../shared/services/form.service';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { FormOption } from '../shared/interfaces/form_option';
 })
 export class ExplorePageComponent implements OnInit, AfterViewInit {
   constructor(private filterService: FillFilterService,
+              private formService: FormService,
               private gameserv: GameService, 
               private spinner: NgxSpinnerService) { }
   //for filter
@@ -29,7 +31,6 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   public genres: FormOption[] = []
   public platforms: FormOption[] = []
   public pegiRatings = []
-  public pegiWithIds: Rating[] = []
   public gameEngines: FormOption[] = []
   public gameModes: FormOption[] = []
 
@@ -72,7 +73,6 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     this.filterService.getRatings().subscribe(data => {
       data.forEach(element => {
         this.pegiRatings.push(getRatingStringValue(element['rating']))
-        this.pegiWithIds.push(element)
       })
       this.pegiRatings = [...new Set(this.pegiRatings)].sort((n1,n2) => n1-n2)
     })
@@ -183,22 +183,10 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
 
   public filterSearch(): void {
     if(!this.filterForm.invalid) {  // invalid = none of the fields is filled
-      let pegi_ids = this.pegiWithIds.filter(e => 
-        e.rating == getRatingNumber(this.filterForm.get('pegiRating').value).toString())
-      console.log(this.pegiWithIds)
-      console.log(pegi_ids)
-      
+      this.curOffset = this.limit //new search - results from the beginning
+      this.formService.constructQuery(this.filterForm.value, this.limit)
+      .then(data => console.log(data))  // forming correct queries
     }
-    
-    // if(this.filterForm.dirty) {console.log('dirty')}
-    // if(this.filterForm.touched) {console.log('touched')}
-    // if(this.filterForm.pristine) {console.log('pristine')}
-    // if(this.filterForm) {console.log('dirty')}
-    // console.log(this.filterForm.value)
-    // console.log(this.gameEngines)
-    // let offset = new Date().getTimezoneOffset()*60  //my timezone offset in seconds
-    // let date_search = Date.parse(this.filterForm.value['releaseDate'])/1000 // seconds in epoch time
-    // console.log(date_search-offset) //GMT date for search
   }
 }
 
