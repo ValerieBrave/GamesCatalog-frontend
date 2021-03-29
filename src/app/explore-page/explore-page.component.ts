@@ -1,16 +1,16 @@
-import { AfterViewInit} from '@angular/core';
+import { AfterViewInit } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Game } from '../shared/interfaces/game';
-import { getRatingStringValue, getRatingNumber } from '../shared/models/filter/rating';
+import { getRatingStringValue } from '../shared/models/filter/rating';
 import { FillFilterService } from '../shared/services/fill-filter.service';
 import { GameService } from '../shared/services/game.service';
-import {formSliderParams, exploreScrollParams, ngxSpinnerParams} from '../shared/constants'
+import { formSliderParams, exploreScrollParams, ngxSpinnerParams } from '../shared/constants'
 import { DatePipe } from '@angular/common';
 import { atLeastOneValidator } from '../shared/validators/at-least-one-validator';
-import { Rating } from '../shared/interfaces/rating';
 import { FormOption } from '../shared/interfaces/form_option';
+import { FormService } from '../shared/services/form.service';
 
 
 @Component({
@@ -21,6 +21,7 @@ import { FormOption } from '../shared/interfaces/form_option';
 })
 export class ExplorePageComponent implements OnInit, AfterViewInit {
   constructor(private filterService: FillFilterService,
+              private formService: FormService,
               private gameserv: GameService, 
               private spinner: NgxSpinnerService) { }
   //for filter
@@ -29,7 +30,6 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   public genres: FormOption[] = []
   public platforms: FormOption[] = []
   public pegiRatings = []
-  public pegiWithIds: Rating[] = []
   public gameEngines: FormOption[] = []
   public gameModes: FormOption[] = []
 
@@ -72,7 +72,6 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     this.filterService.getRatings().subscribe(data => {
       data.forEach(element => {
         this.pegiRatings.push(getRatingStringValue(element['rating']))
-        this.pegiWithIds.push(element)
       })
       this.pegiRatings = [...new Set(this.pegiRatings)].sort((n1,n2) => n1-n2)
     })
@@ -107,7 +106,8 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   onScroll(): void {
     let is_searching: boolean = 
     this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''
-    if(this.notScrolly && this.notEmptyResp && !is_searching) {
+    let filtering: boolean = !this.filterForm.invalid
+    if(this.notScrolly && this.notEmptyResp && !is_searching && !filtering) {
       this.spinner.show()
       this.notScrolly = false
       this.gameserv.getNextGames(this.limit, this.curOffset).subscribe(data => {
@@ -125,7 +125,7 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
         this.notScrolly = true;
         if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
       })
-    } else if(this.notScrolly && this.notEmptyResp && is_searching) {
+    } else if(this.notScrolly && this.notEmptyResp && is_searching && !filtering) {
       this.spinner.show()
       this.notScrolly = false
       this.gameserv.getNextGamesByName(this.searchForm.get('gameName').value, this.limit, this.curOffset).subscribe(data => {
@@ -143,6 +143,27 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
         this.notScrolly = true;
         if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
       })
+    } else if(this.notScrolly && this.notEmptyResp && !is_searching && filtering) {
+      this.spinner.show()
+      this.notScrolly = false
+      this.formService.constructQuery(this.filterForm.value, this.limit, this.curOffset)
+      .then(query => {
+        this.formService.SearchGames(query).subscribe(data => {
+          if(data.length == 0) this.notEmptyResp = false
+          if(this.notEmptyResp) {
+            let ids = []
+            data.map(e => ids.push(e.cover))
+            this.gameserv.getGameCover(ids).subscribe(data2 => {
+              data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url)
+            })
+          }
+          this.gamesList = this.gamesList.concat(data)
+          this.spinner.hide()
+          this.curOffset+=this.limit
+          this.notScrolly = true;
+          if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
+        })
+      })
     }
     
   }
@@ -153,19 +174,18 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     if(name == '' || name == null) {
       this.fillGamesList()
     } else {  //not empty field
-      this.gameserv.getGamesByName(name, this.limit).subscribe({
-        next: (data) => {this.gamesList = []; this.gamesList = data},
-        error: (err)=>{console.log(err)},
-        complete: ()=>{
+      this.gameserv.getGamesByName(name, this.limit).subscribe(
+        data => {
+          this.gamesList = []
+          this.gamesList = data
           let ids = []
           this.gamesList.map(e => ids.push(e.cover))
           this.gameserv.getGameCover(ids).subscribe(data => {
             data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
           })
         }
-      })
+      )
     }
-    
   }
 
   public cancelSearch(): void {
@@ -183,22 +203,20 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
 
   public filterSearch(): void {
     if(!this.filterForm.invalid) {  // invalid = none of the fields is filled
-      let pegi_ids = this.pegiWithIds.filter(e => 
-        e.rating == getRatingNumber(this.filterForm.get('pegiRating').value).toString())
-      console.log(this.pegiWithIds)
-      console.log(pegi_ids)
-      
+      this.curOffset = this.limit //new search - results from the beginning
+      this.formService.constructQuery(this.filterForm.value, this.limit)
+      .then(query => {// request body query
+        this.formService.SearchGames(query).subscribe(data => {
+          this.gamesList = []
+          this.gamesList = data
+          let ids = []
+          this.gamesList.map(e => ids.push(e.cover))
+          this.gameserv.getGameCover(ids).subscribe(data => {
+            data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
+          })
+        })
+      })  
     }
-    
-    // if(this.filterForm.dirty) {console.log('dirty')}
-    // if(this.filterForm.touched) {console.log('touched')}
-    // if(this.filterForm.pristine) {console.log('pristine')}
-    // if(this.filterForm) {console.log('dirty')}
-    // console.log(this.filterForm.value)
-    // console.log(this.gameEngines)
-    // let offset = new Date().getTimezoneOffset()*60  //my timezone offset in seconds
-    // let date_search = Date.parse(this.filterForm.value['releaseDate'])/1000 // seconds in epoch time
-    // console.log(date_search-offset) //GMT date for search
   }
 }
 
