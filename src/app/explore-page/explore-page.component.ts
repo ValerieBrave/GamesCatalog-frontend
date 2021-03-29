@@ -1,15 +1,14 @@
-import { AfterViewInit} from '@angular/core';
+import { AfterViewInit } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Game } from '../shared/interfaces/game';
-import { getRatingStringValue, getRatingNumber } from '../shared/models/filter/rating';
+import { getRatingStringValue } from '../shared/models/filter/rating';
 import { FillFilterService } from '../shared/services/fill-filter.service';
 import { GameService } from '../shared/services/game.service';
-import {formSliderParams, exploreScrollParams, ngxSpinnerParams} from '../shared/constants'
+import { formSliderParams, exploreScrollParams, ngxSpinnerParams } from '../shared/constants'
 import { DatePipe } from '@angular/common';
 import { atLeastOneValidator } from '../shared/validators/at-least-one-validator';
-import { Rating } from '../shared/interfaces/rating';
 import { FormOption } from '../shared/interfaces/form_option';
 import { FormService } from '../shared/services/form.service';
 
@@ -107,7 +106,8 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   onScroll(): void {
     let is_searching: boolean = 
     this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''
-    if(this.notScrolly && this.notEmptyResp && !is_searching) {
+    let filtering: boolean = !this.filterForm.invalid
+    if(this.notScrolly && this.notEmptyResp && !is_searching && !filtering) {
       this.spinner.show()
       this.notScrolly = false
       this.gameserv.getNextGames(this.limit, this.curOffset).subscribe(data => {
@@ -125,7 +125,7 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
         this.notScrolly = true;
         if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
       })
-    } else if(this.notScrolly && this.notEmptyResp && is_searching) {
+    } else if(this.notScrolly && this.notEmptyResp && is_searching && !filtering) {
       this.spinner.show()
       this.notScrolly = false
       this.gameserv.getNextGamesByName(this.searchForm.get('gameName').value, this.limit, this.curOffset).subscribe(data => {
@@ -143,6 +143,27 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
         this.notScrolly = true;
         if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
       })
+    } else if(this.notScrolly && this.notEmptyResp && !is_searching && filtering) {
+      this.spinner.show()
+      this.notScrolly = false
+      this.formService.constructQuery(this.filterForm.value, this.limit, this.curOffset)
+      .then(query => {
+        this.formService.SearchGames(query).subscribe(data => {
+          if(data.length == 0) this.notEmptyResp = false
+          if(this.notEmptyResp) {
+            let ids = []
+            data.map(e => ids.push(e.cover))
+            this.gameserv.getGameCover(ids).subscribe(data2 => {
+              data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url)
+            })
+          }
+          this.gamesList = this.gamesList.concat(data)
+          this.spinner.hide()
+          this.curOffset+=this.limit
+          this.notScrolly = true;
+          if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
+        })
+      })
     }
     
   }
@@ -153,19 +174,18 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     if(name == '' || name == null) {
       this.fillGamesList()
     } else {  //not empty field
-      this.gameserv.getGamesByName(name, this.limit).subscribe({
-        next: (data) => {this.gamesList = []; this.gamesList = data},
-        error: (err)=>{console.log(err)},
-        complete: ()=>{
+      this.gameserv.getGamesByName(name, this.limit).subscribe(
+        data => {
+          this.gamesList = []
+          this.gamesList = data
           let ids = []
           this.gamesList.map(e => ids.push(e.cover))
           this.gameserv.getGameCover(ids).subscribe(data => {
             data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
           })
         }
-      })
+      )
     }
-    
   }
 
   public cancelSearch(): void {
@@ -185,7 +205,17 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     if(!this.filterForm.invalid) {  // invalid = none of the fields is filled
       this.curOffset = this.limit //new search - results from the beginning
       this.formService.constructQuery(this.filterForm.value, this.limit)
-      .then(data => console.log(data))  // forming correct queries
+      .then(query => {// request body query
+        this.formService.SearchGames(query).subscribe(data => {
+          this.gamesList = []
+          this.gamesList = data
+          let ids = []
+          this.gamesList.map(e => ids.push(e.cover))
+          this.gameserv.getGameCover(ids).subscribe(data => {
+            data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
+          })
+        })
+      })  
     }
   }
 }

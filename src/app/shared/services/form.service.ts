@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
-import {Rating} from "../interfaces/rating"
 import {creds} from "../constants"
 import { getRatingNumber } from "../models/filter/rating"
 import { Observable } from "rxjs"
+import { Game } from "../interfaces/game"
 
 
 @Injectable({
@@ -49,7 +49,7 @@ export class FormService {
       if(values['mode']) {
         if(where_set) add+= `& game_modes = (${values['mode']}) `
         else {
-          add+= `where game_mods = (${values['mode']}) `
+          add+= `where game_modes = (${values['mode']}) `
           where_set = true
         }
       }
@@ -74,19 +74,6 @@ export class FormService {
       if(values['pegiRating']) {
         let rating_number = getRatingNumber(values['pegiRating'])
         let ids = []
-        // this.getPegiIdsByRating(getRatingNumber(values['pegiRating']))
-        // .subscribe({
-        //   next: data => {data.forEach(element => ids.push(element.id))},
-        //   complete: () => {
-        //     if(where_set) {
-        //       add += `& age_ratings = (${ids.toString()}) `
-        //     } else {
-        //       add += `where age_ratings = (${ids.toString()}) `
-        //       where_set = true
-        //     }
-            
-        //   }
-        // })
         ids = await this.getPegiIdsByRating(getRatingNumber(values['pegiRating']))
         ids = ids.map(e => e['id'])
         if(where_set) {
@@ -99,5 +86,16 @@ export class FormService {
       rc+=add+`; limit ${limit}; `
       if(offset) rc += `offset ${offset};`
       return rc
+  }
+
+  public SearchGames(query: string): Observable<Game[]> {
+    const headerDict = {
+      'Client-ID': creds.client_id,
+      'Authorization': creds.api_token
+    }
+    return this.http.post<Game[]>(
+      'http://localhost:3000/games',
+      query, {headers: headerDict}
+    )
   }
 }
