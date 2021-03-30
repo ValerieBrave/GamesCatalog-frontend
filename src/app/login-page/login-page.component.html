@@ -1,11 +1,11 @@
-<div class="card my-card">
-    <div class="card-body">
+<div class="auth-card">
+    <div class="auth-card_body">
         <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-            <div class="form-group">
-                <div>
-                    <label for="email"><b>Email Address</b></label>
+            <div class="auth-card_form-body">
+                <div class="auth-card_input-block">
+                    <label class="form-label">Email Address</label>
                     <input 
-                        class="form-control" 
+                        class="auth-card_form-input"
                         id="email"
                         type="email" 
                         formControlName="email"
@@ -21,10 +21,10 @@
                         </span>
                     </span>
                 </div>
-                <div>
-                    <label for="password"><b>Password</b></label>
+                <div class="auth-card_input-block"> 
+                    <label class="form-label">Password</label>
                     <input 
-                        class="form-control" 
+                        class="auth-card_form-input"
                         id="password"
                         type="password" 
                         formControlName="password"
@@ -48,7 +48,7 @@
                 [disabled]="loginForm.invalid"
                 [ngClass]="{'disabled-submit': loginForm.invalid}"
             >Sign In</button>
-            <a href="" style="margin-left: 1vw;">Forgot Password?</a>
+            <a href="" style="margin-left: 1vw; text-decoration: none;">Forgot Password?</a>
         </form>
         <p class="inviting-text-block">
             -----------------Sign In With-----------------

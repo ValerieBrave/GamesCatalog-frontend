@@ -1,8 +1,41 @@
 @import '/src/assets/static/colors.scss';
 
-.my-card {
-    border: none;
-    margin: auto;
+.auth-card {
+    display: flex;
+    flex-direction: column;
+}
+.auth-card_body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.auth-card_form-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.auth-card_form-input {
+    box-sizing:border-box;
+    height: 6vh;
+    border: 1px solid $authcard-border;
+    width: 100%;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+.auth-card_input-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 17vh;
+    width: 100%;
+}
+.form-label {
+    margin: 1vh 0vh;
+    font-weight: 500;
 }
 .submits {
     background-color: $allowed-submit;
