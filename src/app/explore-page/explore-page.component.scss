@@ -1,5 +1,11 @@
-.header__filter {
-    height: auto;
+@import '/src/assets/static/colors.scss';
+.header_search {
+    display: flex;
+    justify-content: center;
+}
+.expansion-panel {
+    outline: none;
+    background: rgb(255, 255, 255) !important;
    
 }
 .header__filter-list {
@@ -26,75 +32,90 @@
 }
 
 .cards-container {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 1 1 275px;
+    row-gap: 20px;
+    column-gap: 20px;
     padding: 1vw;
 }
 
 .game-card {
     height: 400px;
-    width: 250px;
+    width: 275px;
+    border: 1px solid rgb(197, 193, 193);
+    border-radius: 10px;
+    padding: 0px 2px;
 }
-
 .game-card:hover {
     box-shadow: 0 12px 18px -6px black;
     -webkit-box-shadow: 0 12px 18px -6px black;
 }
-.card-header {  
-    background-color: white;
-    height: 50px;
-    padding: 1vh;
-    margin: 1vh;
+.game-card_header {
+    height: 13%;
+    margin: 1%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
-
-.card-avatar {
-    background-color: orangered;
+.game-card_avatar {
+    height: 40px;
+    width: 40px;
+    background-color: $raiting-orange;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.game-card_rating {
     color: white;
-    text-align: center;
+    font-family: 'segoe ui';
     font-size: large;
-    padding-top: 2%;
 }
-
-.game-pic-block {
+.game-card_cover {
     height: 38%;
-    max-height: 38%;
+}
+.game-card_title {
+    width: 175px;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 0px 15px;
+}
+.title_name {
     width: 100%;
-    object-fit: cover;
-}
-
-.game-pic {
-    
-    object-fit: fill;
-}
-.card-content {
-    height: 38%;
-    width: 100%;
-    margin: 1vh 0;
-    
-}
-.summary {
-    font-size: 80%; max-height: 100%;
+    font-family: 'segoe ui';
+    font-size: 85%;
+    font-weight:400;
+    text-overflow: ellipsis;
     overflow: hidden;
-}
-.title {
-    font-size: 75%;
-    width: 120px;
-    margin: 0%;
     white-space: nowrap;
+}
+.title_date {
+    width: 100%;
+    font-family: 'segoe ui';
+    font-size: 70%;
+    font-weight: 200;
+}
+.game-card_summary {
+    height: 148px;  /* for text with ellipis NOT WORKING*/
+    font-family: 'segoe ui';
+    font-weight: 300;
+    font-size: 70%;
+    margin: 2px 10px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.date {
-    font-size: 70%;
-    font-weight: lighter;
-    margin: 0%;
-}
-.bottom-actions {
+.game-card_actions {
     height: 10%;
-    padding: 0%;
-    margin: 0%;
 }
 .action-icons {
-    height: 20px; 
-    color: gray; 
-    vertical-align: baseline;
+    color: gray;
+}
+.cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit:fill;
 }
