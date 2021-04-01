@@ -1,11 +1,11 @@
-<div class="card my-card">
-    <div class="card-body">
+<div class="auth-card">
+    <div class="auth-card_body">
         <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-            <div class="form-group">
-                <div>
-                    <label><b>Name</b></label>
+            <div class="auth-card_form-body">
+                <div class="auth-card_input-block">
+                    <label class="form-label">Name</label>
                     <input 
-                        class="form-control" 
+                        class="auth-card_form-input" 
                         id="name"
                         type="text" 
                         formControlName="name"
@@ -18,10 +18,10 @@
                         </span>
                     </span>
                 </div>
-                <div>
-                    <label><b>Email Address</b></label>
+                <div class="auth-card_input-block">
+                    <label class="form-label">Email Address</label>
                     <input 
-                        class="form-control"
+                        class="auth-card_form-input"
                         id="email" 
                         type="email" 
                         formControlName="email"
@@ -37,10 +37,10 @@
                         </span>
                     </span>
                 </div>
-                <div>
-                    <label><b>Password</b></label>
+                <div class="auth-card_input-block">
+                    <label class="form-label">Password</label>
                     <input 
-                    class="form-control" 
+                    class="auth-card_form-input" 
                     id="password"
                     type="password" 
                     formControlName="password"

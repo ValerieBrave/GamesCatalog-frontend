@@ -4,8 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
 
-
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExploreLayoutComponent } from './shared/layouts/explore-layout/explore-layout.component';
@@ -23,7 +21,6 @@ import {MatSliderModule} from '@angular/material/slider';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatIconModule} from '@angular/material/icon';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -47,7 +44,6 @@ import { RegisterPageComponent } from './register-page/register-page.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -57,12 +53,10 @@ import { RegisterPageComponent } from './register-page/register-page.component';
     MatDatepickerModule,
     MatSelectModule,
     MatNativeDateModule,
-    //DatePipe,
     MatSliderModule,
     MatButtonModule,
     MatCardModule,
     MatToolbarModule,
-    FlexLayoutModule,
     MatIconModule,
     InfiniteScrollModule,
     NgxSpinnerModule
