@@ -90,27 +90,27 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   }
 
   public fillGamesList(): void {
-    this.gameserv.getAllGames(this.limit).subscribe({
-      next: (data)=>{this.gamesList = []; data.forEach(element => this.gamesList.push(element))},
-      error: (err)=>{console.log(err)},
-      complete: ()=> {
+    this.gameserv.getGames(this.limit).subscribe(
+      (data)=>{this.gamesList = []; data.forEach(element => this.gamesList.push(element))},
+      (err)=>{console.log(err)},
+      ()=> {
         let ids = []  //cover ids
         this.gamesList.map(e => ids.push(e.cover))
         this.gameserv.getGameCover(ids).subscribe(data => {
           data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)
         })
       }
-    }) 
+    ) 
   }
   
   onScroll(): void {
     let is_searching: boolean = 
     this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''
     let filtering: boolean = !this.filterForm.invalid
-    if(this.notScrolly && this.notEmptyResp && !is_searching && !filtering) {
+    if(this.notScrolly && this.notEmptyResp && !is_searching && !filtering) { //SCROLLUNG WITHOUT ANY SEARCH
       this.spinner.show()
       this.notScrolly = false
-      this.gameserv.getNextGames(this.limit, this.curOffset).subscribe(data => {
+      this.gameserv.getGames(this.limit, this.curOffset).subscribe(data => {
         if(data.length == 0) this.notEmptyResp = false
         if(this.notEmptyResp) {
           let ids = []
@@ -125,10 +125,10 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
         this.notScrolly = true;
         if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
       })
-    } else if(this.notScrolly && this.notEmptyResp && is_searching && !filtering) {
+    } else if(this.notScrolly && this.notEmptyResp && is_searching && !filtering) { //SEARCHING BY NAME
       this.spinner.show()
       this.notScrolly = false
-      this.gameserv.getNextGamesByName(this.searchForm.get('gameName').value, this.limit, this.curOffset).subscribe(data => {
+      this.gameserv.getGamesByName(this.searchForm.get('gameName').value, this.limit, this.curOffset).subscribe(data => {
         if(data.length == 0) this.notEmptyResp = false
         if(this.notEmptyResp) {
           let ids = []
@@ -143,7 +143,7 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
         this.notScrolly = true;
         if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
       })
-    } else if(this.notScrolly && this.notEmptyResp && !is_searching && filtering) {
+    } else if(this.notScrolly && this.notEmptyResp && !is_searching && filtering) { //USING FILTER
       this.spinner.show()
       this.notScrolly = false
       this.formService.constructQuery(this.filterForm.value, this.limit, this.curOffset)

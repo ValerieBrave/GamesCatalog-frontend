@@ -9,19 +9,14 @@ import { Game } from "../interfaces/game";
 })
 export class GameService {
     constructor(private http: HttpClient){   }
-    getAllGames(limit: number): Observable<Game[]> {
+    getGames(limit: number, offset?: number): Observable<Game[]> {
+        let body = 'fields cover, first_release_date,'+ 
+        ' name, rating, summary; sort first_release_date desc; limit '+limit.toString() +';'
+        if(offset) body += ` offset ${offset};`
         return this.http.post<Game[]>(
-        'http://localhost:3000/games', 
-        'fields cover, first_release_date,'+ 
-        ' name, rating, summary; sort first_release_date desc; limit '+limit.toString() +';')
+        'http://localhost:3000/games', body)
     }
-    getNextGames(limit: number, offset: number): Observable<Game[]> {
-        return this.http.post<Game[]>(
-        'http://localhost:3000/games', 
-        'fields cover, first_release_date,'+
-        ' name, rating, summary; sort first_release_date desc; limit '+limit.toString()+'; offset '+offset.toString()+';')
-    }
-
+    
     getGameCover(ids: number[]): Observable<Cover[]> {
         ids = ids.filter(e => {return e!= null})
         if(ids.length > 0)
@@ -31,18 +26,11 @@ export class GameService {
         else return new Observable<Cover[]>()
     }
 
-    getGamesByName(name: string, limit: number): Observable<Game[]> {
+    getGamesByName(name: string, limit: number, offset?: number): Observable<Game[]> {
+        let body = 'fields cover, first_release_date,'+ 
+        ' name, rating, summary; limit '+limit.toString()+'; search "'+name+'";'
+        if(offset) body +=` offset ${offset};`
         return this.http.post<Game[]>(
-        'http://localhost:3000/games',
-        'fields cover, first_release_date,'+ 
-        ' name, rating, summary; limit '+limit.toString()+'; search "'+name+'";')
-    }
-
-    getNextGamesByName(name: string, limit: number, offset: number):Observable<Game[]>{
-        return this.http.post<Game[]>(
-        'http://localhost:3000/games', 
-        'fields cover, first_release_date,'+
-        ' name, rating, summary; search "'+name+'"; limit '+limit.toString()
-        +'; offset '+offset.toString()+';')
+        'http://localhost:3000/games', body)
     }
 }

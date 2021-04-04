@@ -15,26 +15,26 @@ export class FillFilterService {
   getRatings(): Observable<Rating[]> {
     return this.http.post<Rating[]>(
     'http://localhost:3000/age_ratings', 
-    'fields  rating; where category = 2; limit 60;')
+    'fields  rating; where category = 2; limit 30;')
   }
   getEngines(): Observable<FormOption[]> {
     return this.http.post<FormOption[]>(
       'http://localhost:3000/game_engines',
-      'fields name;')
+      'fields name; limit 30;')
   }
   getModes(): Observable<FormOption[]> {
     return this.http.post<FormOption[]>(
       'http://localhost:3000/game_modes',
-      'fields name;')
+      'fields name; limit 30;')
   }
   getPlatforms(): Observable<FormOption[]> {
     return this.http.post<FormOption[]>(
       'http://localhost:3000/platforms',
-      'fields name;')
+      'fields name; limit 30;')
   }
   getGenres():Observable<FormOption[]> {
     return this.http.post<FormOption[]>(
       'http://localhost:3000/genres',
-      'fields name;')
+      'fields name; limit 30;')
   }
 }
