@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
-import {creds} from "../constants"
 import { getRatingNumber } from "../models/filter/rating"
 import { Observable } from "rxjs"
 import { Game } from "../interfaces/game"
@@ -14,13 +13,9 @@ export class FormService {
   constructor(private http: HttpClient){   }
 
   private getPegiIdsByRating(rating: number): Promise<number[]> {
-    const headerDict = {
-      'Client-ID': creds.client_id,
-      'Authorization': creds.api_token
-    }
     return this.http.post<number[]>(
     'http://localhost:3000/age_ratings',
-    `where category = 2 & rating = ${rating}; limit 100;`, {headers: headerDict}).toPromise()   
+    `where category = 2 & rating = ${rating}; limit 100;`).toPromise()   
   }
 
   public async constructQuery(values: any, limit: number, offset? :number): Promise<string> {
@@ -89,13 +84,6 @@ export class FormService {
   }
 
   public SearchGames(query: string): Observable<Game[]> {
-    const headerDict = {
-      'Client-ID': creds.client_id,
-      'Authorization': creds.api_token
-    }
-    return this.http.post<Game[]>(
-      'http://localhost:3000/games',
-      query, {headers: headerDict}
-    )
+    return this.http.post<Game[]>('http://localhost:3000/games',query)
   }
 }

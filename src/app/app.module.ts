@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,9 +24,11 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { AuthLayoutComponent } from './shared/layouts/auth-layout/auth-layout.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
+import { TokenInterceptor } from './shared/interceptors/token.interceptor';
 
 
 @NgModule({
@@ -59,9 +61,14 @@ import { RegisterPageComponent } from './register-page/register-page.component';
     MatToolbarModule,
     MatIconModule,
     InfiniteScrollModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatSnackBarModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    multi: true,
+    useClass: TokenInterceptor
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -45,8 +45,8 @@
             <button 
                 type="submit" 
                 class="submits"
-                [disabled]="loginForm.invalid"
-                [ngClass]="{'disabled-submit': loginForm.invalid}"
+                [disabled]="loginForm.invalid || loginForm.disabled"
+                [ngClass]="{'disabled-submit': loginForm.invalid || loginForm.disabled}"
             >Sign In</button>
             <a href="" style="margin-left: 1vw; text-decoration: none;">Forgot Password?</a>
         </form>

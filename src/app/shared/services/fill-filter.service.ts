@@ -13,52 +13,28 @@ export class FillFilterService {
   constructor(private http: HttpClient){   }
 
   getRatings(): Observable<Rating[]> {
-    const headerDict = {
-        'Client-ID': creds.client_id,
-        'Authorization': creds.api_token
-      }
     return this.http.post<Rating[]>(
     'http://localhost:3000/age_ratings', 
-    'fields  rating; where category = 2; limit 60;', {headers: headerDict})
+    'fields  rating; where category = 2; limit 60;')
   }
-
   getEngines(): Observable<FormOption[]> {
-    const headerDict = {
-      'Client-ID': creds.client_id,
-      'Authorization': creds.api_token
-    }
     return this.http.post<FormOption[]>(
       'http://localhost:3000/game_engines',
-      'fields name;', {headers: headerDict})
+      'fields name;')
   }
-
   getModes(): Observable<FormOption[]> {
-    const headerDict = {
-      'Client-ID': creds.client_id,
-      'Authorization': creds.api_token
-    }
     return this.http.post<FormOption[]>(
       'http://localhost:3000/game_modes',
-      'fields name;', {headers: headerDict})
+      'fields name;')
   }
-
   getPlatforms(): Observable<FormOption[]> {
-    const headerDict = {
-      'Client-ID': creds.client_id,
-      'Authorization': creds.api_token
-    }
     return this.http.post<FormOption[]>(
       'http://localhost:3000/platforms',
-      'fields name;', {headers: headerDict})
+      'fields name;')
   }
-
   getGenres():Observable<FormOption[]> {
-    const headerDict = {
-      'Client-ID': creds.client_id,
-      'Authorization': creds.api_token
-    }
     return this.http.post<FormOption[]>(
       'http://localhost:3000/genres',
-      'fields name;', {headers: headerDict})
+      'fields name;')
   }
 }
