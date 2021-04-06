@@ -29,6 +29,7 @@ import { AuthLayoutComponent } from './shared/layouts/auth-layout/auth-layout.co
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
 import { TokenInterceptor } from './shared/interceptors/token.interceptor';
+import { GameinfoPageComponent } from './gameinfo-page/gameinfo-page.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { TokenInterceptor } from './shared/interceptors/token.interceptor';
     UserPageComponent,
     AuthLayoutComponent,
     LoginPageComponent,
-    RegisterPageComponent
+    RegisterPageComponent,
+    GameinfoPageComponent
   ],
   imports: [
     BrowserModule,

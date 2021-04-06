@@ -20,7 +20,7 @@ export class FillFilterService {
   getEngines(): Observable<FormOption[]> {
     return this.http.post<FormOption[]>(
       'http://localhost:3000/game_engines',
-      'fields name; limit 30;')
+      'fields name; limit 40;')
   }
   getModes(): Observable<FormOption[]> {
     return this.http.post<FormOption[]>(
@@ -30,7 +30,7 @@ export class FillFilterService {
   getPlatforms(): Observable<FormOption[]> {
     return this.http.post<FormOption[]>(
       'http://localhost:3000/platforms',
-      'fields name; limit 30;')
+      'fields name; limit 40;')
   }
   getGenres():Observable<FormOption[]> {
     return this.http.post<FormOption[]>(

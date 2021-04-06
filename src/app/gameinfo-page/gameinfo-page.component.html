@@ -1,0 +1,34 @@
+<p>ID {{gameInfo?.id}}</p>
+<p>PEGI AGE RATINGS NAMES {{gameInfo?.age_rating_name}}</p>
+<p>DATE {{gameInfo?.first_release_date * 1000 | date}}</p>
+<img src={{gameInfo?.cover_url}}>
+
+<div *ngFor="let engine of gameInfo?.game_engines_names">
+    <p>{{engine}}</p>
+</div>
+
+<div *ngFor="let mode of gameInfo?.game_modes_names">
+    <p>{{mode}}</p>
+</div>
+
+
+<div *ngFor="let genre of gameInfo?.genres_names">
+    <p>{{genre}}</p>
+</div>
+
+<div *ngFor="let platform of gameInfo?.platforms_names">
+    <p>{{platform}}</p>
+</div>
+<p>NAME {{gameInfo?.name}}</p>
+
+<p>RATING {{gameInfo?.rating}}</p>
+<p>SUMMARY {{gameInfo?.summary}}</p>
+<p>STORYLINE {{gameInfo?.storyline}}</p>
+<p>SCREENS {{gameInfo?.screenshots}}</p>
+
+<div *ngFor="let company of gameInfo?.companies_names">
+    <p>{{company}}</p>
+</div>
+<div *ngFor="let pic of gameInfo?.screenshots_urls">
+    <img src= {{pic}}>
+</div>

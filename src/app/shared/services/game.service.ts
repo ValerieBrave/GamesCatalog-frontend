@@ -1,8 +1,10 @@
 import { HttpClient} from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { Company } from "../interfaces/company";
 import { Cover } from "../interfaces/cover";
 import { Game } from "../interfaces/game";
+import { GameInfo } from "../interfaces/game-info";
 
 @Injectable({
     providedIn:'root'
@@ -30,7 +32,8 @@ export class GameService {
         let body = 'fields cover, first_release_date,'+ 
         ' name, rating, summary; limit '+limit.toString()+'; search "'+name+'";'
         if(offset) body +=` offset ${offset};`
-        return this.http.post<Game[]>(
-        'http://localhost:3000/games', body)
+        return this.http.post<Game[]>('http://localhost:3000/games', body)
     }
+
+    
 }
