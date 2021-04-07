@@ -13,7 +13,7 @@ export enum PEGIRating {
     AO
 }
 
-export function getRatingStringValue(r): String {
+export function getRatingStringValue(r): string {
     switch(r) {
         case PEGIRating.Three: return '3'
         case PEGIRating.Seven: return '7'

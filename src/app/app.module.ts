@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExplorePageComponent } from './explore-page/explore-page.component';
 import { GamesPageComponent } from './games-page/games-page.component';
 import { UserPageComponent } from './user-page/user-page.component';
+import { StringList } from './shared/pipes/string-list.pipe'
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -29,6 +30,7 @@ import { AuthLayoutComponent } from './shared/layouts/auth-layout/auth-layout.co
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
 import { TokenInterceptor } from './shared/interceptors/token.interceptor';
+import { GameinfoPageComponent } from './gameinfo-page/gameinfo-page.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { TokenInterceptor } from './shared/interceptors/token.interceptor';
     UserPageComponent,
     AuthLayoutComponent,
     LoginPageComponent,
-    RegisterPageComponent
+    RegisterPageComponent,
+    GameinfoPageComponent,
+    StringList
   ],
   imports: [
     BrowserModule,
