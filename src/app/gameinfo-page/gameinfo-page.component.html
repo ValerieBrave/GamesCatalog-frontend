@@ -1,34 +1,53 @@
-<p>ID {{gameInfo?.id}}</p>
-<p>PEGI AGE RATINGS NAMES {{gameInfo?.age_rating_name}}</p>
-<p>DATE {{gameInfo?.first_release_date * 1000 | date}}</p>
-<img src={{gameInfo?.cover_url}}>
+<div class="container">
+    <div class="title-block">
+        <div class="title-block_caption">
+            <span class="title-gamename">{{gameInfo?.name}}</span>
+            <span>{{gameInfo?.game_engines_names | stringList}}</span>
+        </div>
+        <div class="title-block_subcaption">
+            <span>{{gameInfo?.companies_names | stringList}}</span>
+            <span *ngIf ="gameInfo?.first_release_date" class="title-releasedate">| Release Date: {{gameInfo?.first_release_date * 1000 | date}}</span>
+        </div>
+        <div class="raiting-block">
+            <div class="raiting-block_frame">
+                {{gameInfo?.rating | number: '2.1-1'}}
+            </div>
+            <span class="light-caption">User score</span>
+        </div>
+    </div>
 
-<div *ngFor="let engine of gameInfo?.game_engines_names">
-    <p>{{engine}}</p>
-</div>
-
-<div *ngFor="let mode of gameInfo?.game_modes_names">
-    <p>{{mode}}</p>
-</div>
-
-
-<div *ngFor="let genre of gameInfo?.genres_names">
-    <p>{{genre}}</p>
-</div>
-
-<div *ngFor="let platform of gameInfo?.platforms_names">
-    <p>{{platform}}</p>
-</div>
-<p>NAME {{gameInfo?.name}}</p>
-
-<p>RATING {{gameInfo?.rating}}</p>
-<p>SUMMARY {{gameInfo?.summary}}</p>
-<p>STORYLINE {{gameInfo?.storyline}}</p>
-<p>SCREENS {{gameInfo?.screenshots}}</p>
-
-<div *ngFor="let company of gameInfo?.companies_names">
-    <p>{{company}}</p>
-</div>
-<div *ngFor="let pic of gameInfo?.screenshots_urls">
-    <img src= {{pic}}>
+    <div class="info-block">
+        <div class="info-block_cover">
+            <img class="cover-image" src={{gameInfo?.cover_url}}>
+        </div>
+        <div class="info-block_details">
+            <div class="detail-row">
+                <span style="width: 45%;">Platforms: <span class="detail-text">{{gameInfo?.platforms_names | stringList}}</span></span>
+                <span style="width: 45%;">Age rating (PEGI): <span class="detail-text">{{gameInfo?.age_rating_name}}</span></span>
+            </div>
+            <div class="detail-row">
+                <span style="width: 45%;">Game modes: <span class="detail-text">{{gameInfo?.game_modes_names | stringList}}</span></span>
+                <span style="width: 45%;">Genres: <span class="detail-text">{{gameInfo?.genres_names | stringList}}</span></span>
+            </div>
+            
+        </div>
+        
+    </div>
+    <div *ngIf="gameInfo?.summary" class="game_text-description">
+        <h4>Summary</h4>
+        <span >{{gameInfo?.summary}}</span>
+    </div>
+    <div *ngIf="gameInfo?.storyline" class="game_text-description">
+        <h4>What is it about?</h4>
+        <span s>{{gameInfo?.storyline}}</span>
+    </div>
+    <div *ngIf="gameInfo?.screenshots" style="margin: 0 1%;">
+        <h4>Screenshots</h4>
+        <div class="screens-block">
+            
+            <div *ngFor="let screen of gameInfo?.screenshots_urls" >
+                <img src="{{screen}}" class="screenshot">
+            </div>
+        </div>
+    </div>
 </div>

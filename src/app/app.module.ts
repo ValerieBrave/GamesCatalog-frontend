@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExplorePageComponent } from './explore-page/explore-page.component';
 import { GamesPageComponent } from './games-page/games-page.component';
 import { UserPageComponent } from './user-page/user-page.component';
+import { StringList } from './shared/pipes/string-list.pipe'
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -42,7 +43,8 @@ import { GameinfoPageComponent } from './gameinfo-page/gameinfo-page.component';
     AuthLayoutComponent,
     LoginPageComponent,
     RegisterPageComponent,
-    GameinfoPageComponent
+    GameinfoPageComponent,
+    StringList
   ],
   imports: [
     BrowserModule,

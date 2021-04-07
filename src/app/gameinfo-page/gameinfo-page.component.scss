@@ -1,0 +1,132 @@
+@import '/src/assets/static/colors.scss';
+
+.container {
+    margin-top: 8vh;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: auto;
+    height: 100%;
+}
+.title-block {
+    height: 20vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.title-block_caption {
+    width: 70%;
+    height: 60%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: 'segoe ui';
+    
+}
+.title-gamename {
+    font-size: 175%;
+    margin: 0 1%;
+}
+.title-platforms {
+    font-size: 90%;
+    color: gray;
+    margin: 0 8px;
+}
+.title-block_subcaption {
+    width: 68%;
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    font-size: 90%;
+    font-family: 'segoe ui';
+    margin: 0 1%;
+}
+.title-releasedate {
+    color: rgb(83, 83, 83);
+    margin: 0 8px;
+}
+.raiting-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%; 
+    height: 100%; 
+}
+.raiting-block_frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $raiting-orange;
+    height: 58%;
+    width: 20%;
+    border-radius: 5px;
+    color: white;
+    font-family: 'segoe ui';
+    font-size: 200%;
+    text-align: center;
+}
+.light-caption {
+    font-size: small;
+    font-weight: 400;
+    color: rgb(110, 109, 109);
+}
+
+.info-block {
+    width: 100%;
+    height: 30%;
+
+    display: flex;
+    flex-direction: row;
+    //border: 1px solid black;
+    align-items: center;
+    justify-content: space-around;
+}
+.info-block_cover {
+    width: 25%;
+    height: 90%;
+    
+}
+.cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit:fill;
+}
+.info-block_details {
+    width: 70%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.detail-row {
+    display: flex;
+    flex-direction: row;
+    font-weight: 500;
+    font-family: 'segoe ui';
+    text-align: left;
+}
+.detail-text {
+    font-weight: 400;
+}
+.game_text-description {
+    font-size: small; 
+    font-weight: 300;
+    margin: 0 1%;
+    width: 98%;
+}
+.screens-block {
+    
+    width: 100%;
+    display: flex;
+    //flex: 1 1 25%;
+    flex-wrap: wrap;
+    row-gap: 20px;
+    column-gap: 20px;
+    margin-bottom: 5%;
+}
+.screenshot:hover {
+    -webkit-transform: scale(2);
+    -ms-transform: scale(2);
+    transform: scale(2);
+}

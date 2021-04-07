@@ -24,7 +24,7 @@ export class GameService {
         if(ids.length > 0)
             return this.http.post<Cover[]>(
             'http://localhost:3000/covers',
-            'fields game, url; where id = ('+ids.toString()+');')
+            'fields game, url; where id = ('+ids.toString()+'); limit '+ids.length.toString()+';')
         else return new Observable<Cover[]>()
     }
 

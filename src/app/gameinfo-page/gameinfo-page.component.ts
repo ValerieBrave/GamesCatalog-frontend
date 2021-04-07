@@ -42,47 +42,43 @@ export class GameinfoPageComponent implements OnInit, AfterViewInit {
       }
       //get companies
       if(this.gameInfo.involved_companies != undefined) {
-        this.gameInfo.companies_names = []
+        //this.gameInfo.companies_names = []
         let companies = await this.gameInfoService.getGameCompanies(this.gameInfo.involved_companies)
-        companies.forEach(element =>  this.gameInfo.companies_names.push(element.name))
+        this.gameInfo.companies_names = companies.map(e => e.name)
       }
       //get pegi ratings
       if(this.gameInfo.age_ratings != undefined) {
         this.gameInfoService.getGamePegiRating(this.gameInfo.age_ratings)
         .subscribe(data => {
-          this.gameInfo.age_rating_name = getRatingStringValue(data[0].rating)
+          this.gameInfo.age_rating_name = getRatingStringValue(data[0]?.rating)
         })
       }
       //get engines
       if(this.gameInfo.game_engines != undefined) {
-        this.gameInfo.game_engines_names = []
         this.gameInfoService.getGameEngines(this.gameInfo.game_engines)
         .subscribe(data => {
-          data.forEach(element => this.gameInfo.game_engines_names.push(element.name))
+          this.gameInfo.game_engines_names = data.map(e => e.name)
         })
       }
       //get modes
       if(this.gameInfo.game_modes != undefined) {
-        this.gameInfo.game_modes_names = []
         this.gameInfoService.getGameModes(this.gameInfo.game_modes)
         .subscribe(data => {
-          data.forEach(element => this.gameInfo.game_modes_names.push(element.name))
+          this.gameInfo.game_modes_names = data.map(e => e.name)
         })
       }
       //get genres
       if(this.gameInfo.genres != undefined) {
-        this.gameInfo.genres_names = []
         this.gameInfoService.getGameGenres(this.gameInfo.genres)
         .subscribe(data => {
-          data.forEach(element => this.gameInfo.genres_names.push(element.name))
+          this.gameInfo.genres_names = data.map(e => e.name)
         })
       }
       //get platforms
       if(this.gameInfo.platforms != undefined) {
-        this.gameInfo.platforms_names = []
         this.gameInfoService.getGamePlatforms(this.gameInfo.platforms)
         .subscribe(data => {
-          data.forEach(element => this.gameInfo.platforms_names.push(element.name))
+          this.gameInfo.platforms_names = data.map(e => e.name)
         })
       }
     })
