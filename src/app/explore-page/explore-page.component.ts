@@ -10,7 +10,6 @@ import { formSliderParams, exploreScrollParams, ngxSpinnerParams } from '../shar
 import { DatePipe } from '@angular/common';
 import { atLeastOneValidator } from '../shared/validators/at-least-one-validator';
 import { FormOption } from '../shared/interfaces/form_option';
-import { FormService } from '../shared/services/form.service';
 
 
 @Component({
@@ -21,7 +20,6 @@ import { FormService } from '../shared/services/form.service';
 })
 export class ExplorePageComponent implements OnInit, AfterViewInit {
   constructor(private filterService: FillFilterService,
-              private formService: FormService,
               private gameserv: GameService, 
               private spinner: NgxSpinnerService) { }
   //for filter
@@ -90,72 +88,32 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   }
 
   public fillGamesList(): void {
-    this.gameserv.getGames(this.limit).subscribe(
-      (data)=>{this.gamesList = []; data.forEach(element => this.gamesList.push(element))},
-      (err)=>{console.log(err)},
-      ()=> {
-        let ids = []  //cover ids
-        this.gamesList.map(e => ids.push(e.cover))
-        this.gameserv.getGameCover(ids).subscribe(data => {
-          data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)
-        })
-      }
-    ) 
+    this.gameserv.getGames(this.limit).
+    then(data => {this.gamesList = []; data.forEach(element => this.gamesList.push(element))})
+    .then(()=> {
+      let ids = []  //cover ids
+      this.gamesList.map(e => ids.push(e.cover))
+      this.gameserv.getGameCover(ids).subscribe(data => {
+        data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)
+      })
+    })
   }
   
   onScroll(): void {
-    let is_searching: boolean = 
-    this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''
-    let filtering: boolean = !this.filterForm.invalid
-    if(this.notScrolly && this.notEmptyResp && !is_searching && !filtering) { //SCROLLUNG WITHOUT ANY SEARCH
+    if(this.notScrolly && this.notEmptyResp) {
       this.spinner.show()
       this.notScrolly = false
-      this.gameserv.getGames(this.limit, this.curOffset).subscribe(data => {
-        if(data.length == 0) this.notEmptyResp = false
-        if(this.notEmptyResp) {
-          let ids = []
-          data.map(e => ids.push(e.cover))
-          this.gameserv.getGameCover(ids).subscribe(data2 => {
-            data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url)
-          })
-        }
-        this.gamesList = this.gamesList.concat(data)
-        this.spinner.hide()
-        this.curOffset+=this.limit
-        this.notScrolly = true;
-        if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
-      })
-    } else if(this.notScrolly && this.notEmptyResp && is_searching && !filtering) { //SEARCHING BY NAME
-      this.spinner.show()
-      this.notScrolly = false
-      this.gameserv.getGamesByName(this.searchForm.get('gameName').value, this.limit, this.curOffset).subscribe(data => {
-        if(data.length == 0) this.notEmptyResp = false
-        if(this.notEmptyResp) {
-          let ids = []
-          data.map(e => ids.push(e.cover))
-          this.gameserv.getGameCover(ids).subscribe(data2 => {
-            data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url)
-          })
-        }
-        this.gamesList = this.gamesList.concat(data)
-        this.spinner.hide()
-        this.curOffset+=this.limit
-        this.notScrolly = true;
-        if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
-      })
-    } else if(this.notScrolly && this.notEmptyResp && !is_searching && filtering) { //USING FILTER
-      this.spinner.show()
-      this.notScrolly = false
-      this.formService.constructQuery(this.filterForm.value, this.limit, this.curOffset)
-      .then(query => {
-        this.formService.SearchGames(query).subscribe(data => {
+      this.gameserv.getGames(
+        this.limit, 
+        this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''? this.searchForm.get('gameName').value: null,
+        this.filterForm.invalid? null : this.filterForm.value,
+        this.curOffset)
+        .then(data => {
           if(data.length == 0) this.notEmptyResp = false
           if(this.notEmptyResp) {
             let ids = []
             data.map(e => ids.push(e.cover))
-            this.gameserv.getGameCover(ids).subscribe(data2 => {
-              data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url)
-            })
+            this.gameserv.getGameCover(ids).subscribe(data2 => data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url))
           }
           this.gamesList = this.gamesList.concat(data)
           this.spinner.hide()
@@ -163,9 +121,7 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
           this.notScrolly = true;
           if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
         })
-      })
     }
-    
   }
   
   public searchGamesByName(): void {
@@ -174,7 +130,7 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     if(name == '' || name == null) {
       this.fillGamesList()
     } else {  //not empty field
-      this.gameserv.getGamesByName(name, this.limit).subscribe(
+      this.gameserv.getGames(this.limit, name).then(
         data => {
           this.gamesList = []
           this.gamesList = data
@@ -204,18 +160,16 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   public filterSearch(): void {
     if(!this.filterForm.invalid) {  // invalid = none of the fields is filled
       this.curOffset = this.limit //new search - results from the beginning
-      this.formService.constructQuery(this.filterForm.value, this.limit)
-      .then(query => {// request body query
-        this.formService.SearchGames(query).subscribe(data => {
-          this.gamesList = []
-          this.gamesList = data
-          let ids = []
-          this.gamesList.map(e => ids.push(e.cover))
-          this.gameserv.getGameCover(ids).subscribe(data => {
-            data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
-          })
+      this.gameserv.getGames(this.limit, null, this.filterForm.value)
+      .then(data => {
+        this.gamesList = []
+        this.gamesList = data
+        let ids = []
+        this.gamesList.map(e => ids.push(e.cover))
+        this.gameserv.getGameCover(ids).subscribe(data => {
+          data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
         })
-      })  
+      })
     }
   }
 }
