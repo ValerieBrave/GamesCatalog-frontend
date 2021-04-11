@@ -7,20 +7,20 @@ import { getRatingStringValue } from '../shared/models/filter/rating';
 import { FillFilterService } from '../shared/services/fill-filter.service';
 import { GameService } from '../shared/services/game.service';
 import { formSliderParams, exploreScrollParams, ngxSpinnerParams } from '../shared/constants'
-import { DatePipe } from '@angular/common';
 import { atLeastOneValidator } from '../shared/validators/at-least-one-validator';
 import { FormOption } from '../shared/interfaces/form_option';
+import { MessageService } from '../shared/services/message.service';
 
 
 @Component({
   selector: 'app-explore-page',
   templateUrl: './explore-page.component.html',
-  styleUrls: ['./explore-page.component.scss'],
-  providers: [DatePipe]
+  styleUrls: ['./explore-page.component.scss']
 })
 export class ExplorePageComponent implements OnInit, AfterViewInit {
   constructor(private filterService: FillFilterService,
               private gameserv: GameService, 
+              private snackBar: MessageService,
               private spinner: NgxSpinnerService) { }
   //for filter
   public filterForm: FormGroup
@@ -38,6 +38,8 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
 
   //list of games displayed
   public gamesList: Game[] = []
+  //users favourites
+  private favourites = []
 
   //for infinite scroll
   public notEmptyResp: boolean = true
@@ -59,6 +61,7 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     this.searchForm = new FormGroup({
       gameName: new FormControl()
     })
+    this.favourites = localStorage.getItem('liked').split(',')
   }
 
   ngAfterViewInit(): void {
@@ -89,7 +92,13 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
 
   public fillGamesList(): void {
     this.gameserv.getGames(this.limit).
-    then(data => {this.gamesList = []; data.forEach(element => this.gamesList.push(element))})
+    then(data => {
+      this.gamesList = []; 
+      data.forEach(element => {
+        if(this.favourites.find(e => e == element.id.toString())) element.liked = true
+        this.gamesList.push(element)
+      })
+    })
     .then(()=> {
       let ids = []  //cover ids
       this.gamesList.map(e => ids.push(e.cover))
@@ -112,7 +121,10 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
           if(data.length == 0) this.notEmptyResp = false
           if(this.notEmptyResp) {
             let ids = []
-            data.map(e => ids.push(e.cover))
+            data.map(e => {
+              if(this.favourites.find(el => el == e.id.toString())) e.liked = true
+              ids.push(e.cover)
+            })
             this.gameserv.getGameCover(ids).subscribe(data2 => data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url))
           }
           this.gamesList = this.gamesList.concat(data)
@@ -135,7 +147,10 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
           this.gamesList = []
           this.gamesList = data
           let ids = []
-          this.gamesList.map(e => ids.push(e.cover))
+          this.gamesList.map(e => {
+            if(this.favourites.find(el => el == e.id.toString())) e.liked = true
+            ids.push(e.cover)
+          })
           this.gameserv.getGameCover(ids).subscribe(data => {
             data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
           })
@@ -165,11 +180,28 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
         this.gamesList = []
         this.gamesList = data
         let ids = []
-        this.gamesList.map(e => ids.push(e.cover))
+        this.gamesList.map(e => {
+          if(this.favourites.find(el => el == e.id.toString())) e.liked = true
+          ids.push(e.cover)
+        })
         this.gameserv.getGameCover(ids).subscribe(data => {
           data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
         })
       })
+    }
+  }
+
+  public like(id?: number) {
+    if(id) {
+      let ids = []
+      if(localStorage.getItem('liked') != "") ids = localStorage.getItem('liked').split(',')
+      if(ids.find(e => e == id.toString())) this.snackBar.ShowMessage('Game is already in favourites list!')
+      else {
+        ids.push(id.toString())
+        localStorage.setItem('liked', ids.toString())
+        this.gamesList.find(e => e.id == id).liked = true
+        this.snackBar.ShowMessage('Game added to favourites list!')
+      }
     }
   }
 }

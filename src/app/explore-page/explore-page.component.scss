@@ -137,6 +137,11 @@ a {
 }
 .action-icons {
     color: gray;
+    cursor: pointer;
+}
+.action-icons_liked {
+    color: $liked-heart;
+    cursor: pointer;
 }
 .cover-image {
     width: 100%;
