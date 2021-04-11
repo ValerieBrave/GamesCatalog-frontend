@@ -88,10 +88,13 @@ infiniteScroll
                     </div>
                 </div>
                 <div class="game-card_cover">
-                    <img class= "cover-image" src={{game?.cover_url}} alt="game cover">
+                    <img *ngIf="game?.cover_url" class= "cover-image" src={{game?.cover_url}}>
+                    <img *ngIf="!game?.cover_url" class="cover-image" src="../../assets/img/game-cover-placeholder.png">
                 </div>
                 <div class="game-card_summary">
-                    {{game.summary}}
+                    <div class="summary__text">
+                        {{game.summary}}
+                    </div>
                 </div>
                 <div class="game-card_actions">
                     <mat-icon class="action-icons">favorite</mat-icon>

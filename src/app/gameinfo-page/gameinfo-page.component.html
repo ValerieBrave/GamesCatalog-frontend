@@ -18,7 +18,8 @@
 
     <div class="info-block">
         <div class="info-block_cover">
-            <img class="cover-image" src={{gameInfo?.cover_url}}>
+            <img *ngIf="gameInfo?.cover_url" class="cover-image" src={{gameInfo?.cover_url}}>
+            <img *ngIf="!gameInfo?.cover_url" class="cover-image" src="../../assets/img/game-cover-placeholder.png">
         </div>
         <div class="info-block_details">
             <div class="detail-row">

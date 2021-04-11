@@ -78,3 +78,7 @@ button:focus {
 .disabled-submit {
     background-color: $blocked-submit;
 }
+.forgot-password__link {
+    margin-left: 1vw; 
+    text-decoration: none;
+}

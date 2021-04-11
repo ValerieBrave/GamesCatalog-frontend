@@ -1,3 +1,4 @@
+@import '../../../../assets/static/colors.scss';
 .outer-container {
     display: flex;
     flex-direction: column;
@@ -16,13 +17,15 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    // height: 50px;
     height: 8vh;
-    background-color: rgb(2, 2, 226);
+    background-color: $appbar-background;
     color: white;
 }
 .app-bar_link {
     text-decoration: none;
     color: white;
+    font-size: 3vh;
 }
 .header__left-block {
     display: flex;

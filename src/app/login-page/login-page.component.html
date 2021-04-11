@@ -6,7 +6,6 @@
                     <label class="form-label">Email Address</label>
                     <input 
                         class="auth-card_form-input"
-                        id="email"
                         type="email" 
                         formControlName="email"
                     >
@@ -25,7 +24,6 @@
                     <label class="form-label">Password</label>
                     <input 
                         class="auth-card_form-input"
-                        id="password"
                         type="password" 
                         formControlName="password"
                     >
@@ -48,7 +46,7 @@
                 [disabled]="loginForm.invalid || loginForm.disabled"
                 [ngClass]="{'disabled-submit': loginForm.invalid || loginForm.disabled}"
             >Sign In</button>
-            <a href="" style="margin-left: 1vw; text-decoration: none;">Forgot Password?</a>
+            <a href="" class="forgot-password__link">Forgot Password?</a>
         </form>
         <p class="inviting-text-block">
             -----------------Sign In With-----------------
