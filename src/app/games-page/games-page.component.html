@@ -1,1 +1,43 @@
-<p>games-page works!</p>
+<div class="cards-container"
+infiniteScroll
+[infiniteScrollDistance]=exploreScrollParams.infiniteScrollDistance
+[infiniteScrollThrottle]=exploreScrollParams.infiniteScrollThrottle
+(scrolled)="onScroll()"
+>
+    <div *ngFor="let game of gamesList">
+        <div class="game-card">
+            <a routerLink='/explore/game/{{game.id}}'>
+                <div class="game-card_header">
+                    <div class="game-card_avatar">
+                        <span class="game-card_rating">{{game.rating | number: '2.1-1'}}</span>
+                    </div>
+                    <div class="game-card_title">
+                        <span class="title_name">{{game.name}}</span>
+                        <span class="title_date">{{game.first_release_date * 1000 | date}}</span>
+                    </div>
+                </div>
+                <div class="game-card_cover">
+                    <img *ngIf="game?.cover_url" class= "cover-image" src={{game?.cover_url}}>
+                    <img *ngIf="!game?.cover_url" class="cover-image" src="../../assets/img/game-cover-placeholder.png">
+                </div>
+                <div class="game-card_summary">
+                    <div class="summary__text">
+                        {{game.summary}}
+                    </div>
+                </div>
+            </a>
+            <div class="game-card_actions">
+                <mat-icon class="action-icons" (click)="dislike(game?.id)">favorite</mat-icon>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="position: relative; width: 100%;">
+    <ngx-spinner 
+      [size] = ngxSpinnerParams.size
+      [color] = ngxSpinnerParams.color
+      [bdColor] = ngxSpinnerParams.bdColor
+      [type] = ngxSpinnerParams.type
+      [fullScreen] = ngxSpinnerParams.fullScreen>
+    </ngx-spinner>
+  </div>

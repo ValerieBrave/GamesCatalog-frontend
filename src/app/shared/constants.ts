@@ -22,7 +22,12 @@ export const creds = {
 export const user1 = {
     name: 'Valeria Smelova',
     email: 'valeriebrave00@gmail.com',
-    password: 'valerie_brave'
+    password: 'valerie_brave',
+    // liked: [8433, 11204, 40655, 46769, 3154, 3025, 70, 14362, 64077, 97275,
+    //         1,2,3,4,5,6,7,8,9,10,
+    //         11,12,13,14,15,16,17,18,19,20,
+    //         21,22,23, 24,25,26,27,28,29,30]
+    liked: []
 }
 export const user_token = {
     token: 'Bearer 1q2w3e4r5t5t6y7u8i9o0p'

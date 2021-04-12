@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../shared/services/auth.service';
 import { MessageService } from '../shared/services/message.service';
+import { user1 } from '../shared/constants'
 
 @Component({
   selector: 'app-login-page',
@@ -48,6 +49,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         else {
           this.router.navigate(['/explore'])
           this.snackBar.ShowMessage('You logged in!')
+          localStorage.setItem('liked', user1.liked.toString())
         }
       },
       (err) => {this.loginForm.enable()}

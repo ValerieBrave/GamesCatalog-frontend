@@ -33,6 +33,7 @@ import { TokenInterceptor } from './shared/interceptors/token.interceptor';
 import { GameinfoPageComponent } from './gameinfo-page/gameinfo-page.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

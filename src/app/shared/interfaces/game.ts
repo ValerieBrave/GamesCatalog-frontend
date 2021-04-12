@@ -11,4 +11,5 @@ export interface Game {
     platforms: number[];
     rating: number;
     summary: string;
+    liked: boolean;
 }

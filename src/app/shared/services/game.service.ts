@@ -1,10 +1,8 @@
 import { HttpClient} from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { Company } from "../interfaces/company";
+import { EMPTY, Observable, of } from "rxjs";
 import { Cover } from "../interfaces/cover";
 import { Game } from "../interfaces/game";
-import { GameInfo } from "../interfaces/game-info";
 import { FilterForm } from "../models/filter/form";
 import { getRatingNumber } from "../models/filter/rating";
 
@@ -29,7 +27,7 @@ export class GameService {
         `where category = 2 & rating = ${rating}; limit 100;`).toPromise()   
       }
     
-    public async constructQuery(values: FilterForm, limit: number, offset? :number): Promise<string> {
+    private async constructQuery(values: FilterForm, limit: number, offset? :number): Promise<string> {
         let rc = 'fields cover, first_release_date, name, rating, summary; sort first_release_date desc; '
         let add = ''
         let where_set = false
@@ -115,4 +113,14 @@ export class GameService {
         return this.http.post<Game[]>('http://localhost:3000/games', body).toPromise()
     }
     
+    public getGamesById(ids: number[], limit: number, offset?: number): Observable<Game[]> {
+        let search = []
+        if(offset)  search = ids.slice(offset, offset+limit) 
+        else  search = ids.slice(0, limit)
+        if(search.length > 0) {
+            let body = `fields cover, first_release_date,'+ 
+            ' name, rating, summary; where id = (${search}); limit ${limit};`
+            return this.http.post<Game[]>('http://localhost:3000/games', body)
+        } else return of(null)
+    }
 }
