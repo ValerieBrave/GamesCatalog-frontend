@@ -23,7 +23,8 @@ const routes: Routes = [
            {path:'games', component: GamesPageComponent},
            {path:'user/:id', component: UserPageComponent}
         ]
-    }
+    },
+    {path:'', redirectTo:'explore', pathMatch:'full'}
 ]
 
 @NgModule({

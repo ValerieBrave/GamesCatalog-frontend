@@ -190,19 +190,5 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
       })
     }
   }
-
-  public like(id?: number) {
-    if(id) {
-      let ids = []
-      if(localStorage.getItem('liked') != "") ids = localStorage.getItem('liked').split(',')
-      if(ids.find(e => e == id.toString())) this.snackBar.ShowMessage('Game is already in favourites list!')
-      else {
-        ids.push(id.toString())
-        localStorage.setItem('liked', ids.toString())
-        this.gamesList.find(e => e.id == id).liked = true
-        this.snackBar.ShowMessage('Game added to favourites list!')
-      }
-    }
-  }
 }
 
