@@ -1,4 +1,3 @@
-<div class="auth-card">
     <div class="auth-card_body">
         <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
             <div class="auth-card_form-body">
@@ -40,21 +39,15 @@
                 </div>
                 
             </div>
-            <button 
+            <div class="auth-card__bottom">
+                <button 
                 type="submit" 
                 class="submits"
                 [disabled]="loginForm.invalid || loginForm.disabled"
                 [ngClass]="{'disabled-submit': loginForm.invalid || loginForm.disabled}"
-            >Sign In</button>
-            <a href="" class="forgot-password__link">Forgot Password?</a>
+                >Sign In</button>
+                <a href="" class="forgot-password__link">Forgot Password?</a>
+            </div>
         </form>
-        <p class="inviting-text-block">
-            -----------------Sign In With-----------------
-        </p>
-        <div class="button-line">
-            <button class="soc-btn" id="facebook">Facebook</button>
-            <button class="soc-btn" id="google">Google+</button>
-            <button class="soc-btn" id="twitter">Twitter</button>
-        </div>
+        
     </div>
-</div>

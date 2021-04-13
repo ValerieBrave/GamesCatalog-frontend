@@ -12,6 +12,7 @@ import { UserPageComponent } from "./user-page/user-page.component";
 
 
 const routes: Routes = [
+    {path: 'auth', redirectTo:'auth/login', pathMatch:'full'},
     {path: 'auth', component: AuthLayoutComponent, children: [
         {path:'login', component: LoginPageComponent},
         {path:'register', component: RegisterPageComponent}

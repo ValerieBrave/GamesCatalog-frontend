@@ -1,9 +1,5 @@
 @import '/src/assets/static/colors.scss';
 
-.auth-card {
-    display: flex;
-    flex-direction: column;
-}
 .auth-card_body {
     display: flex;
     flex-direction: column;
@@ -16,7 +12,7 @@
 }
 .auth-card_form-input {
     box-sizing:border-box;
-    height: 6vh;
+    height: 5vh;
     border: 1px solid $authcard-border;
     width: 100%;
 }
@@ -30,7 +26,7 @@ button:focus {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 17vh;
+    height: 14vh;
     width: 100%;
 }
 .form-label {
@@ -40,38 +36,12 @@ button:focus {
 .submits {
     background-color: $allowed-submit;
     border: none;
-    height: 7vh;
-    width: 10vw;
+    height: 5vh;
+    width: 8vw;
     color: white;
 }
 
-.button-line {
-    width: 100%;
-    margin-top: 3vh;
-    display: flex;
-    justify-content: center;
-    align-self: center;
-}
-.soc-btn {
-    border: none;
-    height: 7vh;
-    color: white;
-    width: 10vw;
-}
-#facebook.soc-btn {
-    background-color: $facebook-blue;
-}
-#google.soc-btn {
-    background-color: $google-red;
-}
-#twitter.soc-btn {
-    background-color: $twitter-blue;
-}
-.inviting-text-block {
-    font-size: small; 
-    margin: 3vh; 
-    text-align: center;
-}
+
 .error-messages {
     color: $error-red;
 }
@@ -81,4 +51,7 @@ button:focus {
 .forgot-password__link {
     margin-left: 1vw; 
     text-decoration: none;
+}
+.auth-card__bottom {
+    margin: 10px 0;
 }
