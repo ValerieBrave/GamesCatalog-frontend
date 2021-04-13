@@ -1,0 +1,104 @@
+@import '/src/assets/static/colors.scss';
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: auto;
+    border: 1px solid $authcard-border;
+}
+.title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    height: 60px;
+    color: $profile-font-color;
+    font-weight: 500;
+    font-size: 20px;
+}
+.avatar__block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+}
+
+.avatar__block_under {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 90%;
+}
+.avatar {
+    width: 200px;
+    height: 200px;
+}
+.avatar_pic {
+    object-fit: contain;
+    width: 200px;
+    height: 200px;
+}
+.avatar__block-actions {
+    display: flex;
+    align-items: center;
+    width: 70%;
+    height: 150px;
+}
+.profile-info__block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+       
+}
+.account-info__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 250px;
+    width: 100%;
+}
+.account-info__form-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+    height: 60px;
+    width: 90%;
+}
+.account-info__form-label {
+    font-size: 18px;
+    font-weight: 300;
+    width: 30%;
+}
+.account-info__form-input {
+    box-sizing:border-box;
+    height: 6vh;
+    border: 1px solid $authcard-border;
+    width: 50%;
+}
+.change-password__block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    
+}
+.profile__button {
+    margin: 40px;
+}
+.light-caption {
+    margin: 20px;
+    font-size: small;
+    font-weight: 400;
+    color: rgb(110, 109, 109);
+}
