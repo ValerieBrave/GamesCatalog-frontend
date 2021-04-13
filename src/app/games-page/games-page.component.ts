@@ -13,7 +13,6 @@ import { MessageService } from '../shared/services/message.service';
 export class GamesPageComponent implements OnInit, AfterViewInit {
 
   constructor(private gameserv: GameService,
-              private snackBar: MessageService,
               private spinner: NgxSpinnerService) { }
   //ui component parameters
   public formSliderParams = formSliderParams
@@ -34,7 +33,10 @@ export class GamesPageComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.liked_ids = localStorage.getItem('liked').split(',')
+    
+      localStorage.getItem('liked').split(',')?.forEach(e => {
+          if(e != "") this.liked_ids.push(parseInt(e))
+        })
     this.fillFavouritesList()
   }
 
@@ -42,7 +44,10 @@ export class GamesPageComponent implements OnInit, AfterViewInit {
     this.gameserv.getGamesById(this.liked_ids, this.limit).subscribe(
       data => {
         this.gamesList = []; 
-        data.forEach(element => this.gamesList.push(element))
+        data?.forEach(element => {
+          element.liked = true
+          this.gamesList.push(element)
+        })
       },
       (err) => {console.log(err)},
       () => {
@@ -69,7 +74,6 @@ export class GamesPageComponent implements OnInit, AfterViewInit {
             this.gameserv.getGameCover(ids).subscribe(data2 => data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url))
             this.gamesList = this.gamesList.concat(data)
           }
-          
           this.spinner.hide()
           this.curOffset+=this.limit
           this.notScrolly = true;
@@ -78,12 +82,5 @@ export class GamesPageComponent implements OnInit, AfterViewInit {
     }
   }
 
-  dislike(id?: number): void {
-    if(id) {
-      this.gamesList = this.gamesList.filter(e => e.id != id)
-      let ids = localStorage.getItem('liked').split(',').filter(e => e !=id.toString())
-      localStorage.setItem('liked', ids.toString())
-      this.snackBar.ShowMessage('Game deleted from favourites!')
-    }
-  }
+  
 }

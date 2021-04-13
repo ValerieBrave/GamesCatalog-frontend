@@ -23,6 +23,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
@@ -31,6 +32,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
 import { TokenInterceptor } from './shared/interceptors/token.interceptor';
 import { GameinfoPageComponent } from './gameinfo-page/gameinfo-page.component';
+import { GameCardComponent } from './game-card/game-card.component';
 
 
 
@@ -45,7 +47,8 @@ import { GameinfoPageComponent } from './gameinfo-page/gameinfo-page.component';
     LoginPageComponent,
     RegisterPageComponent,
     GameinfoPageComponent,
-    StringList
+    StringList,
+    GameCardComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +70,8 @@ import { GameinfoPageComponent } from './gameinfo-page/gameinfo-page.component';
     MatIconModule,
     InfiniteScrollModule,
     NgxSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

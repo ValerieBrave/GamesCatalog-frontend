@@ -76,33 +76,7 @@ infiniteScroll
 (scrolled)="onScroll()"
 >
     <div *ngFor="let game of gamesList">
-        <div class="game-card">
-            <a routerLink='game/{{game.id}}'>
-                <div class="game-card_header">
-                    <div class="game-card_avatar">
-                        <span class="game-card_rating">{{game.rating | number: '2.1-1'}}</span>
-                    </div>
-                    <div class="game-card_title">
-                        <span class="title_name">{{game.name}}</span>
-                        <span class="title_date">{{game.first_release_date * 1000 | date}}</span>
-                    </div>
-                </div>
-                <div class="game-card_cover">
-                    <img *ngIf="game?.cover_url" class= "cover-image" src={{game?.cover_url}}>
-                    <img *ngIf="!game?.cover_url" class="cover-image" src="../../assets/img/game-cover-placeholder.png">
-                </div>
-                <div class="game-card_summary">
-                    <div class="summary__text">
-                        {{game.summary}}
-                    </div>
-                </div>
-            </a>
-            <div class="game-card_actions" >
-                <mat-icon [ngClass]="{'action-icons': !game?.liked, 'action-icons_liked' : game?.liked }" (click)="like(game?.id)">favorite</mat-icon>
-            </div>
-            
-            
-        </div>
+        <app-game-card [game] = "game" [show]="true" [onFavsPage]="false"></app-game-card>
     </div>
 </div>
 <div style="position: relative; width: 100%;">

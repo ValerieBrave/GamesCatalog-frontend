@@ -18,10 +18,5 @@ export class UserPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public logout(): void {
-    this.authService.logout()
-    this.snackBar.ShowMessage('You logged out!')
-    this.router.navigate(['/auth/login'])
-  }
 
 }
