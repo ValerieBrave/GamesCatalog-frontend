@@ -18,8 +18,11 @@ export class GameinfoPageComponent implements OnInit, AfterViewInit {
 
   private gameId
   public gameInfo: GameInfo
+  //users favourites
+  private favourites = []
   ngOnInit(): void {
     this.gameId = this.route.snapshot.paramMap.get('id')
+    this.favourites = localStorage.getItem('liked').split(',')
   }
 
   ngAfterViewInit(): void {
@@ -81,6 +84,7 @@ export class GameinfoPageComponent implements OnInit, AfterViewInit {
           this.gameInfo.platforms_names = data.map(e => e.name)
         })
       }
+      if(this.favourites.find(e => e == this.gameInfo.id.toString())) this.gameInfo.liked = true
     })
   }
 }

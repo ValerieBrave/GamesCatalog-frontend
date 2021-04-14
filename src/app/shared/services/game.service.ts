@@ -28,7 +28,7 @@ export class GameService {
       }
     
     private async constructQuery(values: FilterForm, limit: number, offset? :number): Promise<string> {
-        let rc = 'fields cover, first_release_date, name, rating, summary; sort first_release_date desc; '
+        let rc = 'fields cover, first_release_date, name, rating, summary; sort first_release_date desc; where rating != null & aggregated_rating != null;'
         let add = ''
         let where_set = false
         if(values['engine']) {
@@ -96,7 +96,7 @@ export class GameService {
         // searching by name
         if(name) {
             body = 'fields cover, first_release_date,'+ 
-            ' name, rating, summary; limit '+limit.toString()+'; search "'+name+'";'
+            ' name, rating, summary; limit '+limit.toString()+'; search "'+name+'"; where rating != null & aggregated_rating != null;'
             if(offset) body +=` offset ${offset};`
         }
         //searching with filter
@@ -106,7 +106,8 @@ export class GameService {
         //no search
         else {
             body = 'fields cover, first_release_date,'+ 
-            ' name, rating, summary; sort first_release_date desc; limit '+limit.toString() +';'
+            ' name, rating, summary; sort first_release_date desc; where rating != null & aggregated_rating != null; limit '+
+            limit.toString() +';'
             if(offset) body += ` offset ${offset};`
         }
         
