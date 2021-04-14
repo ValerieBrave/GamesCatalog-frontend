@@ -14,7 +14,7 @@ export class GameInfoService {
     constructor(private http: HttpClient){   }
     getGameInfo(id: string): Observable<GameInfo> {
         let body = `fields age_ratings, first_release_date, cover, game_engines, game_modes, genres, '+
-        'name, platforms, rating, summary, storyline, screenshots, involved_companies; where id = ${id};`
+        'name, platforms, rating, rating_count, aggregated_rating, aggregated_rating_count, summary, storyline, screenshots, involved_companies; where id = ${id};`
         return this.http.post<GameInfo>('http://localhost:3000/games', body)
     }
 
