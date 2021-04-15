@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core"
 import { RouterModule, Routes } from "@angular/router";
+import { CompaniesPageComponent } from "./companies-page/companies-page.component";
 import { ExplorePageComponent } from "./explore-page/explore-page.component";
 import { GameinfoPageComponent } from "./gameinfo-page/gameinfo-page.component";
 import { GamesPageComponent } from "./games-page/games-page.component";
@@ -20,6 +21,7 @@ const routes: Routes = [
     {
         path:'explore', component: ExploreLayoutComponent, canActivate:[AuthGuard], children: [
            {path: '', component: ExplorePageComponent},
+           {path:'companies', component: CompaniesPageComponent},
            {path: 'game/:id', component: GameinfoPageComponent},
            {path:'games', component: GamesPageComponent},
            {path:'user/:id', component: UserPageComponent}

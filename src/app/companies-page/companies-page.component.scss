@@ -1,0 +1,12 @@
+.header_search {
+    display: flex;
+    justify-content: center;
+}
+.cards-container {
+    width: 75%;
+    margin: auto;
+    padding-top: 8vh;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
