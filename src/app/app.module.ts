@@ -33,6 +33,8 @@ import { RegisterPageComponent } from './register-page/register-page.component';
 import { TokenInterceptor } from './shared/interceptors/token.interceptor';
 import { GameinfoPageComponent } from './gameinfo-page/gameinfo-page.component';
 import { GameCardComponent } from './game-card/game-card.component';
+import { CompaniesPageComponent } from './companies-page/companies-page.component';
+import { CompanyCardComponent } from './company-card/company-card.component';
 
 
 
@@ -48,7 +50,9 @@ import { GameCardComponent } from './game-card/game-card.component';
     RegisterPageComponent,
     GameinfoPageComponent,
     StringList,
-    GameCardComponent
+    GameCardComponent,
+    CompaniesPageComponent,
+    CompanyCardComponent
   ],
   imports: [
     BrowserModule,

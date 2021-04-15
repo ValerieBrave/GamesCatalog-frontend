@@ -1,6 +1,7 @@
 import { HttpClient} from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { EMPTY, Observable, of } from "rxjs";
+import { tap } from "rxjs/operators";
 import { Cover } from "../interfaces/cover";
 import { Game } from "../interfaces/game";
 import { FilterForm } from "../models/filter/form";
@@ -18,6 +19,17 @@ export class GameService {
             return this.http.post<Cover[]>(
             'http://localhost:3000/covers',
             'fields game, url; where id = ('+ids.toString()+'); limit '+ids.length.toString()+';')
+            .pipe(
+                tap(
+                    data => {
+                        data.forEach(e => {
+                            let url = e.url.split('/')
+                            url[6]='t_logo_med'
+                            e.url = url.join('/')
+                        })
+                    }
+                )
+            )
         else return new Observable<Cover[]>()
     }
 

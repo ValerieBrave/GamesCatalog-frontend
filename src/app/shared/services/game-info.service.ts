@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
 import { Company } from "../interfaces/company";
 import { Cover } from "../interfaces/cover";
 import { FormOption } from "../interfaces/form_option";
@@ -21,6 +22,17 @@ export class GameInfoService {
     getGameScreenshots(ids: number[]) : Observable<Cover[]> {
         return this.http.post<Cover[]>('http://localhost:3000/screenshots',
         `fields url; where id = (${ids.toString()});`)
+        .pipe(
+            tap(
+                data => {
+                    data.forEach(e => {
+                        let url = e.url.split('/')
+                        url[6]='t_logo_med'
+                        e.url = url.join('/')
+                    })
+                }
+            )
+        )
     }
 
     getGameInvolvedCompanies(involved_ids: number[]) : Promise<Company[]> {

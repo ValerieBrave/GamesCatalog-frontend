@@ -1,0 +1,19 @@
+<div class="cards-container"
+infiniteScroll
+[infiniteScrollDistance]=exploreScrollParams.infiniteScrollDistance
+[infiniteScrollThrottle]=exploreScrollParams.infiniteScrollThrottle
+(scrolled)="onScroll()"
+>
+    <div *ngFor="let company of companiesList">
+        <app-company-card [company] = "company"></app-company-card>
+    </div>
+</div>
+<div style="position: relative; width: 100%;">
+    <ngx-spinner 
+      [size] = ngxSpinnerParams.size
+      [color] = ngxSpinnerParams.color
+      [bdColor] = ngxSpinnerParams.bdColor
+      [type] = ngxSpinnerParams.type
+      [fullScreen] = ngxSpinnerParams.fullScreen>
+    </ngx-spinner>
+  </div>
