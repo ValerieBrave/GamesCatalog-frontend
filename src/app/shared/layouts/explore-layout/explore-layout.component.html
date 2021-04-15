@@ -1,13 +1,13 @@
     <div class="header">
         <div class="header__app-bar">
             <div class="header__left-block">
-                <span>ICON</span>
+                <mat-icon>videogame_asset</mat-icon>
                 <a class="app-bar_link"  routerLink="/explore">DISCOVERY</a>
                 <a class="app-bar_link" routerLink="/explore/games">MY GAMES</a>
             </div>
             <div class="header__right-block">
                 
-                <mat-icon [matMenuTriggerFor]="menu">person</mat-icon>
+                <mat-icon style="cursor: pointer;" [matMenuTriggerFor]="menu">person</mat-icon>
                 <mat-menu #menu="matMenu">
                     <a mat-menu-item class="app-bar__menu-item" routerLink="/explore/user/{{this.userID}}">Profile</a>
                     <button class="app-bar__menu-item" mat-menu-item (click)="logout()">Logout</button>

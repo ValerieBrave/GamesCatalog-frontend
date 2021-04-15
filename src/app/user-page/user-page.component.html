@@ -1,1 +1,58 @@
-
+<div class="container">
+    <div class="avatar__block">
+        <div class="title">
+            <span>PROFILE INFORMATION </span>
+        </div>
+        <div class="avatar__block_under">
+            <div class="avatar">
+                <img class="avatar_pic" src="../../assets/img/default-avatar.jpg">
+            </div>
+            <div class="avatar__block-actions">
+                <span class="light-caption">Set new profile picture:</span>
+                <button mat-stroked-button color="primary" type="file">Choose a file</button>
+            </div>
+        </div>
+    </div>
+    <div class="profile-info__block">
+        <div class="title">
+            <span>ACCOUNT INFORMATION </span>
+        </div>
+        <form class="account-info__form">
+            <div class="account-info__form-row">
+                <span class="account-info__form-label">First Name</span>
+                <input class="account-info__form-input" type="text">
+            </div>
+            <div class="account-info__form-row">
+                <span class="account-info__form-label">Last Name</span>
+                <input class="account-info__form-input" type="text">
+            </div>
+            <div class="account-info__form-row">
+                <span class="account-info__form-label">E-mail</span>
+                <input class="account-info__form-input" type="email">
+                <button mat-stroked-button color="primary" class="profile__button">Edit</button>
+            </div>
+            
+        </form>
+    </div>
+    <div class="change-password__block">
+        <div class="title">
+            <span>CHANGE PASSWORD </span>
+        </div>
+        <form class="account-info__form">
+            <div class="account-info__form-row">
+                <span class="account-info__form-label">Current Password</span>
+                <input class="account-info__form-input" type="password">
+            </div>
+            <div class="account-info__form-row">
+                <span class="account-info__form-label">New Password</span>
+                <input class="account-info__form-input" type="password">
+            </div>
+            <div class="account-info__form-row">
+                <span class="account-info__form-label">Confirm Password</span>
+                <input class="account-info__form-input" type="password">
+                <button mat-stroked-button color="primary" class="profile__button">Edit</button>
+            </div>
+            
+        </form>
+    </div>
+</div>
