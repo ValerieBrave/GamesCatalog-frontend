@@ -15,6 +15,9 @@ export interface GameInfo {
     platforms: number[]; //GAMES
     platforms_names: string[]; //PLATFORMS
     rating: number; //GAMES
+    rating_count: number;
+    aggregated_rating: number;
+    aggregated_rating_count: number;
     summary: string; //GAMES
     //-------------------------
     storyline: string; //GAMES
@@ -23,4 +26,5 @@ export interface GameInfo {
     involved_companies: number[]; //GAMES
     // companies_ids: number[];    //INVOLVED_COMPANIES
     companies_names: string[];  //COMPANIES
+    liked: boolean;
 }
