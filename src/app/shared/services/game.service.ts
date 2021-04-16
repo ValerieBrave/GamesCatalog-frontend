@@ -127,12 +127,13 @@ export class GameService {
     }
     
     public getGamesById(ids: number[], limit: number, offset?: number): Observable<Game[]> {
+        if(ids == undefined || ids.length == 0) return of(null)
         let search = []
         if(offset)  search = ids.slice(offset, offset+limit) 
         else  search = ids.slice(0, limit)
         if(search.length > 0) {
             let body = `fields cover, first_release_date,'+ 
-            ' name, rating, summary; where id = (${search}); limit ${limit};`
+            ' name, rating, summary; where rating != null & aggregated_rating != null; where id = (${search}); limit ${limit};`
             return this.http.post<Game[]>('http://localhost:3000/games', body)
         } else return of(null)
     }

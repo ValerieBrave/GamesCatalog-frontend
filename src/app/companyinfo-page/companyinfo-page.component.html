@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="info-block">
+        <div class="info-block__logo-block">
+            <img class="company-logo" src="{{companyInfo?.logo_url}}">
+        </div>
+        <div class="info-block__details">
+            <div class="details__title">
+                <span class="title-name">{{companyInfo?.name}}</span>
+                <span class="title-date">{{companyInfo?.start_date * 1000 | date}}</span>
+            </div>
+            <div class="details__info">
+                <span>{{companyInfo?.description}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="games-block">
+        <mat-tab-group animationDuration="0ms" dynamicHeight (selectedTabChange)="dropOffset()" [(selectedIndex)]="selectedTab">
+            <mat-tab label="Developed">
+                <div class="cards-container" 
+                infiniteScroll
+                [infiniteScrollDistance]=exploreScrollParams.infiniteScrollDistance
+                [infiniteScrollThrottle]=exploreScrollParams.infiniteScrollThrottle
+                (scrolled)="onScroll()" *ngIf="dev_loaded|async">
+                    <div *ngFor="let dev of developed">
+                        <app-game-card [game] = "dev" [show]="true" [onFavsPage]="false"></app-game-card>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Published">
+                <div class="cards-container"
+                infiniteScroll
+                [infiniteScrollDistance]=exploreScrollParams.infiniteScrollDistance
+                [infiniteScrollThrottle]=exploreScrollParams.infiniteScrollThrottle
+                (scrolled)="onScroll()" *ngIf="pub_loaded|async">
+                    <div *ngFor="let pub of published">
+                        <app-game-card [game] = "pub" [show]="true" [onFavsPage]="false"></app-game-card>
+                    </div>
+                </div>
+            </mat-tab>
+          </mat-tab-group>
+          <div style="position: relative; width: 100%;">
+            <ngx-spinner 
+              [size] = ngxSpinnerParams.size
+              [color] = ngxSpinnerParams.color
+              [bdColor] = ngxSpinnerParams.bdColor
+              [type] = ngxSpinnerParams.type
+              [fullScreen] = ngxSpinnerParams.fullScreen>
+            </ngx-spinner>
+          </div>
+    </div>
+</div>
