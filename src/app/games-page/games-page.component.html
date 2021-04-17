@@ -1,1 +1,19 @@
-<p>games-page works!</p>
+<div class="cards-container"
+infiniteScroll
+[infiniteScrollDistance]=exploreScrollParams.infiniteScrollDistance
+[infiniteScrollThrottle]=exploreScrollParams.infiniteScrollThrottle
+(scrolled)="onScroll()"
+>
+    <div *ngFor="let game of gamesList">
+       <app-game-card [game]="game" [show]="true" [onFavsPage]="true"></app-game-card>
+    </div>
+</div>
+<div style="position: relative; width: 100%;">
+    <ngx-spinner 
+      [size] = ngxSpinnerParams.size
+      [color] = ngxSpinnerParams.color
+      [bdColor] = ngxSpinnerParams.bdColor
+      [type] = ngxSpinnerParams.type
+      [fullScreen] = ngxSpinnerParams.fullScreen>
+    </ngx-spinner>
+</div>

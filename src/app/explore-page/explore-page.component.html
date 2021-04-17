@@ -1,15 +1,15 @@
+<div class="header_search">
+  <form [formGroup]='searchForm'>
+    <mat-form-field>
+        <mat-label>Search games</mat-label>
+        <input matInput formControlName='gameName' (keydown.enter)='searchGamesByName()'>
+    </mat-form-field>
+  </form>
+</div>
 <div class="header__filter">
-  <mat-expansion-panel>
-      <mat-expansion-panel-header style="margin-top: 1rem;">
+  <mat-expansion-panel >
+      <mat-expansion-panel-header  class="expansion-panel">
       <mat-panel-title>Filters</mat-panel-title>
-      <mat-panel-description>
-          <form [formGroup]='searchForm'>
-              <mat-form-field>
-                  <mat-label>Search games</mat-label>
-                  <input matInput formControlName='gameName' (keydown.enter)='searchGamesByName()'>
-              </mat-form-field>
-          </form>
-      </mat-panel-description>
       </mat-expansion-panel-header>
       <form class="header__filter-list" [formGroup]='filterForm'>
           <mat-form-field class="filter-input">
@@ -56,7 +56,9 @@
                   formControlName = 'rating'
                   max= {{formSliderParams.max}}
                   min= {{formSliderParams.min}}
-                  step= {{formSliderParams.step}}>
+                  step= {{formSliderParams.step}}
+                  thumbLabel=true
+                  color = primary>
               </mat-slider>
           </div>                  
       </form>
@@ -66,43 +68,16 @@
       </div>
   </mat-expansion-panel>
 </div>
-<div   
+
+<div class="cards-container"
 infiniteScroll
-infiniteScrollDistance={{exploreScrollParams.infiniteScrollDistance}}
-infiniteScrollThrottle={{exploreScrollParams.infiniteScrollThrottle}}
+[infiniteScrollDistance]=exploreScrollParams.infiniteScrollDistance
+[infiniteScrollThrottle]=exploreScrollParams.infiniteScrollThrottle
 (scrolled)="onScroll()"
 >
-  <div class="cards-container"
-  fxLayout="row wrap" fxLayoutGap="16px grid"
-  >
-    <div class="search-results"
-          fxFlex="25%" 
-          fxFlex.xs="100%" 
-          fxFlex.sm="50%" 
-          *ngFor="let game of gamesList">
-      <mat-card class="game-card mat-elevation-z4" >
-        <mat-card-header class="card-header"> 
-            <div mat-card-avatar class="card-avatar">{{game.rating | number: '2.1-1'}}</div>
-            <mat-card-header-text >
-              <p class="title">{{game.name}}</p>
-              <label class="date">{{game.first_release_date * 1000 | date}}</label>
-            </mat-card-header-text>
-        </mat-card-header>
-        <div class="game-pic-block">
-          <img  class="game-pic" src={{game?.cover_url}} alt="game cover"/>
-        </div>
-        <mat-card-content class="card-content">
-          <p class="summary">
-            {{game.summary}}
-          </p>
-        </mat-card-content>
-        <mat-card-actions class="bottom-actions">
-          <mat-icon class="action-icons">favorite</mat-icon>
-          <mat-icon class="action-icons">share</mat-icon>
-        </mat-card-actions>
-      </mat-card>
+    <div *ngFor="let game of gamesList">
+        <app-game-card [game] = "game" [show]="true" [onFavsPage]="false"></app-game-card>
     </div>
-  </div>
 </div>
 <div style="position: relative; width: 100%;">
   <ngx-spinner 

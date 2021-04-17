@@ -1,0 +1,136 @@
+@import '/src/assets/static/colors.scss';
+
+.container {
+    margin-top: 8vh;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: auto;
+}
+.title-block {
+    height: 15vh;
+    display: flex;
+    flex-direction: column;
+}
+.title-block_caption {
+    width: 70%;
+    height: 60%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.title-gamename {
+    font-size: 28px;
+    margin-right: 20px;
+    font-weight: 500;
+}
+
+.title-block_subcaption {
+    width: 68%;
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 90%;
+    color: $profile-font-color;
+}
+.action-icons {
+    color: gray;
+    cursor: pointer;
+}
+.action-icons_liked {
+    color: $liked-heart;
+    cursor: pointer;
+}
+.light-caption {
+    margin-left: 40px;
+    margin-right: 10px;
+}
+.detail__block_blue {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    height: 30px;
+    min-width: 40px;
+   //max-width: 80px;
+    background-color: $detail-block-blue;
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+}
+.detail_ceil {
+    width: 40%;
+    background-color: $detail-block-blue-light;
+    font-size: small;
+}
+
+.info-block {
+    width: 100%;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: row;
+}
+.info-block__column_left {
+    width: 65%;
+    height: 100%;
+}
+.info-block__column_right {
+    width: 35%;
+    height: 100%;
+}
+.info__ceil {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100px;
+    margin: 10px 0px;
+}
+.info__ceil-title {
+    width: 100%;
+    font-size: 18px;
+    height: 30px;
+}
+.info__ceil-content {
+    font-size: 16px;
+    font-weight: 300;
+    margin: 5px;
+}
+#screens.info__ceil-content {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1 1 270px;
+    row-gap: 10px;
+    column-gap: 10px;
+}
+.info__ceil_rating {
+    width: 90%;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+.rating__line {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+#userscore.rating__line {
+    background-color: $user-liked;
+}
+#criticscore.rating__line {
+    background-color: $critic-liked;
+}
+.info__ceil_blocklist {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    column-gap: 10px;
+   // height: 70px;
+}

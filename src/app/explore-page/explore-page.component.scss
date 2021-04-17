@@ -1,5 +1,13 @@
-.header__filter {
-    height: auto;
+@import '/src/assets/static/colors.scss';
+
+
+.header_search {
+    display: flex;
+    justify-content: center;
+}
+.expansion-panel {
+    outline: none;
+    background: rgb(255, 255, 255) !important;
    
 }
 .header__filter-list {
@@ -26,75 +34,12 @@
 }
 
 .cards-container {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 1 1 275px;
+    row-gap: 20px;
+    column-gap: 20px;
     padding: 1vw;
 }
 
-.game-card {
-    height: 400px;
-    width: 250px;
-}
-
-.game-card:hover {
-    box-shadow: 0 12px 18px -6px black;
-    -webkit-box-shadow: 0 12px 18px -6px black;
-}
-.card-header {  
-    background-color: white;
-    height: 50px;
-    padding: 1vh;
-    margin: 1vh;
-}
-
-.card-avatar {
-    background-color: orangered;
-    color: white;
-    text-align: center;
-    font-size: large;
-    padding-top: 2%;
-}
-
-.game-pic-block {
-    height: 38%;
-    max-height: 38%;
-    width: 100%;
-    object-fit: cover;
-}
-
-.game-pic {
-    
-    object-fit: fill;
-}
-.card-content {
-    height: 38%;
-    width: 100%;
-    margin: 1vh 0;
-    
-}
-.summary {
-    font-size: 80%; max-height: 100%;
-    overflow: hidden;
-}
-.title {
-    font-size: 75%;
-    width: 120px;
-    margin: 0%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.date {
-    font-size: 70%;
-    font-weight: lighter;
-    margin: 0%;
-}
-.bottom-actions {
-    height: 10%;
-    padding: 0%;
-    margin: 0%;
-}
-.action-icons {
-    height: 20px; 
-    color: gray; 
-    vertical-align: baseline;
-}

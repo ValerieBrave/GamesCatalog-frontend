@@ -1,0 +1,55 @@
+@import '/src/assets/static/colors.scss';
+a {
+    text-decoration: none;
+    color: inherit;
+}
+.company-card {
+    width: 90%;
+    margin: auto;
+    border: 1px solid $card-border;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+}
+.company-card:hover {
+    box-shadow: 0 12px 18px -6px black;
+    -webkit-box-shadow: 0 12px 18px -6px black;
+}
+.company-card__logo-block {
+    height: 95%;
+    width: 35%;
+    margin: 10px 0px;
+    display: flex;
+    align-items: center;
+}
+.company-logo {
+    height: 100%;
+    border-radius: 10px;
+    margin: auto;
+}
+.company-card__details {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    min-height: 100px;
+    margin: 10px 0px;
+}
+.details__title {
+    height: 40px;
+    width: 100%;
+}
+.title-name {
+    font-size: 18px;
+    font-weight: 500;
+    width: 30%;
+    margin: 0 2%;
+}
+.title-date {
+    font-size: 14px;
+    font-weight: 300;
+}
+.details__info {
+    margin: 0px 10px;
+    font-size: 14px;
+    font-weight: 300;
+}

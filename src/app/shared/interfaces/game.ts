@@ -1,7 +1,7 @@
 export interface Game {
     id: number;
     age_ratings: number[];
-    first_release_date: Date;
+    first_release_date: number;
     cover: number;
     cover_url: string;
     game_engines: number[];
@@ -11,4 +11,5 @@ export interface Game {
     platforms: number[];
     rating: number;
     summary: string;
+    liked: boolean;
 }

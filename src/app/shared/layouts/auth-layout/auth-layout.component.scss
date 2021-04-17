@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100vh;
+    height: 90vh;
     padding: 5vh;
 }
 .card-wrapper {
@@ -20,7 +20,7 @@
 }
 .active-tab {
     background-color: $active-tab-background;
-    color: white;
+    color: $white-link;
 }
 .nav-header {
     display: flex;
@@ -31,16 +31,15 @@
 .nav-tab {
     padding: 4%;
     width: 50%;
-    text-align: left;
+    text-align: center;
+    text-decoration: none;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    height: 15px;
 }
 .nav-tab:hover {
     text-decoration: none;
     
 }
-.content {
-    width: 100%;
-    height: 85%;
-}
+
 
