@@ -18,6 +18,7 @@ export class GameinfoPageComponent implements OnInit, AfterViewInit {
 
   private gameId
   public gameInfo: GameInfo
+  public companies = []
   //users favourites
   private favourites = []
   ngOnInit(): void {
@@ -47,7 +48,8 @@ export class GameinfoPageComponent implements OnInit, AfterViewInit {
       if(this.gameInfo.involved_companies != undefined) {
         //this.gameInfo.companies_names = []
         let companies = await this.gameInfoService.getGameCompanies(this.gameInfo.involved_companies)
-        this.gameInfo.companies_names = companies.map(e => e.name)
+        this.companies = companies.map(e => new Object({id:e.id, name:e.name}))
+        //this.gameInfo.companies_names = companies.map(e => e.name)
       }
       //get pegi ratings
       if(this.gameInfo.age_ratings != undefined) {
