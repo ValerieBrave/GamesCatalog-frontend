@@ -1,12 +1,12 @@
 <div *ngIf="show" class="game-card">
-    <a routerLink='/explore/game/{{game.id}}'>
+    <a routerLink='/explore/game/{{game?.id}}'>
         <div class="game-card_header">
             <div class="game-card_avatar">
-                <span class="game-card_rating">{{game.rating | number: '2.1-1'}}</span>
+                <span class="game-card_rating">{{game?.rating | number: '2.1-1'}}</span>
             </div>
             <div class="game-card_title">
-                <span class="title_name">{{game.name}}</span>
-                <span class="title_date">{{game.first_release_date * 1000 | date}}</span>
+                <span class="title_name">{{game?.name}}</span>
+                <span class="title_date">{{game?.first_release_date * 1000 | date}}</span>
             </div>
         </div>
         <div class="game-card_cover">
@@ -15,7 +15,7 @@
         </div>
         <div class="game-card_summary">
             <div class="summary__text">
-                {{game.summary}}
+                {{game?.summary}}
             </div>
         </div>
     </a>

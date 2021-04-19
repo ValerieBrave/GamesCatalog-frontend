@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Game } from '../shared/interfaces/game';
+import { GameService } from '../shared/services/game.service';
 import { MessageService } from '../shared/services/message.service';
 
 @Component({
@@ -15,7 +16,6 @@ export class GameCardComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
   public like(id?: number) {
     if(id) {
         if(!this.game.liked) {  //like

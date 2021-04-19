@@ -1,14 +1,16 @@
-<div class="company-card">
-    <div class="company-card__logo-block">
-        <img class="company-logo" src="{{company?.logo_url}}">
-    </div>
-    <div class="company-card__details">
-        <div class="details__title">
-            <span class="title-name">{{company?.name}}</span>
-            <span class="title-date">{{company?.start_date * 1000 | date}}</span>
+<a routerLink='/explore/company/{{company.id}}'>
+    <div class="company-card">
+        <div class="company-card__logo-block">
+            <img class="company-logo" src="{{company?.logo_url}}">
         </div>
-        <div class="details__info">
-            <span>{{company.description}}</span>
+        <div class="company-card__details">
+            <div class="details__title">
+                <span class="title-name">{{company?.name}}</span>
+                <span class="title-date">{{company?.start_date * 1000 | date}}</span>
+            </div>
+            <div class="details__info">
+                <span>{{company.description}}</span>
+            </div>
         </div>
     </div>
-</div>
+</a>
