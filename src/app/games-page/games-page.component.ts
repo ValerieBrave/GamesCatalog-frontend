@@ -1,9 +1,8 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { formSliderParams, exploreScrollParams, ngxSpinnerParams } from '../shared/constants'
+import { formSliderParams, exploreScrollParams, ngxSpinnerParams, user1 } from '../shared/constants'
 import { Game } from '../shared/interfaces/game';
 import { GameService } from '../shared/services/game.service';
-import { MessageService } from '../shared/services/message.service';
 
 @Component({
   selector: 'app-games-page',
@@ -23,20 +22,19 @@ export class GamesPageComponent implements OnInit, AfterViewInit {
   private liked_ids = []
 
   //for infinite scroll
-  public notEmptyResp: boolean = true
-  public notScrolly: boolean = true
   private limit: number = 20
   private curOffset: number = this.limit
 
   ngOnInit(): void {
-
+    if(localStorage.getItem('liked') != null) {
+      localStorage.getItem('liked').split(',').forEach(e => {if(e != "") this.liked_ids.push(parseInt(e))})
+    } else {
+      localStorage.setItem('liked', user1.liked.toString())
+      this.liked_ids = user1.liked
+    }
   }
 
   ngAfterViewInit(): void {
-    
-      localStorage.getItem('liked').split(',')?.forEach(e => {
-          if(e != "") this.liked_ids.push(parseInt(e))
-        })
     this.fillFavouritesList()
   }
 
@@ -61,25 +59,19 @@ export class GamesPageComponent implements OnInit, AfterViewInit {
   }
 
   onScroll(): void {
-    if(this.notScrolly && this.notEmptyResp) {
-      this.spinner.show()
-      this.notScrolly = false
-      this.gameserv.getGamesById(this.liked_ids, this.limit, this.curOffset)
-      .subscribe(
-        (data) => {
-          this.notEmptyResp = data == null? false: (data.length == 0?false:true)
-          if(this.notEmptyResp) {
-            let ids = []
-            data.map(e => ids.push(e.cover))
-            this.gameserv.getGameCover(ids).subscribe(data2 => data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url))
-            this.gamesList = this.gamesList.concat(data)
-          }
-          this.spinner.hide()
-          this.curOffset+=this.limit
-          this.notScrolly = true;
-          if(this.notEmptyResp == false) this.notEmptyResp = true
-        })
-    }
+    this.spinner.show()
+    this.gameserv.getGamesById(this.liked_ids, this.limit, this.curOffset)
+    .subscribe( data => {
+      if(data != null && data.length !=0) {
+        let ids = []
+        data.map(e => ids.push(e.cover))
+        this.gameserv.getGameCover(ids).subscribe(data2 => data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url))
+        data.forEach(element => element.liked = true)
+        this.gamesList = this.gamesList.concat(data)
+      }
+      this.spinner.hide()
+      this.curOffset+=this.limit
+    })
   }
 
   

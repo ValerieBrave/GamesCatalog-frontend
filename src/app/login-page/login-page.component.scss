@@ -1,5 +1,5 @@
 @import '/src/assets/static/colors.scss';
-
+@import '/src//assets/static/breakpoints.scss';
 .auth-card_body {
     display: flex;
     flex-direction: column;
@@ -15,6 +15,9 @@
     height: 5vh;
     border: 1px solid $authcard-border;
     width: 100%;
+    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide} {
+        height: 7vh;
+    }
 }
 input:focus,
 select:focus,
@@ -26,12 +29,18 @@ button:focus {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 14vh;
+    min-height: 14vh;
     width: 100%;
+    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide} {
+        min-height: 20vh;
+    }
 }
 .form-label {
     margin: 1vh 0vh;
     font-weight: 500;
+    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide}, #{$laptop}, #{$desktop} {
+        font-size: 3vh;
+    }
 }
 .submits {
     background-color: $allowed-submit;
@@ -39,11 +48,19 @@ button:focus {
     height: 5vh;
     width: 8vw;
     color: white;
+    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide}, #{$laptop}, #{$desktop}{
+        width: 40%;
+        height: 7vh;
+        font-size: 3vh;
+    }
 }
 
 
 .error-messages {
     color: $error-red;
+    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide}, #{$laptop}, #{$desktop} {
+        font-size: 2.5vh;
+    }
 }
 .disabled-submit {
     background-color: $blocked-submit;
@@ -51,7 +68,17 @@ button:focus {
 .forgot-password__link {
     margin-left: 1vw; 
     text-decoration: none;
+    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide}, #{$laptop}, #{$desktop} {
+        font-size: 2.5vh;
+    }
 }
 .auth-card__bottom {
     margin: 10px 0;
+    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide} {
+        height: 15vh;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       justify-content: space-between;
+    }
 }
