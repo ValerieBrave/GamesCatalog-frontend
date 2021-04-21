@@ -1,5 +1,5 @@
 @import '/src/assets/static/colors.scss';
-
+@import '/src//assets/static/breakpoints.scss';
 
 .header_search {
     display: flex;
@@ -8,23 +8,40 @@
 .expansion-panel {
     outline: none;
     background: rgb(255, 255, 255) !important;
-   
 }
 .header__filter-list {
     display: flex;
     flex-direction: row;
     justify-content:flex-start;
     align-items: center;
+    @media #{$mobile},#{$mobile-wide} {
+        flex-direction: column;
+    }
+    @media #{$tablet} {
+        flex-wrap: wrap;
+        column-gap: 5%; 
+        justify-content: center;
+    }
 }
 .filter-input {
     width: 24vh;
     margin: 1vw;
+    @media #{$mobile},#{$mobile-wide} {
+        width: 90%;
+    }
+    @media #{$tablet} {
+        width: 40%;
+    }
 }
 .filter__slider-block {
     display: flex; 
     flex-direction: column; 
     align-items: center; 
     justify-content: center;
+    @media #{$mobile},#{$mobile-wide}, #{$tablet} {
+        width: 100%;
+    }
+    
 }
 .header__button-block {
     display:flex;
@@ -41,5 +58,8 @@
     row-gap: 20px;
     column-gap: 20px;
     padding: 1vw;
+    @media #{$mobile},#{$mobile-wide}, #{$tablet} {
+        margin-top: 20px;
+    }
 }
 

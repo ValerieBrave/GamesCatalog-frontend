@@ -3,9 +3,11 @@
         <div class="title-block_caption">
             <span class="title-gamename">{{gameInfo?.name}}</span>
             <mat-icon [ngClass]="{'action-icons': !gameInfo?.liked, 'action-icons_liked' : gameInfo?.liked }" >favorite</mat-icon>
-            <span class="light-caption">PEGI rating</span>
-            <div class="detail__block_blue">
-                <span>{{gameInfo?.age_rating_name}}</span>
+            <div class="title-rating">
+                <span class="light-caption">PEGI rating</span>
+                <div class="detail__block_blue">
+                    <span>{{gameInfo?.age_rating_name}}</span>
+                </div>
             </div>
         </div>
         <div class="title-block_subcaption">
@@ -24,7 +26,7 @@
                 </div>
             </div>
             <div class="info__ceil">
-                <div class="info__ceil-title">Release Date</div>
+                <div class="info__ceil-title" >Release Date</div>
                 <div class="info__ceil-content">
                     {{gameInfo?.first_release_date * 1000 | date}}
                 </div>

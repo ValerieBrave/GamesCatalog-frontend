@@ -1,5 +1,5 @@
 @import '/src/assets/static/colors.scss';
-
+@import '/src//assets/static/breakpoints.scss';
 a {
     text-decoration: none;
     color: inherit;
@@ -12,6 +12,9 @@ a {
     row-gap: 20px;
     column-gap: 20px;
     padding: 1vw;
+    @media #{$mobile},#{$mobile-wide}, #{$tablet} {
+        padding-top: 20px;
+    }
 }
 
 .game-card {

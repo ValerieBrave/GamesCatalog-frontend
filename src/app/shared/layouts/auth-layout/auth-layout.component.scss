@@ -1,5 +1,5 @@
 @import '/src/assets/static/colors.scss';
-
+@import '/src//assets/static/breakpoints.scss';
 .outer-container {
     display: flex;
     flex-direction: column;
@@ -17,6 +17,17 @@
     border-width: 4px;
     border-style: solid;
     border-color: $authcard-border;
+    @media #{$mobile} {
+        width: 95%;
+        min-height: 50%;
+    }
+    @media #{$tablet}, #{$mobile-wide} {
+        width: 75%;
+    }
+    @media #{$tablet-wide} {
+        width: 35%;
+        min-height: 50%;
+    }
 }
 .active-tab {
     background-color: $active-tab-background;
@@ -25,17 +36,18 @@
 .nav-header {
     display: flex;
     flex-direction: row;
-    height: 8vh;
+    height: 7vh;
     
 }
 .nav-tab {
-    padding: 4%;
+    padding: 14px;
     width: 50%;
     text-align: center;
     text-decoration: none;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    height: 15px;
+    font-size: 100%;
+    
 }
 .nav-tab:hover {
     text-decoration: none;

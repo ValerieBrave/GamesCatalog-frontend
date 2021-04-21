@@ -6,7 +6,7 @@ import { Game } from '../shared/interfaces/game';
 import { getRatingStringValue } from '../shared/models/filter/rating';
 import { FillFilterService } from '../shared/services/fill-filter.service';
 import { GameService } from '../shared/services/game.service';
-import { formSliderParams, exploreScrollParams, ngxSpinnerParams } from '../shared/constants'
+import { formSliderParams, exploreScrollParams, ngxSpinnerParams, user1 } from '../shared/constants'
 import { atLeastOneValidator } from '../shared/validators/at-least-one-validator';
 import { FormOption } from '../shared/interfaces/form_option';
 import { MessageService } from '../shared/services/message.service';
@@ -42,8 +42,6 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   private favourites = []
 
   //for infinite scroll
-  public notEmptyResp: boolean = true
-  public notScrolly: boolean = true
   private limit: number = 20
   private curOffset: number = this.limit
   
@@ -61,7 +59,12 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     this.searchForm = new FormGroup({
       gameName: new FormControl()
     })
-    this.favourites = localStorage.getItem('liked').split(',')
+    if(localStorage.getItem('liked') != null) {
+      localStorage.getItem('liked').split(',').forEach(e => {if(e != "") this.favourites.push(parseInt(e))})
+    } else {
+      localStorage.setItem('liked', user1.liked.toString())
+      this.favourites = user1.liked
+    }
   }
 
   ngAfterViewInit(): void {
@@ -109,31 +112,24 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   }
   
   onScroll(): void {
-    if(this.notScrolly && this.notEmptyResp) {
-      this.spinner.show()
-      this.notScrolly = false
-      this.gameserv.getGames(
-        this.limit, 
-        this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''? this.searchForm.get('gameName').value: null,
-        this.filterForm.invalid? null : this.filterForm.value,
-        this.curOffset)
-        .then(data => {
-          if(data.length == 0) this.notEmptyResp = false
-          if(this.notEmptyResp) {
-            let ids = []
-            data.map(e => {
-              if(this.favourites.find(el => el == e.id.toString())) e.liked = true
-              ids.push(e.cover)
-            })
-            this.gameserv.getGameCover(ids).subscribe(data2 => data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url))
-          }
-          this.gamesList = this.gamesList.concat(data)
-          this.spinner.hide()
-          this.curOffset+=this.limit
-          this.notScrolly = true;
-          if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
+    this.spinner.show()
+    this.gameserv.getGames(this.limit, 
+                          this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''? this.searchForm.get('gameName').value: null,
+                          this.filterForm.invalid? null : this.filterForm.value,
+                          this.curOffset)
+    .then(data => {
+      if(data.length != 0) {
+        let ids = []
+        data.map(e => {
+          if(this.favourites.find(el => el == e.id.toString())) e.liked = true
+          ids.push(e.cover)
         })
-    }
+        this.gameserv.getGameCover(ids).subscribe(data2 => data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url))
+      }
+      this.gamesList = this.gamesList.concat(data)
+      this.spinner.hide()
+      this.curOffset+=this.limit
+    })
   }
   
   public searchGamesByName(): void {
