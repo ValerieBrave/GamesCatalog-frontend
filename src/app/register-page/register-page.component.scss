@@ -18,6 +18,7 @@
     width: 100%;
     @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide} {
         height: 7vh;
+        font-size: 3vh;
     }
 }
 input:focus,

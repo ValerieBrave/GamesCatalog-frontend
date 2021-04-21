@@ -21,7 +21,7 @@
         width: 95%;
         min-height: 50%;
     }
-    @media #{$mobile-wide}, #{$tablet} {
+    @media #{$tablet}, #{$mobile-wide} {
         width: 75%;
     }
     @media #{$tablet-wide} {
@@ -46,9 +46,8 @@
     text-decoration: none;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-     @media #{$mobile-wide}, #{$tablet}, #{$tablet-wide}, #{$laptop}, #{$desktop} {
-        font-size: 2.5vh;
-    }
+    font-size: 100%;
+    
 }
 .nav-tab:hover {
     text-decoration: none;

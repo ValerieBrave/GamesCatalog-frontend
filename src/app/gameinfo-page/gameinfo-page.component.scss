@@ -1,4 +1,5 @@
 @import '/src/assets/static/colors.scss';
+@import '/src//assets/static/breakpoints.scss';
 a {
     text-decoration: none;
     color: inherit;
@@ -9,11 +10,21 @@ a {
     flex-direction: column;
     width: 70%;
     margin: auto;
+    @media #{$mobile}, #{$mobile-wide} {
+        width: 100%;
+        margin-top: 10vh;
+    }
+    @media #{$tablet} {
+        width: 90%;
+    }
 }
 .title-block {
     height: 15vh;
     display: flex;
     flex-direction: column;
+    @media #{$mobile}, #{$mobile-wide} {
+        height: auto;
+    }
 }
 .title-block_caption {
     width: 70%;
@@ -21,13 +32,32 @@ a {
     display: flex;
     flex-direction: row;
     align-items: center;
+    @media #{$mobile}, #{$mobile-wide} {
+        width: 95%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        row-gap: 10px;
+        align-items: unset;
+        height: auto;
+        margin: auto;
+    }
 }
 .title-gamename {
     font-size: 28px;
     margin-right: 20px;
     font-weight: 500;
+    @media #{$mobile}, #{$mobile-wide} {
+        width: 80%;
+    }
 }
-
+.title-rating {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    // @media #{$mobile}, #{$mobile-wide} {
+       
+    // }
+}
 .title-block_subcaption {
     height: 30%;
     display: flex;
@@ -35,6 +65,12 @@ a {
     align-items: center;
     font-size: 90%;
     color: $profile-font-color;
+    @media #{$mobile}, #{$mobile-wide} {
+        height: auto;
+        flex-wrap: wrap;
+        row-gap: 10px;
+        margin: 10px 0px;
+    }
 }
 .action-icons {
     color: gray;
@@ -47,9 +83,15 @@ a {
 .light-caption {
     margin-left: 40px;
     margin-right: 10px;
+    @media #{$mobile}, #{$mobile-wide} {
+        margin-left: 0px;
+    }
 }
 .subcaption__text {
     margin-right: 15px;
+    @media #{$mobile}, #{$mobile-wide} {
+        margin: 0px 10px;
+    }
 }
 .detail__block_blue {
     display: flex;
@@ -58,6 +100,7 @@ a {
     text-align: center;
     height: 30px;
     min-width: 40px;
+    
    //max-width: 80px;
     background-color: $detail-block-blue;
     border-radius: 5px;
@@ -75,14 +118,27 @@ a {
     min-height: 80vh;
     display: flex;
     flex-direction: row;
+    @media #{$mobile}, #{$mobile-wide} {
+        flex-direction: column;
+    }
 }
 .info-block__column_left {
     width: 65%;
     height: 100%;
+    @media #{$mobile}, #{$mobile-wide} {
+        order: 2;
+        width: 95%;
+        margin: auto;
+    }
 }
 .info-block__column_right {
     width: 35%;
     height: 100%;
+    @media #{$mobile}, #{$mobile-wide} {
+        order: 1;
+        width: 95%;
+        margin: auto;
+    }
 }
 .info__ceil {
     display: flex;
@@ -95,11 +151,17 @@ a {
     width: 100%;
     font-size: 18px;
     height: 30px;
+    @media #{$mobile}, #{$mobile-wide} {
+        text-align: center;
+    }
 }
 .info__ceil-content {
     font-size: 16px;
     font-weight: 300;
     margin: 5px;
+    @media #{$mobile}, #{$mobile-wide} {
+        justify-content: center;
+    }
 }
 #screens.info__ceil-content {
     display: flex;
@@ -115,6 +177,9 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    @media #{$mobile}, #{$mobile-wide} {
+        margin: auto;
+    }
 }
 .rating__line {
     width: 100%;
@@ -137,5 +202,7 @@ a {
     flex-wrap: wrap;
     row-gap: 10px;
     column-gap: 10px;
-   // height: 70px;
+    @media #{$mobile}, #{$mobile-wide} {
+        justify-content: center;
+    }
 }

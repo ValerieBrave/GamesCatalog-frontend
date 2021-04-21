@@ -1,7 +1,4 @@
-.header_search {
-    display: flex;
-    justify-content: center;
-}
+@import '/src//assets/static/breakpoints.scss';
 .cards-container {
     width: 75%;
     margin: auto;
@@ -9,4 +6,8 @@
     display: flex;
     flex-direction: column;
     row-gap: 20px;
+    @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
+        width: 100%;
+        margin: 0;
+    }
 }

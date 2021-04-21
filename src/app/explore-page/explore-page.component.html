@@ -2,7 +2,7 @@
   <form [formGroup]='searchForm'>
     <mat-form-field>
         <mat-label>Search games</mat-label>
-        <input matInput formControlName='gameName' (keydown.enter)='searchGamesByName()'>
+        <input matInput class="header-search__input" formControlName='gameName' (keydown.enter)='searchGamesByName()'>
     </mat-form-field>
   </form>
 </div>

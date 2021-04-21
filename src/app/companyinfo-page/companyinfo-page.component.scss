@@ -1,4 +1,5 @@
 @import '/src/assets/static/colors.scss';
+@import '/src//assets/static/breakpoints.scss';
 .container {
     width: 75%;
     margin: auto;
@@ -6,12 +7,20 @@
     flex-direction: column;
     align-items: center;
     border: 1px solid $card-border;
+    @media #{$mobile}, #{$mobile-wide} {
+        width: 100%;
+    }
 }
 .info-block {
     width: 90%;
     display: flex;
     flex-direction: row;
     margin: 40px 0px;
+    @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 .info-block__logo-block {
     height: 95%;
@@ -19,6 +28,9 @@
     margin: 10px 0px;
     display: flex;
     align-items: center;
+    @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
+        width: auto;
+    }
 }
 .company-logo {
     height: 100%;
@@ -31,10 +43,17 @@
     width: 50%;
     min-height: 100px;
     margin: 10px 0px;
+    @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
+        width: 100%;
+    }
 }
 .details__title {
     height: 40px;
     width: 100%;
+    @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
+        width: auto;
+        margin: 10px 0px;
+    }
 }
 .title-name {
     font-size: 18px;
