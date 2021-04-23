@@ -5,10 +5,10 @@ infiniteScroll
 (scrolled)="onScroll()"
 >
     <div *ngFor="let game of gamesList">
-       <app-game-card [game]="game" [show]="true" [onFavsPage]="true"></app-game-card>
+       <app-game-card [game]="game" [onFavsPage]="true" [list]='gamesList' (dislikeEvent)="dislike($event)"></app-game-card>
     </div>
 </div>
-<div style="position: relative; width: 100%;">
+<div class="spinner__block">
     <ngx-spinner 
       [size] = ngxSpinnerParams.size
       [color] = ngxSpinnerParams.color

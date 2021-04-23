@@ -20,9 +20,9 @@
                 infiniteScroll
                 [infiniteScrollDistance]=exploreScrollParams.infiniteScrollDistance
                 [infiniteScrollThrottle]=exploreScrollParams.infiniteScrollThrottle
-                (scrolled)="onScroll()" *ngIf="dev_loaded|async">
+                (scrolled)="onScroll()" *ngIf="developedLoaded$|async">
                     <div *ngFor="let dev of developed">
-                        <app-game-card [game] = "dev" [show]="true" [onFavsPage]="false"></app-game-card>
+                        <app-game-card [game] = "dev"></app-game-card>
                     </div>
                 </div>
             </mat-tab>
@@ -31,11 +31,13 @@
                 infiniteScroll
                 [infiniteScrollDistance]=exploreScrollParams.infiniteScrollDistance
                 [infiniteScrollThrottle]=exploreScrollParams.infiniteScrollThrottle
-                (scrolled)="onScroll()" *ngIf="pub_loaded|async">
-                    <div *ngFor="let pub of published">
-                        <app-game-card [game] = "pub" [show]="true" [onFavsPage]="false"></app-game-card>
+                (scrolled)="onScroll()" *ngIf="publishedLoaded$|async">
+                    
+                        <div *ngFor="let pub of published">
+                            <app-game-card [game] = "pub"></app-game-card>
+                        </div>
+                    
                     </div>
-                </div>
             </mat-tab>
           </mat-tab-group>
           <div style="position: relative; width: 100%;">

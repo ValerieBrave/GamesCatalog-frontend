@@ -1,5 +1,6 @@
 @import '/src/assets/static/colors.scss';
 @import '/src//assets/static/breakpoints.scss';
+@import '/src//assets/static/sizes.scss';
 input:focus,
 select:focus,
 textarea:focus,
@@ -10,7 +11,7 @@ button:focus {
     display: flex;
     flex-direction: column;
     width: 70%;
-    min-height: 100%;
+    min-height: $full-size;
     margin: auto;
     border: 1px solid $authcard-border;
     @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
@@ -36,7 +37,7 @@ button:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: $full-size;
     height: 300px;
     @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
         height: auto;
@@ -50,7 +51,7 @@ button:focus {
     justify-content: space-between;
     width: 90%;
     @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
-        width: 100%;
+        width: $full-size;
         flex-direction: column;
         align-items: center;
     }
@@ -79,7 +80,7 @@ button:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: $full-size;
     height: auto;
 }
 .account-info__form {
@@ -87,7 +88,7 @@ button:focus {
     flex-direction: column;
     align-items: center;
     min-height: 250px;
-    width: 100%;
+    width: $full-size;
     @media #{$mobile-wide}, #{$tablet} {
         height: 300px;
     }
@@ -116,7 +117,7 @@ button:focus {
     height: 6vh;
     font-size: 3vh;
     border: 1px solid $authcard-border;
-    width: 50%;
+    width: $half-size;
    @media #{$mobile-wide}, #{$tablet} {
        height: 5vh;
    }
@@ -143,7 +144,7 @@ button:focus {
     margin: 20px;
     font-size: small;
     font-weight: 400;
-    color: rgb(110, 109, 109);
+    color: $light-caption;
     @media #{$mobile-wide}, #{$tablet} {
         font-size: large;
     }

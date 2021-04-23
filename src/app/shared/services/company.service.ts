@@ -33,8 +33,8 @@ export class CompanyService {
         )
     }
 
-    getCompanyInfoByID(id: string): Promise<Company> {
+    getCompanyInfoByID(id: string): Observable<Company> {
         let body = `fields name, description, developed, published, start_date, logo; where id = ${id};`
-        return this.http.post<Company>('http://localhost:3000/companies', body).toPromise()
+        return this.http.post<Company>('http://localhost:3000/companies', body)
     }
 }

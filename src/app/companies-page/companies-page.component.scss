@@ -1,13 +1,18 @@
 @import '/src//assets/static/breakpoints.scss';
+@import '/src//assets/static/sizes.scss';
 .cards-container {
     width: 75%;
     margin: auto;
-    padding-top: 8vh;
+    padding-top: $app-bar-height;
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: $flex-gaps;
     @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
-        width: 100%;
+        width: $full-size;
         margin: 0;
     }
+}
+.spinner__block {
+    position: relative; 
+    width: $full-size;
 }

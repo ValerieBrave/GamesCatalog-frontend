@@ -1,17 +1,18 @@
 @import '/src/assets/static/colors.scss';
 @import '/src//assets/static/breakpoints.scss';
+@import '/src//assets/static/sizes.scss';
 a {
     text-decoration: none;
     color: inherit;
 }
 .container {
-    margin-top: 8vh;
+    margin-top: $app-bar-height;
     display: flex;
     flex-direction: column;
     width: 70%;
     margin: auto;
     @media #{$mobile}, #{$mobile-wide} {
-        width: 100%;
+        width: $full-size;
         margin-top: 10vh;
     }
     @media #{$tablet} {
@@ -36,7 +37,7 @@ a {
         width: 95%;
         flex-wrap: wrap;
         justify-content: space-between;
-        row-gap: 10px;
+        row-gap: $flex-small-gaps;
         align-items: unset;
         height: auto;
         margin: auto;
@@ -54,9 +55,6 @@ a {
     display: flex;
     flex-direction: row;
     align-items: center;
-    // @media #{$mobile}, #{$mobile-wide} {
-       
-    // }
 }
 .title-block_subcaption {
     height: 30%;
@@ -68,7 +66,7 @@ a {
     @media #{$mobile}, #{$mobile-wide} {
         height: auto;
         flex-wrap: wrap;
-        row-gap: 10px;
+        row-gap: $flex-small-gaps;
         margin: 10px 0px;
     }
 }
@@ -100,8 +98,6 @@ a {
     text-align: center;
     height: 30px;
     min-width: 40px;
-    
-   //max-width: 80px;
     background-color: $detail-block-blue;
     border-radius: 5px;
     color: white;
@@ -114,7 +110,7 @@ a {
 }
 
 .info-block {
-    width: 100%;
+    width: $full-size;
     min-height: 80vh;
     display: flex;
     flex-direction: row;
@@ -124,7 +120,7 @@ a {
 }
 .info-block__column_left {
     width: 65%;
-    height: 100%;
+    height: $full-size;
     @media #{$mobile}, #{$mobile-wide} {
         order: 2;
         width: 95%;
@@ -133,7 +129,7 @@ a {
 }
 .info-block__column_right {
     width: 35%;
-    height: 100%;
+    height: $full-size;
     @media #{$mobile}, #{$mobile-wide} {
         order: 1;
         width: 95%;
@@ -143,7 +139,7 @@ a {
 .info__ceil {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: $full-size;
     min-height: 100px;
     margin: 10px 0px;
 }
@@ -167,8 +163,8 @@ a {
     display: flex;
     flex-wrap: wrap;
     flex: 1 1 270px;
-    row-gap: 10px;
-    column-gap: 10px;
+    row-gap: $flex-small-gaps;
+    column-gap: $flex-small-gaps;
 }
 .info__ceil_rating {
     width: 90%;

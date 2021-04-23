@@ -25,14 +25,12 @@ export class CompanyinfoPageComponent implements OnInit, AfterViewInit {
   private favourites = []
 
   //for infinite scroll
-  public notEmptyResp: boolean = true
-  public notScrolly: boolean = true
   private limit: number = 3
-  private devcurOffset: number = this.limit
-  private pubcurOffset: number = this.limit
+  private devCurrentOffset: number = this.limit
+  private pubCurrentOffset: number = this.limit
   //
-  public dev_loaded: Observable<Game[]>
-  public pub_loaded: Observable<Game[]>
+  public developedLoaded$: Observable<Game[]>
+  public publishedLoaded$: Observable<Game[]>
   public developed: Game[] = []
   public published: Game[] = []
 
@@ -57,58 +55,57 @@ export class CompanyinfoPageComponent implements OnInit, AfterViewInit {
   }
 
   async fillCompanyInfo() {
-    this.companyInfo = await this.compService.getCompanyInfoByID(this.companyId)
-    this.companyInfo = this.companyInfo[0]
-    if(this.companyInfo.logo) this.compService.getCompanyLogo([this.companyInfo.logo]).subscribe(data2 => this.companyInfo.logo_url = data2[0].url)
-      
-    //filling games lists initial values
-    if(this.companyInfo.developed) {
-      this.dev_loaded = this.gameService.getGamesById(this.companyInfo.developed, this.limit)
-      this.dev_loaded.subscribe(data2 => {
-      let ids = data2.map(e => e.cover)
-      this.gameService.getGameCover(ids).subscribe(data3 => data3.forEach(e => data2.find(el => el.cover == e.id).cover_url = e.url))
-      data2.forEach(e=> this.developed.push(e))
+    this.compService.getCompanyInfoByID(this.companyId)
+    .subscribe(info => {
+      this.companyInfo = info[0]
+      if(this.companyInfo.logo) this.compService.getCompanyLogo([this.companyInfo.logo]).subscribe(logo => this.companyInfo.logo_url = logo[0].url)
+      //filling games lists initial values
+      if(this.companyInfo.developed) this.developedLoaded$ = this.loadConnectedGames(this.companyInfo.developed, this.developed)
+      if(this.companyInfo.published) this.publishedLoaded$ = this.loadConnectedGames(this.companyInfo.published, this.published)
+    })    
+  }
+
+  loadConnectedGames(ids: number[], list: Game[]): Observable<Game[]> {
+    let sub: Observable<Game[]> = this.gameService.getGamesById(ids, this.limit)
+    sub.subscribe(games => {
+      let coverIds = games.map(e => e.cover)
+      this.gameService.getGameCover(coverIds).subscribe(covers => covers.forEach(e => games.find(el => el.cover == e.id).cover_url = e.url))
+      games.forEach(e=> {
+        if(this.favourites.find(el => el == e.id.toString())) e.liked = true
+          list.push(e)
+      })
     })
-    }
-    
-    if(this.companyInfo.published) {
-      this.pub_loaded = this.gameService.getGamesById(this.companyInfo.published, this.limit)
-      this.pub_loaded.subscribe(data2 => {
-      let ids = data2.map(e => e.cover)
-      this.gameService.getGameCover(ids).subscribe(data3 => data3.forEach(e => data2.find(el => el.cover == e.id).cover_url = e.url))
-      data2.forEach(e=> this.published.push(e))
-    })
-    }
+    return sub
   }
 
   onScroll(): void {
     this.spinner.show()
-    let passed_ids = []
-    let passed_offset
+    let passedIds = []
+    let passedOffset
     if(this.selectedTab == 0) {
-      passed_offset = this.devcurOffset
-      this.devcurOffset += this.limit
-      passed_ids = this.companyInfo.developed
+      passedOffset = this.devCurrentOffset
+      this.devCurrentOffset += this.limit
+      passedIds = this.companyInfo.developed
     } else {
-      passed_offset = this.pubcurOffset
-      this.pubcurOffset += this.limit
-      passed_ids = this.companyInfo.published
+      passedOffset = this.pubCurrentOffset
+      this.pubCurrentOffset += this.limit
+      passedIds = this.companyInfo.published
     }
-    this.gameService.getGamesById(passed_ids, this.limit, passed_offset).subscribe(data => {
-      if(data != null && data.length != 0) {
+    this.gameService.getGamesById(passedIds, this.limit, passedOffset).subscribe(games => {
+      if(games != null && games.length != 0) {
         let ids = []
-        data.map(e => {
+        games.map(e => {
           if(this.favourites.find(el => el == e.id.toString())) e.liked = true
           ids.push(e.cover)
         })
-        this.gameService.getGameCover(ids).subscribe(data2 => data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url))
+        this.gameService.getGameCover(ids).subscribe(covers => covers.forEach(e => games.find(g => g.id == e.game).cover_url = e.url))
         if(this.selectedTab == 0) {
           
-          this.developed = this.developed.concat(data)
+          this.developed = this.developed.concat(games)
         }
         else {
           
-          this.published = this.published.concat(data)
+          this.published = this.published.concat(games)
         }
       }
       this.spinner.hide()

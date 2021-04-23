@@ -1,9 +1,10 @@
 @import '/src/assets/static/colors.scss';
 @import '/src//assets/static/breakpoints.scss';
+@import '/src//assets/static/sizes.scss';
 .auth-card_body {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: $full-size;
 }
 .auth-card_form-body {
     display: flex;
@@ -14,7 +15,7 @@
     box-sizing:border-box;
     height: 5vh;
     border: 1px solid $authcard-border;
-    width: 100%;
+    width: $full-size;
     @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide} {
         height: 7vh;
         font-size: 3vh;
@@ -31,7 +32,7 @@ button:focus {
     flex-direction: column;
     justify-content: center;
     min-height: 14vh;
-    width: 100%;
+    width: $full-size;
     @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide} {
         min-height: 20vh;
     }
