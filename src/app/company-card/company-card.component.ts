@@ -6,11 +6,7 @@ import { Company } from '../shared/interfaces/company';
   templateUrl: './company-card.component.html',
   styleUrls: ['./company-card.component.scss']
 })
-export class CompanyCardComponent implements OnInit {
+export class CompanyCardComponent {
   @Input() company: Company
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

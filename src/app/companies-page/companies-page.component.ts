@@ -30,11 +30,11 @@ export class CompaniesPageComponent implements OnInit, AfterViewInit {
   }
 
   loadCompanies() : void {
-    this.compService.getCompanies(this.limit).subscribe(data => {
-      let ids = data.map(e => e.logo)
-      this.compService.getCompanyLogo(ids, this.limit).subscribe(data2 => {
-        data.forEach(e => {
-          e.logo_url = data2.find(el => el.id == e.logo).url
+    this.compService.getCompanies(this.limit).subscribe(companies => {
+      let ids = companies.map(e => e.logo)
+      this.compService.getCompanyLogo(ids, this.limit).subscribe(logos => {
+        companies.forEach(e => {
+          e.logo_url = logos.find(el => el.id == e.logo).url
           this.companiesList.push(e)
         })
       })
@@ -44,15 +44,15 @@ export class CompaniesPageComponent implements OnInit, AfterViewInit {
   onScroll(): void {
     this.spinner.show()
     this.compService.getCompanies(this.limit, this.curOffset)
-    .subscribe(data => {
-      if(data != null && data.length != 0) {
-        let ids = data.map(e => e.logo)
-        this.compService.getCompanyLogo(ids, this.limit).subscribe(data2 => {
-          data.forEach(e => {
-            e.logo_url = data2.find(el => el.id == e.logo).url
+    .subscribe(companies => {
+      if(companies != null && companies.length != 0) {
+        let ids = companies.map(e => e.logo)
+        this.compService.getCompanyLogo(ids, this.limit).subscribe(logos => {
+          companies.forEach(e => {
+            e.logo_url = logos.find(el => el.id == e.logo).url
           })
         })
-        this.companiesList = this.companiesList.concat(data)
+        this.companiesList = this.companiesList.concat(companies)
       }
       this.spinner.hide()
       this.curOffset+=this.limit

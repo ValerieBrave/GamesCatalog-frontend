@@ -1,33 +1,27 @@
 @import '/src/assets/static/colors.scss';
 @import '/src//assets/static/breakpoints.scss';
+@import '/src//assets/static/sizes.scss';
 .outer-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    height: 90vh;
-    padding: 5vh;
+    justify-content: space-around;
+    align-items: center;
+    height: $outer-container-height;
+    padding: $outer-container-padding;
 }
 .card-wrapper {
     display: flex;
     flex-direction: column;
-    width: 30%;
-    margin: auto;
-    margin-top: 0%;
-    padding: 1%;
-    border-width: 4px;
-    border-style: solid;
-    border-color: $authcard-border;
+    width: $card-wrapper-width;
+    padding: $card-wrapper-border-width;
+    border: $card-wrapper-border-width solid $authcard-border;
     @media #{$mobile} {
-        width: 95%;
+        width: $card-wrapper-width-small;
         min-height: 50%;
     }
-    @media #{$tablet}, #{$mobile-wide} {
-        width: 75%;
-    }
-    @media #{$tablet-wide} {
-        width: 35%;
-        min-height: 50%;
-    }
+    // @media #{$mobile-landscape} {
+    //     width: 70%;
+    // }
 }
 .active-tab {
     background-color: $active-tab-background;
@@ -36,22 +30,19 @@
 .nav-header {
     display: flex;
     flex-direction: row;
-    height: 7vh;
-    
+    height: $nav-header-height;
 }
 .nav-tab {
-    padding: 14px;
-    width: 50%;
+    padding: $nav-tab-padding;
+    width: $nav-tab-width;
     text-align: center;
     text-decoration: none;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    border-top-left-radius: $nav-tab-border-radius;
+    border-top-right-radius: $nav-tab-border-radius;
     font-size: 100%;
-    
 }
 .nav-tab:hover {
     text-decoration: none;
-    
 }
 
 

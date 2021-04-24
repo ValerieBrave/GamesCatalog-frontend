@@ -95,9 +95,9 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
 
   public fillGamesList(): void {
     this.gameserv.getGames(this.limit).
-    then(data => {
+    then(games => {
       this.gamesList = []; 
-      data.forEach(element => {
+      games.forEach(element => {
         if(this.favourites.find(e => e == element.id.toString())) element.liked = true
         this.gamesList.push(element)
       })
@@ -105,8 +105,8 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     .then(()=> {
       let ids = []  //cover ids
       this.gamesList.map(e => ids.push(e.cover))
-      this.gameserv.getGameCover(ids).subscribe(data => {
-        data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)
+      this.gameserv.getGameCover(ids).subscribe(covers => {
+        covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)
       })
     })
   }
@@ -117,16 +117,16 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
                           this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''? this.searchForm.get('gameName').value: null,
                           this.filterForm.invalid? null : this.filterForm.value,
                           this.curOffset)
-    .then(data => {
-      if(data.length != 0) {
+    .then(games => {
+      if(games.length != 0) {
         let ids = []
-        data.map(e => {
+        games.map(e => {
           if(this.favourites.find(el => el == e.id.toString())) e.liked = true
           ids.push(e.cover)
         })
-        this.gameserv.getGameCover(ids).subscribe(data2 => data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url))
+        this.gameserv.getGameCover(ids).subscribe(data2 => data2.forEach(e => games.find(g => g.id == e.game).cover_url = e.url))
       }
-      this.gamesList = this.gamesList.concat(data)
+      this.gamesList = this.gamesList.concat(games)
       this.spinner.hide()
       this.curOffset+=this.limit
     })
@@ -139,9 +139,9 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
       this.fillGamesList()
     } else {  //not empty field
       this.gameserv.getGames(this.limit, name).then(
-        data => {
+        games => {
           this.gamesList = []
-          this.gamesList = data
+          this.gamesList = games
           let ids = []
           this.gamesList.map(e => {
             if(this.favourites.find(el => el == e.id.toString())) e.liked = true
@@ -172,16 +172,16 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     if(!this.filterForm.invalid) {  // invalid = none of the fields is filled
       this.curOffset = this.limit //new search - results from the beginning
       this.gameserv.getGames(this.limit, null, this.filterForm.value)
-      .then(data => {
+      .then(games => {
         this.gamesList = []
-        this.gamesList = data
+        this.gamesList = games
         let ids = []
         this.gamesList.map(e => {
           if(this.favourites.find(el => el == e.id.toString())) e.liked = true
           ids.push(e.cover)
         })
-        this.gameserv.getGameCover(ids).subscribe(data => {
-          data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
+        this.gameserv.getGameCover(ids).subscribe(covers => {
+          covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
         })
       })
     }

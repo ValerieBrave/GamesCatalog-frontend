@@ -11,7 +11,7 @@ import { GameService } from '../shared/services/game.service';
 })
 export class GamesPageComponent implements OnInit, AfterViewInit {
 
-  constructor(private gameserv: GameService,
+  constructor(private gameServ: GameService,
               private spinner: NgxSpinnerService) { }
   //ui component parameters
   public formSliderParams = formSliderParams
@@ -19,18 +19,18 @@ export class GamesPageComponent implements OnInit, AfterViewInit {
   public ngxSpinnerParams = ngxSpinnerParams
   //list of games displayed
   public gamesList: Game[] = []
-  private liked_ids = []
+  private likedIds = []
 
   //for infinite scroll
   private limit: number = 20
-  private curOffset: number = this.limit
+  private currentOffset: number = this.limit
 
   ngOnInit(): void {
     if(localStorage.getItem('liked') != null) {
-      localStorage.getItem('liked').split(',').forEach(e => {if(e != "") this.liked_ids.push(parseInt(e))})
+      localStorage.getItem('liked').split(',').forEach(e => {if(e != "") this.likedIds.push(parseInt(e))})
     } else {
       localStorage.setItem('liked', user1.liked.toString())
-      this.liked_ids = user1.liked
+      this.likedIds = user1.liked
     }
   }
 
@@ -39,20 +39,20 @@ export class GamesPageComponent implements OnInit, AfterViewInit {
   }
 
   private fillFavouritesList(): void {
-    this.gameserv.getGamesById(this.liked_ids, this.limit).subscribe(
-      data => {
+    this.gameServ.getGamesById(this.likedIds, this.limit).subscribe(
+      games => {
         this.gamesList = []; 
-        data?.forEach(element => {
+        games?.forEach(element => {
           element.liked = true
           this.gamesList.push(element)
         })
       },
-      (err) => {console.log(err)},
+      (err) => console.log(err),
       () => {
         let ids = []  //cover ids
         this.gamesList.map(e => ids.push(e.cover))
-        this.gameserv.getGameCover(ids).subscribe(data => {
-          data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)
+        this.gameServ.getGameCover(ids).subscribe(covers => {
+          covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)
         })
       }
     )
@@ -60,19 +60,21 @@ export class GamesPageComponent implements OnInit, AfterViewInit {
 
   onScroll(): void {
     this.spinner.show()
-    this.gameserv.getGamesById(this.liked_ids, this.limit, this.curOffset)
-    .subscribe( data => {
-      if(data != null && data.length !=0) {
+    this.gameServ.getGamesById(this.likedIds, this.limit, this.currentOffset)
+    .subscribe( games => {
+      if(games != null && games.length !=0) {
         let ids = []
-        data.map(e => ids.push(e.cover))
-        this.gameserv.getGameCover(ids).subscribe(data2 => data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url))
-        data.forEach(element => element.liked = true)
-        this.gamesList = this.gamesList.concat(data)
+        games.map(e => ids.push(e.cover))
+        this.gameServ.getGameCover(ids).subscribe(data2 => data2.forEach(e => games.find(g => g.id == e.game).cover_url = e.url))
+        games.forEach(element => element.liked = true)
+        this.gamesList = this.gamesList.concat(games)
       }
       this.spinner.hide()
-      this.curOffset+=this.limit
+      this.currentOffset+=this.limit
     })
   }
 
-  
+  dislike(event) {
+    this.gamesList = event
+  }
 }

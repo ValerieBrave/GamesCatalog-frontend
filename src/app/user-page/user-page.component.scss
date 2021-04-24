@@ -1,5 +1,6 @@
 @import '/src/assets/static/colors.scss';
 @import '/src//assets/static/breakpoints.scss';
+@import '/src//assets/static/sizes.scss';
 input:focus,
 select:focus,
 textarea:focus,
@@ -10,7 +11,7 @@ button:focus {
     display: flex;
     flex-direction: column;
     width: 70%;
-    min-height: 100%;
+    min-height: $full-size;
     margin: auto;
     border: 1px solid $authcard-border;
     @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
@@ -28,17 +29,17 @@ button:focus {
     color: $profile-font-color;
     font-weight: 500;
     font-size: 20px;
-    @media #{$mobile-wide}, #{$tablet} {
-        font-size: 22px;
-    }
+    // @media #{$mobile-wide}, #{$tablet} {
+    //     font-size: 22px;
+    // }
 }
 .avatar__block {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: $full-size;
     height: 300px;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
+    @media #{$mobile}, #{$mobile-wide}, #{$mobile-landscape}, #{$tablet} {
         height: auto;
     }
 }
@@ -49,8 +50,8 @@ button:focus {
     align-items: flex-end;
     justify-content: space-between;
     width: 90%;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
-        width: 100%;
+    @media #{$mobile}, #{$mobile-wide}, #{$mobile-landscape}, #{$tablet} {
+        width: $full-size;
         flex-direction: column;
         align-items: center;
     }
@@ -69,7 +70,7 @@ button:focus {
     align-items: center;
     width: 70%;
     height: 150px;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
+    @media #{$mobile}, #{$mobile-wide}, #{$mobile-landscape}, #{$tablet} {
         height: auto;
         width: auto;
         flex-direction: column;
@@ -79,7 +80,7 @@ button:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: $full-size;
     height: auto;
 }
 .account-info__form {
@@ -87,7 +88,7 @@ button:focus {
     flex-direction: column;
     align-items: center;
     min-height: 250px;
-    width: 100%;
+    width: $full-size;
     @media #{$mobile-wide}, #{$tablet} {
         height: 300px;
     }
@@ -96,11 +97,12 @@ button:focus {
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 60px;
+    min-height: 60px;
     width: 90%;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
-        justify-content: space-around;
+    @media #{$mobile}, #{$mobile-wide},#{$mobile-landscape} {
+        justify-content: center;
         flex-wrap: wrap;
+        column-gap: $flex-gaps;
     }
 }
 .account-info__form-label {
@@ -113,13 +115,10 @@ button:focus {
 }
 .account-info__form-input {
     box-sizing:border-box;
-    height: 6vh;
+    height: 25px;
     font-size: 3vh;
     border: 1px solid $authcard-border;
     width: 50%;
-   @media #{$mobile-wide}, #{$tablet} {
-       height: 5vh;
-   }
 }
 .change-password__block {
     display: flex;
@@ -128,23 +127,26 @@ button:focus {
     width: 100%;
     
 }
+.mat-button-wrapper {
+    word-break: break-all;
+  }
 .profile__button {
     margin: 20px;
+    //min-width: 100px;
     @media #{$mobile} {
         font-size: 16px;
     }
-    @media  #{$mobile-wide}, #{$tablet} {
-        min-width: 20%;
-        height: 5vh;
-        font-size: 18px;
+    @media  #{$mobile-landscape}, #{$mobile-wide}, #{$mobile-landscape}, #{$tablet} {
+        height: 6vh;
+        font-size: 16px;
     }
 }
 .light-caption {
     margin: 20px;
     font-size: small;
     font-weight: 400;
-    color: rgb(110, 109, 109);
-    @media #{$mobile-wide}, #{$tablet} {
+    color: $light-caption;
+    @media #{$mobile-landscape}, #{$mobile-wide}, #{$tablet} {
         font-size: large;
     }
 }

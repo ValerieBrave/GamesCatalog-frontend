@@ -40,7 +40,7 @@ export class GameService {
       }
     
     private async constructQuery(values: FilterForm, limit: number, offset? :number): Promise<string> {
-        let rc = 'fields cover, first_release_date, name, rating, summary; sort first_release_date desc; where rating != null & aggregated_rating != null;'
+        let rc = 'fields cover, first_release_date, name, rating, summary; sort first_release_date desc; where rating != null & aggregated_rating != null & first_release_date != null;'
         let add = ''
         let where_set = false
         if(values['engine']) {
@@ -108,7 +108,7 @@ export class GameService {
         // searching by name
         if(name) {
             body = 'fields cover, first_release_date,'+ 
-            ' name, rating, summary; limit '+limit.toString()+'; search "'+name+'"; where rating != null & aggregated_rating != null;'
+            ' name, rating, summary; limit '+limit.toString()+'; search "'+name+'"; where rating != null & aggregated_rating != null & first_release_date != null;'
             if(offset) body +=` offset ${offset};`
         }
         //searching with filter
@@ -118,7 +118,7 @@ export class GameService {
         //no search
         else {
             body = 'fields cover, first_release_date,'+ 
-            ' name, rating, summary; sort first_release_date desc; where rating != null & aggregated_rating != null; limit '+
+            ' name, rating, summary; sort first_release_date desc; where rating != null & aggregated_rating != null & first_release_date != null; limit '+
             limit.toString() +';'
             if(offset) body += ` offset ${offset};`
         }
@@ -127,13 +127,13 @@ export class GameService {
     }
     
     public getGamesById(ids: number[], limit: number, offset?: number): Observable<Game[]> {
-        if(ids == undefined || ids.length == 0) return of(null)
+        if(!ids || !ids.length) return of(null)
         let search = []
         if(offset)  search = ids.slice(offset, offset+limit) 
         else  search = ids.slice(0, limit)
         if(search.length > 0) {
             let body = `fields cover, first_release_date,'+ 
-            ' name, rating, summary; where rating != null & aggregated_rating != null; where id = (${search}); limit ${limit};`
+            ' name, rating, summary; where rating != null & aggregated_rating != null & first_release_date != null; where id = (${search}); limit ${limit};`
             return this.http.post<Game[]>('http://localhost:3000/games', body)
         } else return of(null)
     }

@@ -1,10 +1,10 @@
 @import '/src/assets/static/colors.scss';
 @import '/src//assets/static/breakpoints.scss';
-
+@import '/src//assets/static/sizes.scss';
 .auth-card_body {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: $full-size;
 }
 .auth-card_form-body {
     display: flex;
@@ -13,13 +13,9 @@
 }
 .auth-card_form-input {
     box-sizing:border-box;
-    height: 5vh;
+    height: 25px;
     border: 1px solid $authcard-border;
-    width: 100%;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide} {
-        height: 7vh;
-        font-size: 3vh;
-    }
+    width: $full-size;
 }
 input:focus,
 select:focus,
@@ -31,48 +27,32 @@ button:focus {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 14vh;
-    width: 100%;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide} {
-        min-height: 20vh;
-    }
+    min-height: 100px;
+    width: $full-size;
+    
 }
 .form-label {
     margin: 1vh 0vh;
     font-weight: 500;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide}, #{$laptop}, #{$desktop} {
-        font-size: 3vh;
-    }
+    
 }
 .submits {
     background-color:$allowed-submit;
     border: none;
-    height: 5vh;
-    width: 8vw;
+    height: 30px;
+    width: 80px;
     color: white;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide}, #{$laptop}, #{$desktop}{
-        width: 40%;
-        height: 7vh;
-        font-size: 3vh;
-    }
+    
 }
 
 .error-messages {
     color: $error-red;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide}, #{$laptop}, #{$desktop} {
-        font-size: 2.5vh;
-    }
+    
 }
 .disabled-submit {
     background-color: $blocked-submit;
 }
 .auth-card__bottom {
     margin: 10px 0;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$tablet-wide} {
-        height: 15vh;
-       display: flex;
-       flex-direction: column;
-       align-items: center;
-       justify-content: space-between;
-    }
+   
 }

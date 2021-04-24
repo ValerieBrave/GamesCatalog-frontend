@@ -1,0 +1,65 @@
+//EXPLORE LAYOUT PARAMS
+$app-bar-height: 8vh;
+$app-bar-right-block-width: 20%;
+
+//AUTH LAYOUT PARAMS
+$outer-container-height: 90vh;
+$outer-container-padding: 5vh;
+$card-wrapper-width: 350px;
+$card-wrapper-width-small: 280px;
+$card-wrapper-border-width: 4px;
+$nav-header-height: 40px;
+$nav-tab-padding: 14px;
+$nav-tab-width: 50%;
+$nav-tab-border-radius: 5px;
+
+//EXPLORE PAGE PARAMS
+$filter-input-width: 12%;
+
+
+//GAME CARD PARAMS
+$game-card-width: 275px;
+$game-card-height: 400px;
+//-----------
+$game-card-width-mobile: 400px;
+$game-card-large-height: 425px;
+$game-card-large-width: 300px;
+//------------
+$game-card-header-height: 13%;
+$game-card-avatar: 40px;
+$game-card-title-width: 175px;
+$game-card-title-height: 90%;
+$game-card-cover-height: 38%;
+$game-card-summary-height: 148px;
+$game-card-summary-line-height: 1.1rem;
+$game-card-summary-max-height: 8.8rem;
+$game-card-summary-max-lines: 8;
+$game-card-actions-height: 10%;
+
+//COMPANY CARD PARAMS
+$company-card-width: 90%;
+$company-card-logo-block-height: 95%;
+$company-card-logo-block-min-width: 35%;
+$company-card-logo-block-margin: 10px 20px 10px 0px;
+$company-card-details-width: 50%;
+$company-card-details-min-heigth: 100px;
+$company-card-details-margin: 10px 0px;
+$company-card-details-title-heigth: 40px;
+$company-card-name-width: 30%;
+$company-card-info-text-margin: 0px 10px;
+
+//COMPANY INFO PAGE PARAMS
+$container-width: 75%;
+$info-block-width: 90%;
+$info-block-margin: 40px 0px;
+$info-block-details-min-height: 100px;
+$info-block-details-margin: 10px 0px;
+//COMMON
+$card-shadow: "0 12px 18px -6px black";
+$card-border-radius: 10px;
+$full-size: 100%;
+$half-size: 50%;
+$flex-gaps: 20px;
+$flex-small-gaps: 10px;
+$flex-big-gaps: 25px;
+$flex-huge-gaps: 50px;

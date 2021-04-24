@@ -1,13 +1,6 @@
-// $mobile-portrait-se: 320px;
-// $mobile-portrait-8plus: 414px;
-// $tablet-portrait: 768px;
-// $tablet-landscape: 1024px;
-// $laptop: 1440px;
-// $desktop-macbook: 1680px;
-// $desktop-1080: 1920px;
-
 $mobile:"(min-width: 320px) and (max-width: 414px)";
-$mobile-wide: "(min-width: 415px) and (max-width: 768px)";
+$mobile-wide: "(min-width: 415px) and (max-width: 568px)";
+$mobile-landscape: "(min-width: 569px) and (max-width: 768px)";
 $tablet: "(min-width: 769px) and (max-width: 1024px)";
 $tablet-wide: "(min-width: 1025px) and (max-width: 1440px)";
 $laptop: "(min-width: 1441px) and (max-width: 1680px)";
