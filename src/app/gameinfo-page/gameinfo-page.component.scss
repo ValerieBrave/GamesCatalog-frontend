@@ -11,11 +11,12 @@ a {
     flex-direction: column;
     width: 70%;
     margin: auto;
-    @media #{$mobile}, #{$mobile-wide} {
+    @media #{$mobile}, #{$mobile-wide},#{$mobile-landscape}  {
         width: $full-size;
         margin-top: 10vh;
     }
-    @media #{$tablet} {
+    
+    @media #{$tablet}, #{$tablet-wide} {
         width: 90%;
     }
 }
@@ -23,7 +24,7 @@ a {
     height: 15vh;
     display: flex;
     flex-direction: column;
-    @media #{$mobile}, #{$mobile-wide} {
+    @media #{$mobile}, #{$mobile-wide},#{$mobile-landscape}  {
         height: auto;
     }
 }
@@ -33,7 +34,7 @@ a {
     display: flex;
     flex-direction: row;
     align-items: center;
-    @media #{$mobile}, #{$mobile-wide} {
+    @media #{$mobile}, #{$mobile-wide},#{$mobile-landscape} {
         width: 95%;
         flex-wrap: wrap;
         justify-content: space-between;
@@ -47,7 +48,7 @@ a {
     font-size: 28px;
     margin-right: 20px;
     font-weight: 500;
-    @media #{$mobile}, #{$mobile-wide} {
+    @media #{$mobile}, #{$mobile-wide}, #{$mobile-landscape} {
         width: 80%;
     }
 }
@@ -63,7 +64,7 @@ a {
     align-items: center;
     font-size: 90%;
     color: $profile-font-color;
-    @media #{$mobile}, #{$mobile-wide} {
+    @media #{$mobile}, #{$mobile-wide}, #{$mobile-landscape} {
         height: auto;
         flex-wrap: wrap;
         row-gap: $flex-small-gaps;
@@ -81,13 +82,13 @@ a {
 .light-caption {
     margin-left: 40px;
     margin-right: 10px;
-    @media #{$mobile}, #{$mobile-wide} {
+    @media #{$mobile}, #{$mobile-wide},#{$mobile-landscape} {
         margin-left: 0px;
     }
 }
 .subcaption__text {
     margin-right: 15px;
-    @media #{$mobile}, #{$mobile-wide} {
+    @media #{$mobile}, #{$mobile-wide},#{$mobile-landscape} {
         margin: 0px 10px;
     }
 }
@@ -114,26 +115,44 @@ a {
     min-height: 80vh;
     display: flex;
     flex-direction: row;
-    @media #{$mobile}, #{$mobile-wide} {
+    justify-content: space-between;
+    @media #{$mobile}, #{$mobile-wide}, #{$mobile-landscape} {
         flex-direction: column;
     }
 }
 .info-block__column_left {
     width: 65%;
     height: $full-size;
-    @media #{$mobile}, #{$mobile-wide} {
+    @media #{$mobile}, #{$mobile-wide},  #{$mobile-landscape} {
         order: 2;
         width: 95%;
         margin: auto;
     }
+    
 }
 .info-block__column_right {
-    width: 35%;
+    width: 30%;
     height: $full-size;
-    @media #{$mobile}, #{$mobile-wide} {
+    @media #{$mobile} {
         order: 1;
         width: 95%;
         margin: auto;
+    }
+    @media #{$mobile-wide} {
+        order: 1;
+        width: 70%;
+        margin: auto;
+    }
+    @media #{$mobile-landscape} {
+        order: 1;
+        width: $full-size;
+        margin: auto;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        row-gap: $flex-small-gaps;
+        column-gap: $flex-small-gaps;
+        justify-content: center;
     }
 }
 .info__ceil {
@@ -142,12 +161,13 @@ a {
     width: $full-size;
     min-height: 100px;
     margin: 10px 0px;
+    
 }
 .info__ceil-title {
     width: 100%;
     font-size: 18px;
     height: 30px;
-    @media #{$mobile}, #{$mobile-wide} {
+    @media #{$mobile}, #{$mobile-wide},#{$mobile-landscape} {
         text-align: center;
     }
 }
@@ -155,9 +175,10 @@ a {
     font-size: 16px;
     font-weight: 300;
     margin: 5px;
-    @media #{$mobile}, #{$mobile-wide} {
+    @media #{$mobile} {
         justify-content: center;
     }
+ 
 }
 #screens.info__ceil-content {
     display: flex;
@@ -165,17 +186,26 @@ a {
     flex: 1 1 270px;
     row-gap: $flex-small-gaps;
     column-gap: $flex-small-gaps;
+    @media #{$tablet}, #{$mobile}, #{$mobile-wide},#{$mobile-landscape} {
+        justify-content: center;
+        column-gap: $flex-huge-gaps;
+    }
+}
+.screenshot {
+    width: 270px;
+    height: 200px;
+    @media #{$tablet} {
+        width: 210px;
+        height: 150px;
+    }
 }
 .info__ceil_rating {
-    width: 90%;
+    width: $full-size;
     height: 70px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    @media #{$mobile}, #{$mobile-wide} {
-        margin: auto;
-    }
 }
 .rating__line {
     width: 100%;
@@ -185,6 +215,11 @@ a {
     justify-content: space-between;
     align-items: center;
     text-align: center;
+    font-size: small;
+    @media #{$mobile-landscape} {
+        width: 55%;
+        margin: auto;
+    }
 }
 #userscore.rating__line {
     background-color: $user-liked;
@@ -198,7 +233,19 @@ a {
     flex-wrap: wrap;
     row-gap: 10px;
     column-gap: 10px;
-    @media #{$mobile}, #{$mobile-wide} {
+    @media #{$mobile} {
         justify-content: center;
     }
+    @media #{$mobile-wide} {
+        justify-content: space-around;
+    }
+    @media #{$mobile-landscape} {
+        justify-content: space-around;
+        width: 55%;
+        margin: auto;
+    }
+    @media #{$tablet} {
+        justify-content: space-around;
+    }
+    
 }

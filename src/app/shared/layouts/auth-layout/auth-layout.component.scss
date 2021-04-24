@@ -16,15 +16,11 @@
     padding: $card-wrapper-border-width;
     border: $card-wrapper-border-width solid $authcard-border;
     @media #{$mobile} {
-        width: 95%;
+        width: $card-wrapper-width-small;
         min-height: 50%;
     }
-    // @media #{$tablet}, #{$mobile-wide} {
-    //     width: 75%;
-    // }
-    // @media #{$tablet-wide} {
-    //     width: 35%;
-    //     min-height: 50%;
+    // @media #{$mobile-landscape} {
+    //     width: 70%;
     // }
 }
 .active-tab {

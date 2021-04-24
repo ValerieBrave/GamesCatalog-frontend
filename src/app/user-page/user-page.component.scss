@@ -29,9 +29,9 @@ button:focus {
     color: $profile-font-color;
     font-weight: 500;
     font-size: 20px;
-    @media #{$mobile-wide}, #{$tablet} {
-        font-size: 22px;
-    }
+    // @media #{$mobile-wide}, #{$tablet} {
+    //     font-size: 22px;
+    // }
 }
 .avatar__block {
     display: flex;
@@ -39,7 +39,7 @@ button:focus {
     align-items: center;
     width: $full-size;
     height: 300px;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
+    @media #{$mobile}, #{$mobile-wide}, #{$mobile-landscape}, #{$tablet} {
         height: auto;
     }
 }
@@ -50,7 +50,7 @@ button:focus {
     align-items: flex-end;
     justify-content: space-between;
     width: 90%;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
+    @media #{$mobile}, #{$mobile-wide}, #{$mobile-landscape}, #{$tablet} {
         width: $full-size;
         flex-direction: column;
         align-items: center;
@@ -70,7 +70,7 @@ button:focus {
     align-items: center;
     width: 70%;
     height: 150px;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
+    @media #{$mobile}, #{$mobile-wide}, #{$mobile-landscape}, #{$tablet} {
         height: auto;
         width: auto;
         flex-direction: column;
@@ -97,11 +97,12 @@ button:focus {
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 60px;
+    min-height: 60px;
     width: 90%;
-    @media #{$mobile}, #{$mobile-wide}, #{$tablet} {
-        justify-content: space-around;
+    @media #{$mobile}, #{$mobile-wide},#{$mobile-landscape} {
+        justify-content: center;
         flex-wrap: wrap;
+        column-gap: $flex-gaps;
     }
 }
 .account-info__form-label {
@@ -114,13 +115,10 @@ button:focus {
 }
 .account-info__form-input {
     box-sizing:border-box;
-    height: 6vh;
+    height: 25px;
     font-size: 3vh;
     border: 1px solid $authcard-border;
-    width: $half-size;
-   @media #{$mobile-wide}, #{$tablet} {
-       height: 5vh;
-   }
+    width: 50%;
 }
 .change-password__block {
     display: flex;
@@ -129,15 +127,18 @@ button:focus {
     width: 100%;
     
 }
+.mat-button-wrapper {
+    word-break: break-all;
+  }
 .profile__button {
     margin: 20px;
+    //min-width: 100px;
     @media #{$mobile} {
         font-size: 16px;
     }
-    @media  #{$mobile-wide}, #{$tablet} {
-        min-width: 20%;
-        height: 5vh;
-        font-size: 18px;
+    @media  #{$mobile-landscape}, #{$mobile-wide}, #{$mobile-landscape}, #{$tablet} {
+        height: 6vh;
+        font-size: 16px;
     }
 }
 .light-caption {
@@ -145,7 +146,7 @@ button:focus {
     font-size: small;
     font-weight: 400;
     color: $light-caption;
-    @media #{$mobile-wide}, #{$tablet} {
+    @media #{$mobile-landscape}, #{$mobile-wide}, #{$tablet} {
         font-size: large;
     }
 }
