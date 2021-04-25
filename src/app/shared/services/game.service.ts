@@ -1,6 +1,6 @@
 import { HttpClient} from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { EMPTY, Observable, of } from "rxjs";
+import { Observable, of } from "rxjs";
 import { tap } from "rxjs/operators";
 import { Cover } from "../interfaces/cover";
 import { Game } from "../interfaces/game";
@@ -40,7 +40,7 @@ export class GameService {
       }
     
     private async constructQuery(values: FilterForm, limit: number, offset? :number): Promise<string> {
-        let rc = 'fields cover, first_release_date, name, rating, summary; sort first_release_date desc; where rating != null & aggregated_rating != null & first_release_date != null;'
+        let basicBody = 'fields cover, first_release_date, name, rating, summary; sort first_release_date desc; where rating != null & aggregated_rating != null & first_release_date != null;'
         let add = ''
         let where_set = false
         if(values['engine']) {
@@ -87,7 +87,6 @@ export class GameService {
             }
         }
         if(values['pegiRating']) {
-            let rating_number = getRatingNumber(values['pegiRating'])
             let ids = []
             ids = await this.getPegiIdsByRating(getRatingNumber(values['pegiRating']))
             ids = ids.map(e => e['id'])
@@ -98,9 +97,9 @@ export class GameService {
                 where_set = true
             }
         }
-        rc+=add+`; limit ${limit}; `
-        if(offset) rc += `offset ${offset};`
-        return rc
+        basicBody+=add+`; limit ${limit}; `
+        if(offset) basicBody += `offset ${offset};`
+        return basicBody
     }
 
     async getGames(limit: number, name?: string, form?: FilterForm, offset?: number): Promise<Game[]> {

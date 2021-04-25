@@ -3,7 +3,20 @@
 @import '/src//assets/static/sizes.scss';
 .header_search {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
+    @media #{$mobile},#{$mobile-wide} {
+        padding-top: 20px;
+        flex-direction: column;
+    }
+}
+.toggle-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 210px;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 .expansion-panel {
     outline: none;
