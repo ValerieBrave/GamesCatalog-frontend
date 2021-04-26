@@ -39,8 +39,10 @@ export class GameService {
         `where category = 2 & rating = ${rating}; limit 100;`).toPromise()   
       }
     
-    private async constructQuery(values: FilterForm, limit: number, offset? :number): Promise<string> {
-        let basicBody = 'fields cover, first_release_date, name, rating, summary; sort first_release_date desc; where rating != null & aggregated_rating != null & first_release_date != null;'
+    private async constructQuery(values: FilterForm, limit: number, offset? :number, sort?: string): Promise<string> {
+        let basicBody = 'fields cover, first_release_date, name, rating, summary; where rating != null & aggregated_rating != null & first_release_date != null;'
+        if(!sort) basicBody += `sort first_release_date desc; `
+        else basicBody += `sort rating ${sort}; `
         let add = ''
         let where_set = false
         if(values['engine']) {
@@ -102,23 +104,26 @@ export class GameService {
         return basicBody
     }
 
-    async getGames(limit: number, name?: string, form?: FilterForm, offset?: number): Promise<Game[]> {
+    async getGames(limit: number, name?: string, form?: FilterForm, offset?: number, sort?: string): Promise<Game[]> {
         let body = ''
         // searching by name
         if(name) {
             body = 'fields cover, first_release_date,'+ 
             ' name, rating, summary; limit '+limit.toString()+'; search "'+name+'"; where rating != null & aggregated_rating != null & first_release_date != null;'
+            if(sort) body += ` sort rating ${sort};`
             if(offset) body +=` offset ${offset};`
         }
         //searching with filter
         else if(form) {
-            body = await this.constructQuery(form, limit, offset)
+            body = await this.constructQuery(form, limit, offset, sort)
         }
         //no search
         else {
             body = 'fields cover, first_release_date,'+ 
-            ' name, rating, summary; sort first_release_date desc; where rating != null & aggregated_rating != null & first_release_date != null; limit '+
+            ' name, rating, summary; where rating != null & aggregated_rating != null & first_release_date != null; limit '+
             limit.toString() +';'
+            if(!sort) body += `sort first_release_date desc;`
+            else body += `sort rating ${sort}; `
             if(offset) body += ` offset ${offset};`
         }
         

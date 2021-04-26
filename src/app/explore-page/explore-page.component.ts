@@ -49,6 +49,12 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   //coming soon switch state
   public comingSoonChecked: boolean = false
   
+  //rating sorting checkboxes states
+  public ratingAsc: boolean = false
+  public ratingDesc: boolean = false 
+  private currentSort: string = ''
+
+
   ngOnInit(): void {
     this.filterForm = new FormGroup({
       releaseDate: new FormControl(),
@@ -97,7 +103,7 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   }
 
   public fillGamesList(): void {
-    this.gameService.getGames(this.limit).
+    this.gameService.getGames(this.limit, null, null, null, this.currentSort).
     then(games => {
       this.gamesList = []; 
       games.forEach(element => {
@@ -138,7 +144,8 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
       this.gameService.getGames(this.limit, 
         this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''? this.searchForm.get('gameName').value: null,
         this.filterForm.invalid? null : this.filterForm.value,
-        this.currentOffset)
+        this.currentOffset,
+        this.currentSort)
       .then(games => {
         console.log(this.currentOffset)
       if(games.length != 0) {
@@ -254,6 +261,17 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     this.currentOffset = this.limit
     if(this.comingSoonChecked) this.fillComingSoonList()
     else this.fillGamesList()
+  }
+
+  public sortingChanged(event): void {
+    //this.cancelSearch()
+    this.currentSort = event.source['id']
+    this.currentOffset = this.limit
+    if(this.ratingDesc && this.ratingAsc) { //two checked
+      if(event.source['id'] == 'asc') this.ratingDesc = false
+      else this.ratingAsc = false
+     } else if(!this.ratingDesc && !this.ratingAsc) this.currentSort = null   // no sorting
+    this.fillGamesList()
   }
 
   public cancelSearch(): void {

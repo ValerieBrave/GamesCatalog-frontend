@@ -5,8 +5,8 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    @media #{$mobile},#{$mobile-wide} {
-        padding-top: 20px;
+    @media #{$mobile},#{$mobile-wide}, #{$mobile-landscape} {
+        padding: 20px 0px;
         flex-direction: column;
     }
 }
@@ -17,6 +17,13 @@
     justify-content: space-between;
     width: 210px;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.checkbox-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 260px;
 }
 .expansion-panel {
     outline: none;

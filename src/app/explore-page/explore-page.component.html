@@ -14,7 +14,26 @@
         <input matInput class="header-search__input" formControlName='gameName' (keydown.enter)='searchGamesByName()'>
     </mat-form-field>
   </form>
-  
+  <div class="checkbox-container">
+      <mat-checkbox
+      color="primary"
+      [(ngModel)]="ratingDesc"
+      [checked]="ratingDesc"
+      id="desc"
+      (change)="sortingChanged($event)"
+      [disabled]="comingSoonChecked">
+          Highest rating
+      </mat-checkbox>
+      <mat-checkbox
+      color="primary"
+      [(ngModel)]="ratingAsc"
+      [checked]="ratingAsc"
+      id="asc"
+      (change)="sortingChanged($event)"
+      [disabled]="comingSoonChecked">
+        Lowest rating
+    </mat-checkbox>
+  </div>
 </div>
 <div class="header__filter">
   <mat-expansion-panel >
