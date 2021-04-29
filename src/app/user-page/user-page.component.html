@@ -4,12 +4,21 @@
             <span>PROFILE INFORMATION </span>
         </div>
         <div class="avatar__block_under">
-            <div class="avatar">
+            <div *ngIf="!previewUrl" class="avatar">
                 <img class="avatar_pic" src="../../assets/img/default-avatar.jpg">
+            </div>
+            <div *ngIf="previewUrl" class="avatar">
+                <img class="avatar_pic" [src]="previewUrl">
             </div>
             <div class="avatar__block-actions">
                 <span class="light-caption">Set new profile picture:</span>
-                <button mat-stroked-button color="primary" type="file">Choose a file</button>
+                <!-- <button mat-stroked-button color="primary" type="file" class="profile__button">Choose a file</button> -->
+                <!-- <input type="file" class="profile__button" id="avatar" (change)="avatarSelected($event)"> -->
+                    <div class="file-input">
+                        <input type="file" class="profile__button" id="avatar" (change)="avatarSelected($event)">
+                        <label for="avatar">Select file</label>
+                    </div>
+                
             </div>
         </div>
     </div>

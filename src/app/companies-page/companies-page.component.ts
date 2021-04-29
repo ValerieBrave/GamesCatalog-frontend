@@ -21,9 +21,7 @@ export class CompaniesPageComponent implements OnInit, AfterViewInit {
   public formSliderParams = formSliderParams
   public exploreScrollParams = exploreScrollParams
   public ngxSpinnerParams = ngxSpinnerParams
-  //for infinite scroll
-  public notEmptyResp: boolean = true
-  public notScrolly: boolean = true
+  
   
   ngOnInit(): void {this.companiesList = []}
 
@@ -32,11 +30,11 @@ export class CompaniesPageComponent implements OnInit, AfterViewInit {
   }
 
   loadCompanies() : void {
-    this.compService.getCompanies(this.limit).subscribe(data => {
-      let ids = data.map(e => e.logo)
-      this.compService.getCompanyLogo(ids, this.limit).subscribe(data2 => {
-        data.forEach(e => {
-          e.logo_url = data2.find(el => el.id == e.logo).url
+    this.compService.getCompanies(this.limit).subscribe(companies => {
+      let ids = companies.map(e => e.logo)
+      this.compService.getCompanyLogo(ids, this.limit).subscribe(logos => {
+        companies.forEach(e => {
+          e.logo_url = logos.find(el => el.id == e.logo).url
           this.companiesList.push(e)
         })
       })
@@ -44,27 +42,20 @@ export class CompaniesPageComponent implements OnInit, AfterViewInit {
   }
 
   onScroll(): void {
-    if(this.notScrolly && this.notEmptyResp) {
-      this.spinner.show()
-      this.notScrolly = false
-      this.compService.getCompanies(this.limit, this.curOffset)
-      .subscribe(data => {
-        if(data.length == 0) this.notEmptyResp = false
-        if(this.notEmptyResp) {
-          //get company logo
-          let ids = data.map(e => e.logo)
-          this.compService.getCompanyLogo(ids, this.limit).subscribe(data2 => {
-            data.forEach(e => {
-              e.logo_url = data2.find(el => el.id == e.logo).url
-            })
+    this.spinner.show()
+    this.compService.getCompanies(this.limit, this.curOffset)
+    .subscribe(companies => {
+      if(companies != null && companies.length != 0) {
+        let ids = companies.map(e => e.logo)
+        this.compService.getCompanyLogo(ids, this.limit).subscribe(logos => {
+          companies.forEach(e => {
+            e.logo_url = logos.find(el => el.id == e.logo).url
           })
-        }
-        this.companiesList = this.companiesList.concat(data)
-          this.spinner.hide()
-          this.curOffset+=this.limit
-          this.notScrolly = true;
-          if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
-      })
-    }
+        })
+        this.companiesList = this.companiesList.concat(companies)
+      }
+      this.spinner.hide()
+      this.curOffset+=this.limit
+    })
   }
 }

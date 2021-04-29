@@ -27,6 +27,9 @@ import {MatMenuModule} from '@angular/material/menu';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { AuthLayoutComponent } from './shared/layouts/auth-layout/auth-layout.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
@@ -35,6 +38,7 @@ import { GameinfoPageComponent } from './gameinfo-page/gameinfo-page.component';
 import { GameCardComponent } from './game-card/game-card.component';
 import { CompaniesPageComponent } from './companies-page/companies-page.component';
 import { CompanyCardComponent } from './company-card/company-card.component';
+import { CompanyinfoPageComponent } from './companyinfo-page/companyinfo-page.component';
 
 
 
@@ -52,7 +56,8 @@ import { CompanyCardComponent } from './company-card/company-card.component';
     StringList,
     GameCardComponent,
     CompaniesPageComponent,
-    CompanyCardComponent
+    CompanyCardComponent,
+    CompanyinfoPageComponent
   ],
   imports: [
     BrowserModule,
@@ -72,10 +77,13 @@ import { CompanyCardComponent } from './company-card/company-card.component';
     MatCardModule,
     MatToolbarModule,
     MatIconModule,
+    MatTabsModule,
     InfiniteScrollModule,
     NgxSpinnerModule,
     MatSnackBarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSlideToggleModule,
+    MatCheckboxModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

@@ -18,7 +18,7 @@ export class ExploreLayoutComponent implements OnInit, AfterViewInit {
   ngOnInit(): void { }
   public logout(): void {
     this.authService.logout()
-    this.snackBar.ShowMessage('You logged out!')
+    this.snackBar.showMessage('You logged out!')
     this.router.navigate(['/auth/login'])
   }
 }

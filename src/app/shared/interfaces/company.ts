@@ -4,6 +4,7 @@ export interface Company {  // involved companies + companies
     name: string;
     description: string;
     developed: number[];
+    published: number[];
     start_date: number;
     logo: number;
     logo_url: string;

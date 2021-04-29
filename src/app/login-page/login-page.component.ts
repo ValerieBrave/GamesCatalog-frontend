@@ -13,7 +13,7 @@ import { user1 } from '../shared/constants'
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
   public loginForm: FormGroup
-  private aSub: Subscription
+  private subscription: Subscription
   constructor(private authService: AuthService,
               private snackBar: MessageService,
               private router: Router,
@@ -29,26 +29,26 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       if(params['registered']) {
         // now you can log into system with your credentials
       } else if(params['accessDenied']) {
-        this.snackBar.ShowMessage('Authenticate first!')
+        this.snackBar.showMessage('Authenticate first!')
       }
     })
   }
   ngOnDestroy(): void {
-    if(this.aSub) this.aSub.unsubscribe()
+    if(this.subscription) this.subscription.unsubscribe()
   }
 
   public onLogin(){
     
     this.loginForm.disable()
-    this.aSub = this.authService.login(this.loginForm.value).subscribe(
+    this.subscription = this.authService.login(this.loginForm.value).subscribe(
       (data) => {
         if(data['message'] != undefined) {
-          this.snackBar.ShowMessage(data['message'])
+          this.snackBar.showMessage(data['message'])
           this.loginForm.enable()
         }
         else {
           this.router.navigate(['/explore'])
-          this.snackBar.ShowMessage('You logged in!')
+          this.snackBar.showMessage('You logged in!')
           localStorage.setItem('liked', user1.liked.toString())
         }
       },

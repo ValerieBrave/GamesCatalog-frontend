@@ -17,7 +17,8 @@ export class CompanyService {
         return this.http.post<Company[]>('http://localhost:3000/companies', body)
     }
     getCompanyLogo(ids: number[], limit?: number): Observable<Cover[]> {
-        let body = `fields url; where id = (${ids.toString()}); limit ${limit.toString()};`
+        let body = `fields url; where id = (${ids.toString()});`
+        if(limit) body += `limit ${limit.toString()};`;
         return this.http.post<Cover[]>('http://localhost:3000/company_logos', body)
         .pipe(
             tap(
@@ -30,5 +31,10 @@ export class CompanyService {
                 }
             )
         )
+    }
+
+    getCompanyInfoByID(id: string): Observable<Company> {
+        let body = `fields name, description, developed, published, start_date, logo; where id = ${id};`
+        return this.http.post<Company>('http://localhost:3000/companies', body)
     }
 }

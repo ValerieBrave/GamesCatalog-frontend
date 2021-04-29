@@ -1,9 +1,11 @@
-@import '../../../../assets/static/colors.scss';
+@import '/src//assets/static/colors.scss';
+@import '/src//assets/static/breakpoints.scss';
+@import '/src//assets/static/sizes.scss';
 .outer-container {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
+    width: $full-size;
+    height: $full-size;
 }
 .header {
     position: fixed;
@@ -11,22 +13,42 @@
     z-index: 10;
     display: flex;
     flex-direction: column;
-    width: 100%;    
+    width: $full-size;    
 }
 .header__app-bar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    // height: 50px;
-    height: 8vh;
+    height: $app-bar-height;
     background-color: $appbar-background;
     color: white;
+    @media #{$mobile},#{$mobile-wide}, #{$mobile-landscape} {
+        height: 9vh;
+    }
 }
 .app-bar_link {
     text-decoration: none;
     color: white;
     font-size: 3vh;
     cursor: pointer;
+    @media #{$mobile} {
+        font-size: 14px;
+    }
+    @media  #{$mobile-wide}, #{$mobile-landscape} {
+        font-size: 19px;
+    }
+    @media  #{$tablet} {
+        font-size: 22px;
+    }
+    @media #{$tablet-wide} {
+        font-size: 24px;
+    }
+}
+.header__icon {
+    cursor: pointer;
+    @media #{$tablet} {
+        font-size: 24px
+    }
 }
 .app-bar__menu-item {
     color: black;
@@ -34,20 +56,34 @@
 .header__left-block {
     display: flex;
     flex-direction: row;
-    width: 30%;
     justify-content: space-around;
     align-items: center;
+    @media #{$mobile}, #{$mobile-wide}, #{$mobile-landscape} {
+        width: 85%;
+    }
+    @media #{$tablet} {
+        width: 75%;
+    }
+    @media #{$tablet-wide} {
+        width: 65%;
+    }
+    @media #{$laptop}, #{$desktop} {
+        width: 55%;
+    }
 }
 .header__right-block {
     display: flex;
     flex-direction: row;
-    width: 20%;
+    width: $app-bar-right-block-width;
     justify-content: space-around;
     align-items: center;
+    @media #{$mobile}, #{$mobile-wide},#{$tablet-wide}, #{$mobile-landscape} {
+        width: 15%;
+    }
 }
 
 .content {
-    margin-top: 8vh;
-    height: 100%;
-    width: 100%;
+    margin-top: $app-bar-height;
+    height: $full-size;
+    width: $full-size;
 }

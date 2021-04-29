@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { Game } from '../shared/interfaces/game';
 import { MessageService } from '../shared/services/message.service';
 
@@ -9,30 +9,36 @@ import { MessageService } from '../shared/services/message.service';
 })
 export class GameCardComponent implements OnInit {
   @Input() game: Game
-  @Input() show: boolean
-  @Input() onFavsPage: boolean
+  @Input() list?: Game[]
+  @Input() onFavsPage?: boolean = false
+  @Output() dislikeEvent = new EventEmitter<Game[]>()
+
   constructor(private snackBar: MessageService) { }
 
   ngOnInit(): void {
   }
-
   public like(id?: number) {
     if(id) {
         if(!this.game.liked) {  //like
           let ids = []
         if(localStorage.getItem('liked') != "") ids = localStorage.getItem('liked').split(',')
-        if(ids.find(e => e == id.toString())) this.snackBar.ShowMessage('Game is already in favourites list!')
+        if(ids.find(e => e == id.toString())) this.snackBar.showMessage('Game is already in favourites list!')
         else {
+          //this.list.push
           ids.push(id.toString())
           localStorage.setItem('liked', ids.toString())
           this.game.liked = true
-          this.snackBar.ShowMessage('Game added to favourites list!')
+          this.snackBar.showMessage('Game added to favourites list!')
         }
       } else {  //dislike
         let ids = localStorage.getItem('liked').split(',').filter(e => e !=id.toString())
         localStorage.setItem('liked', ids.toString())
-        this.snackBar.ShowMessage('Game deleted from favourites!')
-        if(this.onFavsPage) this.show = false
+        if(this.onFavsPage) {
+          this.list = this.list.filter( e=> e.id != id)
+          this.dislikeEvent.emit(this.list)
+        }
+        this.game.liked = false
+        this.snackBar.showMessage('Game deleted from favourites!')
       }
     }
   }

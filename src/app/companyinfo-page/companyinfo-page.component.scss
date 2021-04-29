@@ -1,0 +1,100 @@
+@import '/src/assets/static/colors.scss';
+@import '/src//assets/static/breakpoints.scss';
+@import '/src//assets/static/sizes.scss';
+.container {
+    width: $container-width;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid $card-border;
+    @media #{$mobile}, #{$mobile-wide},#{$mobile-landscape} {
+        width: $full-size;
+    }
+    @media #{$tablet} {
+        width: 95%;
+    }
+}
+.info-block {
+    width: $info-block-width;
+    display: flex;
+    flex-direction: row;
+    margin: #{$info-block-margin};
+    @media #{$mobile}, #{$mobile-wide},#{$mobile-landscape}, #{$tablet} {
+        width: $full-size;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+.info-block__logo-block {
+    height: 95%;
+    width: 35%;
+    margin: 10px 0px;
+    display: flex;
+    align-items: center;
+    @media #{$mobile}, #{$mobile-wide}, #{$tablet}, #{$mobile-landscape} {
+        width: auto;
+    }
+}
+.company-logo {
+    height: $full-size;
+    border-radius: $card-border-radius;
+    margin: auto;
+}
+.info-block__details {
+    display: flex;
+    flex-direction: column;
+    width: $half-size;
+    min-height: $info-block-details-min-height;
+    margin: $info-block-details-margin;
+    @media #{$mobile}, #{$mobile-wide},#{$mobile-landscape}, #{$tablet} {
+        width: $full-size;
+    }
+}
+.details__title {
+    height: 40px;
+    width: $full-size;
+    @media #{$mobile}, #{$mobile-wide}, #{$mobile-landscape}, #{$tablet} {
+        width: auto;
+        margin: $info-block-details-margin;
+    }
+}
+.title-name {
+    font-size: 18px;
+    font-weight: 500;
+    width: 30%;
+    margin: 0px 10px;
+}
+.title-date {
+    font-size: 14px;
+    font-weight: 300;
+}
+.details__info {
+    margin: 0px 10px;
+    font-size: 14px;
+    font-weight: 300;
+}
+.games-block {
+    width: $full-size;
+    display: flex;
+    flex-direction: column;
+}
+.cards-container {
+    margin: 30px 0px;
+    //width: $full-size;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 1 1 $game-card-width;
+    row-gap: $flex-gaps;
+    column-gap: $flex-gaps;
+    @media  #{$mobile-landscape} {
+        row-gap: $flex-big-gaps;
+        column-gap: $flex-huge-gaps;
+    }
+    @media  #{$tablet} {
+        row-gap: $flex-big-gaps;
+        column-gap: $flex-big-gaps;
+        //flex: 1 1 $game-card-large-width;
+    }
+}

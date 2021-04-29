@@ -1,10 +1,39 @@
 <div class="header_search">
+    <div class="toggle-container">
+        Released
+        <mat-slide-toggle
+        color="primary"
+        [(ngModel)]='comingSoonChecked'
+        (change)="comingSoonChanged()">
+            Coming soon
+        </mat-slide-toggle>
+    </div>
   <form [formGroup]='searchForm'>
     <mat-form-field>
         <mat-label>Search games</mat-label>
-        <input matInput formControlName='gameName' (keydown.enter)='searchGamesByName()'>
+        <input matInput class="header-search__input" formControlName='gameName' (keydown.enter)='searchGamesByName()'>
     </mat-form-field>
   </form>
+  <div class="checkbox-container">
+      <mat-checkbox
+      color="primary"
+      [(ngModel)]="ratingDesc"
+      [checked]="ratingDesc"
+      id="desc"
+      (change)="sortingChanged($event)"
+      [disabled]="comingSoonChecked">
+          Highest rating
+      </mat-checkbox>
+      <mat-checkbox
+      color="primary"
+      [(ngModel)]="ratingAsc"
+      [checked]="ratingAsc"
+      id="asc"
+      (change)="sortingChanged($event)"
+      [disabled]="comingSoonChecked">
+        Lowest rating
+    </mat-checkbox>
+  </div>
 </div>
 <div class="header__filter">
   <mat-expansion-panel >
@@ -76,10 +105,10 @@ infiniteScroll
 (scrolled)="onScroll()"
 >
     <div *ngFor="let game of gamesList">
-        <app-game-card [game] = "game" [show]="true" [onFavsPage]="false"></app-game-card>
+        <app-game-card [game] = "game"></app-game-card>
     </div>
 </div>
-<div style="position: relative; width: 100%;">
+<div class="spinner__block">
   <ngx-spinner 
     [size] = ngxSpinnerParams.size
     [color] = ngxSpinnerParams.color

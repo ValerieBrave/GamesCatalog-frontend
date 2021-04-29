@@ -6,10 +6,11 @@ import { Game } from '../shared/interfaces/game';
 import { getRatingStringValue } from '../shared/models/filter/rating';
 import { FillFilterService } from '../shared/services/fill-filter.service';
 import { GameService } from '../shared/services/game.service';
-import { formSliderParams, exploreScrollParams, ngxSpinnerParams } from '../shared/constants'
+import { formSliderParams, exploreScrollParams, ngxSpinnerParams, user1 } from '../shared/constants'
 import { atLeastOneValidator } from '../shared/validators/at-least-one-validator';
 import { FormOption } from '../shared/interfaces/form_option';
 import { MessageService } from '../shared/services/message.service';
+import { ComingSoonService } from '../shared/services/coming-soon.service';
 
 
 @Component({
@@ -19,8 +20,8 @@ import { MessageService } from '../shared/services/message.service';
 })
 export class ExplorePageComponent implements OnInit, AfterViewInit {
   constructor(private filterService: FillFilterService,
-              private gameserv: GameService, 
-              private snackBar: MessageService,
+              private gameService: GameService, 
+              private comingSoonService: ComingSoonService,
               private spinner: NgxSpinnerService) { }
   //for filter
   public filterForm: FormGroup
@@ -42,12 +43,18 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   private favourites = []
 
   //for infinite scroll
-  public notEmptyResp: boolean = true
-  public notScrolly: boolean = true
   private limit: number = 20
-  private curOffset: number = this.limit
+  private currentOffset: number = this.limit
   
+  //coming soon switch state
+  public comingSoonChecked: boolean = false
   
+  //rating sorting checkboxes states
+  public ratingAsc: boolean = false
+  public ratingDesc: boolean = false 
+  private currentSort: string = ''
+
+
   ngOnInit(): void {
     this.filterForm = new FormGroup({
       releaseDate: new FormControl(),
@@ -61,7 +68,12 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     this.searchForm = new FormGroup({
       gameName: new FormControl()
     })
-    this.favourites = localStorage.getItem('liked').split(',')
+    if(localStorage.getItem('liked') != null) {
+      localStorage.getItem('liked').split(',').forEach(e => {if(e != "") this.favourites.push(parseInt(e))})
+    } else {
+      localStorage.setItem('liked', user1.liked.toString())
+      this.favourites = user1.liked
+    }
   }
 
   ngAfterViewInit(): void {
@@ -91,10 +103,10 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   }
 
   public fillGamesList(): void {
-    this.gameserv.getGames(this.limit).
-    then(data => {
+    this.gameService.getGames(this.limit, null, null, null, this.currentSort).
+    then(games => {
       this.gamesList = []; 
-      data.forEach(element => {
+      games.forEach(element => {
         if(this.favourites.find(e => e == element.id.toString())) element.liked = true
         this.gamesList.push(element)
       })
@@ -102,61 +114,164 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     .then(()=> {
       let ids = []  //cover ids
       this.gamesList.map(e => ids.push(e.cover))
-      this.gameserv.getGameCover(ids).subscribe(data => {
-        data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)
+      this.gameService.getGameCover(ids).subscribe(covers => {
+        covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)
+      })
+    })
+  }
+
+  fillComingSoonList(): void {
+    this.comingSoonService.getAnnouncedGames(this.limit)
+    .then(games => {
+      this.gamesList = []
+      games.forEach(element => {
+        if(this.favourites.find(e => e == element.id.toString())) element.liked = true
+        this.gamesList.push(element)
+      })
+    })
+    .then(()=> {
+      let ids = []  //cover ids
+      this.gamesList.map(e => ids.push(e.cover))
+      this.gameService.getGameCover(ids).subscribe(covers => {
+        covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)
       })
     })
   }
   
   onScroll(): void {
-    if(this.notScrolly && this.notEmptyResp) {
-      this.spinner.show()
-      this.notScrolly = false
-      this.gameserv.getGames(
-        this.limit, 
+    this.spinner.show()
+    if(!this.comingSoonChecked) { // load released games
+      this.gameService.getGames(this.limit, 
         this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''? this.searchForm.get('gameName').value: null,
         this.filterForm.invalid? null : this.filterForm.value,
-        this.curOffset)
-        .then(data => {
-          if(data.length == 0) this.notEmptyResp = false
-          if(this.notEmptyResp) {
-            let ids = []
-            data.map(e => {
-              if(this.favourites.find(el => el == e.id.toString())) e.liked = true
-              ids.push(e.cover)
-            })
-            this.gameserv.getGameCover(ids).subscribe(data2 => data2.forEach(e => data.find(g => g.id == e.game).cover_url = e.url))
-          }
-          this.gamesList = this.gamesList.concat(data)
-          this.spinner.hide()
-          this.curOffset+=this.limit
-          this.notScrolly = true;
-          if(this.notEmptyResp == false) this.notEmptyResp = true //if scrolled to the end
+        this.currentOffset,
+        this.currentSort)
+      .then(games => {
+        console.log(this.currentOffset)
+      if(games.length != 0) {
+        let ids = []
+        games.map(e => {
+        if(this.favourites.find(el => el == e.id.toString())) e.liked = true
+        ids.push(e.cover)
         })
+        this.gameService.getGameCover(ids).subscribe(data2 => data2.forEach(e => games.find(g => g.id == e.game).cover_url = e.url))
+      }
+      this.gamesList = this.gamesList.concat(games)
+      this.spinner.hide()
+      this.currentOffset+=this.limit
+      })
+    } else {  //load announced games
+      this.comingSoonService.getAnnouncedGames(this.limit,
+        this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''? this.searchForm.get('gameName').value: null,
+                                                this.filterForm.invalid? null : this.filterForm.value,
+                                                this.currentOffset)
+      .then(games => {
+        if(games.length != 0) {
+          let ids = []
+          games.map(e => {
+          if(this.favourites.find(el => el == e.id.toString())) e.liked = true
+          ids.push(e.cover)
+          })
+          this.gameService.getGameCover(ids).subscribe(data2 => data2.forEach(e => games.find(g => g.id == e.game).cover_url = e.url))
+        }
+        this.gamesList = this.gamesList.concat(games)
+        this.spinner.hide()
+        this.currentOffset+=this.limit
+      })
     }
   }
   
   public searchGamesByName(): void {
-    this.curOffset = this.limit //new search - results from the beginning
+    this.currentOffset = this.limit //new search - results from the beginning
     let name = this.searchForm.get('gameName').value
     if(name == '' || name == null) {
-      this.fillGamesList()
+      if(!this.comingSoonChecked) this.fillGamesList()
+      else this.fillComingSoonList()
     } else {  //not empty field
-      this.gameserv.getGames(this.limit, name).then(
-        data => {
+      if(!this.comingSoonChecked) {
+        this.gameService.getGames(this.limit, name).then(
+          games => {
+            this.gamesList = []
+            this.gamesList = games
+            let ids = []
+            this.gamesList.map(e => {
+              if(this.favourites.find(el => el == e.id.toString())) e.liked = true
+              ids.push(e.cover)
+            })
+            this.gameService.getGameCover(ids).subscribe(data => {
+              data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
+            })
+          }
+        )
+      } else {
+        this.comingSoonService.getAnnouncedGames(this.limit, name).then(
+          games => {
+            this.gamesList = []
+            this.gamesList = games
+            let ids = []
+            this.gamesList.map(e => {
+              if(this.favourites.find(el => el == e.id.toString())) e.liked = true
+              ids.push(e.cover)
+            })
+            this.gameService.getGameCover(ids).subscribe(data => {
+              data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
+            })
+          }
+        )
+      }
+    }
+  }
+
+  public filterSearch(): void {
+    if(!this.filterForm.invalid) {  // invalid = none of the fields is filled
+      this.currentOffset = this.limit //new search - results from the beginning
+      if(!this.comingSoonChecked) {
+        this.gameService.getGames(this.limit, null, this.filterForm.value)
+        .then(games => {
           this.gamesList = []
-          this.gamesList = data
+          this.gamesList = games
           let ids = []
           this.gamesList.map(e => {
             if(this.favourites.find(el => el == e.id.toString())) e.liked = true
             ids.push(e.cover)
           })
-          this.gameserv.getGameCover(ids).subscribe(data => {
-            data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
+          this.gameService.getGameCover(ids).subscribe(covers => {
+            covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
           })
-        }
-      )
+        })
+      } else {
+        this.comingSoonService.getAnnouncedGames(this.limit, null, this.filterForm.value)
+        .then(games => {
+          this.gamesList = []
+          this.gamesList = games
+          let ids = []
+          this.gamesList.map(e => {
+            if(this.favourites.find(el => el == e.id.toString())) e.liked = true
+            ids.push(e.cover)
+          })
+          this.gameService.getGameCover(ids).subscribe(covers => {
+            covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
+          })
+        })
+      }
     }
+  }
+
+  public comingSoonChanged(): void {
+    this.currentOffset = this.limit
+    if(this.comingSoonChecked) this.fillComingSoonList()
+    else this.fillGamesList()
+  }
+
+  public sortingChanged(event): void {
+    //this.cancelSearch()
+    this.currentSort = event.source['id']
+    this.currentOffset = this.limit
+    if(this.ratingDesc && this.ratingAsc) { //two checked
+      if(event.source['id'] == 'asc') this.ratingDesc = false
+      else this.ratingAsc = false
+     } else if(!this.ratingDesc && !this.ratingAsc) this.currentSort = null   // no sorting
+    this.fillGamesList()
   }
 
   public cancelSearch(): void {
@@ -170,25 +285,6 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     this.filterForm.get('rating').setValue(null)
     //standart list
     this.fillGamesList()
-  }
-
-  public filterSearch(): void {
-    if(!this.filterForm.invalid) {  // invalid = none of the fields is filled
-      this.curOffset = this.limit //new search - results from the beginning
-      this.gameserv.getGames(this.limit, null, this.filterForm.value)
-      .then(data => {
-        this.gamesList = []
-        this.gamesList = data
-        let ids = []
-        this.gamesList.map(e => {
-          if(this.favourites.find(el => el == e.id.toString())) e.liked = true
-          ids.push(e.cover)
-        })
-        this.gameserv.getGameCover(ids).subscribe(data => {
-          data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
-        })
-      })
-    }
   }
 }
 
