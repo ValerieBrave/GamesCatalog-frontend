@@ -11,6 +11,8 @@ import { atLeastOneValidator } from '../shared/validators/at-least-one-validator
 import { FormOption } from '../shared/interfaces/form_option';
 import { MessageService } from '../shared/services/message.service';
 import { ComingSoonService } from '../shared/services/coming-soon.service';
+import { UserService } from '../shared/services/user.service';
+import { AuthService } from '../shared/services/auth.service';
 
 
 @Component({
@@ -21,6 +23,8 @@ import { ComingSoonService } from '../shared/services/coming-soon.service';
 export class ExplorePageComponent implements OnInit, AfterViewInit {
   constructor(private filterService: FillFilterService,
               private gameService: GameService, 
+              private userService: UserService,
+              private authService: AuthService,
               private comingSoonService: ComingSoonService,
               private spinner: NgxSpinnerService) { }
   //for filter
@@ -68,17 +72,18 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     this.searchForm = new FormGroup({
       gameName: new FormControl()
     })
-    if(localStorage.getItem('liked') != null) {
-      localStorage.getItem('liked').split(',').forEach(e => {if(e != "") this.favourites.push(parseInt(e))})
-    } else {
-      localStorage.setItem('liked', user1.liked.toString())
-      this.favourites = user1.liked
-    }
+    
   }
 
   ngAfterViewInit(): void {
     this.fillForm()
     this.fillGamesList()
+    localStorage.setItem('auth-token', this.authService.getToken())
+    this.userService.getLikes()
+    .subscribe(resp => {
+      localStorage.setItem('liked', resp.body.likes.toString())
+      this.favourites = resp.body.likes
+    })
   }
   
   private fillForm(): void {
@@ -147,7 +152,6 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
         this.currentOffset,
         this.currentSort)
       .then(games => {
-        console.log(this.currentOffset)
       if(games.length != 0) {
         let ids = []
         games.map(e => {
@@ -264,7 +268,6 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
   }
 
   public sortingChanged(event): void {
-    //this.cancelSearch()
     this.currentSort = event.source['id']
     this.currentOffset = this.limit
     if(this.ratingDesc && this.ratingAsc) { //two checked

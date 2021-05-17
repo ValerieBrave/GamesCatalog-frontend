@@ -11,9 +11,8 @@
             </div>
         </div>
         <div class="title-block_subcaption">
-            <!-- <span>{{gameInfo?.companies_names | stringList}}</span> -->
             <span *ngFor="let company of companies" class="subcaption__text">
-                <a routerLink="/explore/company/{{company?.id}}">{{company?.name}}</a>
+                <a class="plain-link" routerLink="/explore/company/{{company?.id}}">{{company?.name}}</a>
             </span>
         </div>
     </div>

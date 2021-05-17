@@ -15,7 +15,12 @@ export class ExploreLayoutComponent implements OnInit, AfterViewInit {
               private snackBar: MessageService,
               private router: Router) { }
   ngAfterViewInit(): void { }
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    if(!localStorage.getItem('auth-token') ||  localStorage.getItem('auth-token') == 'null') {
+      this.authService.logout()
+      this.router.navigate(['/auth/login'])
+    }
+  }
   public logout(): void {
     this.authService.logout()
     this.snackBar.showMessage('You logged out!')

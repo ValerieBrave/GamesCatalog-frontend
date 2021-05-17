@@ -29,9 +29,6 @@ button:focus {
     color: $profile-font-color;
     font-weight: 500;
     font-size: 20px;
-    // @media #{$mobile-wide}, #{$tablet} {
-    //     font-size: 22px;
-    // }
 }
 .avatar__block {
     display: flex;
@@ -95,6 +92,7 @@ button:focus {
 }
 .account-info__form-row {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
     min-height: 60px;
@@ -132,7 +130,6 @@ button:focus {
   }
 .profile__button {
     margin: 20px;
-    //min-width: 100px;
     @media #{$mobile} {
         font-size: 16px;
     }
@@ -147,7 +144,7 @@ button:focus {
     height: 0.1px;
     position: absolute;
 }
-.file-input label {
+.file-input__label {
     display: block;
     position: relative;
     width: 100px;
@@ -155,12 +152,10 @@ button:focus {
     border-radius: 5px;
     background: white;
     border: 1px solid $authcard-border;
-    //box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
     color: $profile-font-color;
-    //font-weight: bold;
     cursor: pointer;
     transition: transform .2s ease-out;
   }
@@ -172,4 +167,8 @@ button:focus {
     @media #{$mobile-landscape}, #{$mobile-wide}, #{$tablet} {
         font-size: large;
     }
+}
+.error-messages {
+    color: $error-red;
+    width: 90%;
 }

@@ -15,7 +15,7 @@ export class TokenInterceptor implements HttpInterceptor {
                     
                     "Client-ID": `${creds.client_id}`,
                     Authorization: creds.api_token,
-                    "Client-Token": `${this.authService.getToken()}`  //token client got after authentication
+                    "clienttoken": `Bearer ${this.authService.getToken()}`  //token client got after authentication
                 }
             })
         }

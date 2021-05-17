@@ -10,7 +10,7 @@
                 <mat-icon class="header__icon" [matMenuTriggerFor]="menu">person</mat-icon>
                 <mat-menu #menu="matMenu">
                     <a mat-menu-item class="app-bar__menu-item" routerLink="/explore/games">My Games</a>
-                    <a mat-menu-item class="app-bar__menu-item" routerLink="/explore/user/{{this.userID}}">Profile</a>
+                    <a mat-menu-item class="app-bar__menu-item" routerLink="/explore/profile">Profile</a>
                     <button class="app-bar__menu-item" mat-menu-item (click)="logout()">Logout</button>
                   </mat-menu>
             </div>

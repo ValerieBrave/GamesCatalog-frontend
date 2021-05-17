@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../shared/services/auth.service';
+import { MessageService } from '../shared/services/message.service';
 
 @Component({
   selector: 'app-register-page',
@@ -8,7 +11,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class RegisterPageComponent implements OnInit {
   public registerForm: FormGroup
-  constructor() { }
+  constructor(private authService: AuthService, private snack: MessageService, private router: Router) { }
 
   ngOnInit(): void {
     
@@ -19,6 +22,12 @@ export class RegisterPageComponent implements OnInit {
     })
   }
 
-  public onRegister(): void{}
+  public onRegister(): void{
+    this.authService.register(this.registerForm.value)
+    .subscribe(resp => {
+      this.snack.showMessage(resp.body.message)
+      this.router.navigate(['/auth/login'], { queryParams: {'registered': true }})
+    })
+  }
 
 }

@@ -5,6 +5,7 @@ import { Announce } from "../interfaces/announce";
 import { Game } from "../interfaces/game";
 import { FilterForm } from "../models/filter/form";
 import { getRatingNumber } from "../models/filter/rating";
+import { api_url } from '../../shared/constants';
 @Injectable({
     providedIn:'root'
 })
@@ -14,11 +15,11 @@ export class ComingSoonService {
     getAnnouncesIds(limit: number, offset?: number) : Promise<Announce[]> {
         let body = `fields game; where date > ${Math.floor(new Date().getTime() / 1000)}; limit ${limit};`
         if(offset) body += ` offset ${offset};`
-        return this.http.post<Announce[]>('http://localhost:3000/release_dates', body).toPromise()
+        return this.http.post<Announce[]>(`${api_url}/release_dates`, body).toPromise()
     }
     private getPegiIdsByRating(rating: number): Promise<number[]> {
         return this.http.post<number[]>(
-        'http://localhost:3000/age_ratings',
+            `${api_url}/age_ratings`,
         `where category = 2 & rating = ${rating}; limit 100;`).toPromise()   
     }
     async constructQuery(values: FilterForm, limit: number, offset? :number): Promise<string> {
@@ -72,6 +73,6 @@ export class ComingSoonService {
             
         }
         
-        return this.http.post<Game[]>('http://localhost:3000/games', body).toPromise()
+        return this.http.post<Game[]>(`${api_url}/games`, body).toPromise()
     }
 }
