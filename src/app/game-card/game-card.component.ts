@@ -24,10 +24,12 @@ export class GameCardComponent implements OnInit {
       .subscribe(resp => {
         this.userService.getLikes().subscribe(resp => {localStorage.setItem('liked', resp.body.likes.toString())})
         if(resp.body.liked) {
+          this.game.liked = true;
           this.snackBar.showMessage('Game added to favourites list!')
           
         } else {
           this.snackBar.showMessage('Game deleted from favourites!')
+          this.game.liked = false;
           if(this.onFavsPage) {
             this.list = this.list.filter( e=> e.id != id)
             this.dislikeEvent.emit(this.list)

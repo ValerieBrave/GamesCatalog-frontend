@@ -75,14 +75,15 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     
   }
 
-  ngAfterViewInit(): void {
+  async ngAfterViewInit() {
     this.fillForm()
-    this.fillGamesList()
+    
     localStorage.setItem('auth-token', this.authService.getToken())
     this.userService.getLikes()
-    .subscribe(resp => {
+    .subscribe(async resp => {
       localStorage.setItem('liked', resp.body.likes.toString())
       this.favourites = resp.body.likes
+      await this.fillGamesList()
     })
   }
   
@@ -107,157 +108,76 @@ export class ExplorePageComponent implements OnInit, AfterViewInit {
     })
   }
 
-  public fillGamesList(): void {
-    this.gameService.getGames(this.limit, null, null, null, this.currentSort).
-    then(games => {
-      this.gamesList = []; 
-      games.forEach(element => {
-        if(this.favourites.find(e => e == element.id.toString())) element.liked = true
-        this.gamesList.push(element)
-      })
-    })
-    .then(()=> {
-      let ids = []  //cover ids
-      this.gamesList.map(e => ids.push(e.cover))
-      this.gameService.getGameCover(ids).subscribe(covers => {
-        covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)
-      })
-    })
+  public async fillGamesList() {
+    this.gamesList = await this.gameService.getGames(this.limit, null, null, null, this.currentSort)
+    let ids = []  //cover ids
+    this.gamesList.forEach(element => {if(this.favourites.find(e => e == element.id.toString())) element.liked = true})
+    this.gamesList.map(e => ids.push(e.cover))
+    this.gameService.getGameCover(ids).subscribe(covers => {covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)})
   }
 
-  fillComingSoonList(): void {
-    this.comingSoonService.getAnnouncedGames(this.limit)
-    .then(games => {
-      this.gamesList = []
-      games.forEach(element => {
-        if(this.favourites.find(e => e == element.id.toString())) element.liked = true
-        this.gamesList.push(element)
-      })
-    })
-    .then(()=> {
-      let ids = []  //cover ids
-      this.gamesList.map(e => ids.push(e.cover))
-      this.gameService.getGameCover(ids).subscribe(covers => {
-        covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)
-      })
-    })
+  public async fillComingSoonList() {
+    this.gamesList = await this.comingSoonService.getAnnouncedGames(this.limit)
+    let ids = []
+    this.gamesList.forEach(element => {if(this.favourites.find(e => e == element.id.toString())) element.liked = true})
+    this.gamesList.map(e => ids.push(e.cover))
+    this.gameService.getGameCover(ids).subscribe(covers => {covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url = e.url)})
   }
   
-  onScroll(): void {
+  async onScroll() {
     this.spinner.show()
-    if(!this.comingSoonChecked) { // load released games
-      this.gameService.getGames(this.limit, 
-        this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''? this.searchForm.get('gameName').value: null,
-        this.filterForm.invalid? null : this.filterForm.value,
-        this.currentOffset,
-        this.currentSort)
-      .then(games => {
-      if(games.length != 0) {
-        let ids = []
-        games.map(e => {
-        if(this.favourites.find(el => el == e.id.toString())) e.liked = true
-        ids.push(e.cover)
-        })
-        this.gameService.getGameCover(ids).subscribe(data2 => data2.forEach(e => games.find(g => g.id == e.game).cover_url = e.url))
-      }
-      this.gamesList = this.gamesList.concat(games)
-      this.spinner.hide()
-      this.currentOffset+=this.limit
-      })
-    } else {  //load announced games
-      this.comingSoonService.getAnnouncedGames(this.limit,
-        this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''? this.searchForm.get('gameName').value: null,
+    let portion = []
+    if(!this.comingSoonChecked)  // load released games
+      portion = await this.gameService.getGames(this.limit, 
+                                                this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''? this.searchForm.get('gameName').value: null,
                                                 this.filterForm.invalid? null : this.filterForm.value,
-                                                this.currentOffset)
-      .then(games => {
-        if(games.length != 0) {
-          let ids = []
-          games.map(e => {
-          if(this.favourites.find(el => el == e.id.toString())) e.liked = true
-          ids.push(e.cover)
-          })
-          this.gameService.getGameCover(ids).subscribe(data2 => data2.forEach(e => games.find(g => g.id == e.game).cover_url = e.url))
-        }
-        this.gamesList = this.gamesList.concat(games)
-        this.spinner.hide()
-        this.currentOffset+=this.limit
-      })
+                                                this.currentOffset,
+                                                this.currentSort)
+    else   //load announced games
+      portion = await this.comingSoonService.getAnnouncedGames(this.limit,
+        this.searchForm.get('gameName').value != null && this.searchForm.get('gameName').value != ''? this.searchForm.get('gameName').value: null,
+                                                              this.filterForm.invalid? null : this.filterForm.value,
+                                                              this.currentOffset)
+    
+    if(portion.length != 0) {
+      let ids = []
+      portion.map(e => { if(this.favourites.find(el => el == e.id.toString())) e.liked = true; ids.push(e.cover)})
+      this.gameService.getGameCover(ids).subscribe(data2 => data2.forEach(e => portion.find(g => g.id == e.game).cover_url = e.url))
     }
+    this.gamesList = this.gamesList.concat(portion)
+    this.spinner.hide()
+    this.currentOffset+=this.limit
   }
   
-  public searchGamesByName(): void {
+  public async searchGamesByName() {
     this.currentOffset = this.limit //new search - results from the beginning
     let name = this.searchForm.get('gameName').value
     if(name == '' || name == null) {
       if(!this.comingSoonChecked) this.fillGamesList()
       else this.fillComingSoonList()
     } else {  //not empty field
-      if(!this.comingSoonChecked) {
-        this.gameService.getGames(this.limit, name).then(
-          games => {
-            this.gamesList = []
-            this.gamesList = games
-            let ids = []
-            this.gamesList.map(e => {
-              if(this.favourites.find(el => el == e.id.toString())) e.liked = true
-              ids.push(e.cover)
-            })
-            this.gameService.getGameCover(ids).subscribe(data => {
-              data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
-            })
-          }
-        )
-      } else {
-        this.comingSoonService.getAnnouncedGames(this.limit, name).then(
-          games => {
-            this.gamesList = []
-            this.gamesList = games
-            let ids = []
-            this.gamesList.map(e => {
-              if(this.favourites.find(el => el == e.id.toString())) e.liked = true
-              ids.push(e.cover)
-            })
-            this.gameService.getGameCover(ids).subscribe(data => {
-              data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
-            })
-          }
-        )
-      }
+      let portion = []
+      if(!this.comingSoonChecked) 
+        portion = await this.gameService.getGames(this.limit, name)
+      else 
+        portion = await this.comingSoonService.getAnnouncedGames(this.limit, name)
+        let ids = []
+        this.gamesList = portion
+        this.gamesList.map( e => {if(this.favourites.find(el => el == e.id.toString())) e.liked = true; ids.push(e.cover)})
+        this.gameService.getGameCover(ids).subscribe(data => { data.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)})
     }
   }
 
-  public filterSearch(): void {
+  public async filterSearch() {
     if(!this.filterForm.invalid) {  // invalid = none of the fields is filled
       this.currentOffset = this.limit //new search - results from the beginning
-      if(!this.comingSoonChecked) {
-        this.gameService.getGames(this.limit, null, this.filterForm.value)
-        .then(games => {
-          this.gamesList = []
-          this.gamesList = games
-          let ids = []
-          this.gamesList.map(e => {
-            if(this.favourites.find(el => el == e.id.toString())) e.liked = true
-            ids.push(e.cover)
-          })
-          this.gameService.getGameCover(ids).subscribe(covers => {
-            covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
-          })
-        })
-      } else {
-        this.comingSoonService.getAnnouncedGames(this.limit, null, this.filterForm.value)
-        .then(games => {
-          this.gamesList = []
-          this.gamesList = games
-          let ids = []
-          this.gamesList.map(e => {
-            if(this.favourites.find(el => el == e.id.toString())) e.liked = true
-            ids.push(e.cover)
-          })
-          this.gameService.getGameCover(ids).subscribe(covers => {
-            covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url)
-          })
-        })
-      }
+      let portion = []
+      let ids = []
+      if(!this.comingSoonChecked) portion = await this.gameService.getGames(this.limit, null, this.filterForm.value)
+      else portion = await this.comingSoonService.getAnnouncedGames(this.limit, null, this.filterForm.value)
+      this.gamesList = portion
+      this.gamesList.map(e => { if(this.favourites.find(el => el == e.id.toString())) e.liked = true; ids.push(e.cover)})
+      this.gameService.getGameCover(ids).subscribe(covers => { covers.forEach(e => this.gamesList.find(g => g.id == e.game).cover_url=e.url) })
     }
   }
 
