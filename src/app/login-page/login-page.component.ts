@@ -27,7 +27,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     })
     this.route.queryParams.subscribe((params: Params) => {
       if(params['registered']) {
-        // now you can log into system with your credentials
+        this.snackBar.showMessage('You can login now with your credentials')
       } else if(params['accessDenied']) {
         this.snackBar.showMessage('Authenticate first!')
       }
@@ -49,10 +49,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         else {
           this.router.navigate(['/explore'])
           this.snackBar.showMessage('You logged in!')
-          localStorage.setItem('liked', user1.liked.toString())
         }
       },
-      (err) => {this.loginForm.enable()}
+      (err) => {
+        this.snackBar.showMessage(err.message);
+        this.loginForm.enable()
+      }
     )
   }
 }

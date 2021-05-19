@@ -7,6 +7,7 @@ import { GameService } from '../shared/services/game.service'
 import { formSliderParams, exploreScrollParams, ngxSpinnerParams, user1 } from '../shared/constants'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-companyinfo-page',
@@ -18,6 +19,7 @@ export class CompanyinfoPageComponent implements OnInit, AfterViewInit {
   constructor(private route: ActivatedRoute,
               private compService: CompanyService,
               private gameService: GameService,
+              private authService: AuthService,
               private spinner: NgxSpinnerService ) { }
 
   private companyId
@@ -51,6 +53,7 @@ export class CompanyinfoPageComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    localStorage.setItem('auth-token', this.authService.getToken())
     this.fillCompanyInfo()
   }
 

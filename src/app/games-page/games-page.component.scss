@@ -1,10 +1,7 @@
 @import '/src/assets/static/colors.scss';
 @import '/src//assets/static/breakpoints.scss';
 @import '/src//assets/static/sizes.scss';
-a {
-    text-decoration: none;
-    color: inherit;
-}
+
 .cards-container {
     display: flex;
     flex-wrap: wrap;

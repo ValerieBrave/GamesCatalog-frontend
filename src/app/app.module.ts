@@ -39,6 +39,7 @@ import { GameCardComponent } from './game-card/game-card.component';
 import { CompaniesPageComponent } from './companies-page/companies-page.component';
 import { CompanyCardComponent } from './company-card/company-card.component';
 import { CompanyinfoPageComponent } from './companyinfo-page/companyinfo-page.component';
+import { HttpErrorInterceptor } from './shared/interceptors/httpError.interceptor';
 
 
 
@@ -89,6 +90,11 @@ import { CompanyinfoPageComponent } from './companyinfo-page/companyinfo-page.co
     provide: HTTP_INTERCEPTORS,
     multi: true,
     useClass: TokenInterceptor
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    multi: true,
+    useClass: HttpErrorInterceptor
   }],
   bootstrap: [AppComponent]
 })

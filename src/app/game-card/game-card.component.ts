@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { Game } from '../shared/interfaces/game';
 import { MessageService } from '../shared/services/message.service';
+import { UserService } from '../shared/services/user.service';
 
 @Component({
   selector: 'app-game-card',
@@ -13,33 +14,30 @@ export class GameCardComponent implements OnInit {
   @Input() onFavsPage?: boolean = false
   @Output() dislikeEvent = new EventEmitter<Game[]>()
 
-  constructor(private snackBar: MessageService) { }
+  constructor(private snackBar: MessageService, private userService: UserService) { }
 
   ngOnInit(): void {
   }
   public like(id?: number) {
     if(id) {
-        if(!this.game.liked) {  //like
-          let ids = []
-        if(localStorage.getItem('liked') != "") ids = localStorage.getItem('liked').split(',')
-        if(ids.find(e => e == id.toString())) this.snackBar.showMessage('Game is already in favourites list!')
-        else {
-          //this.list.push
-          ids.push(id.toString())
-          localStorage.setItem('liked', ids.toString())
-          this.game.liked = true
+      this.userService.like(id)
+      .subscribe(resp => {
+        this.userService.getLikes().subscribe(resp => {localStorage.setItem('liked', resp.body.likes.toString())})
+        if(resp.body.liked) {
+          this.game.liked = true;
           this.snackBar.showMessage('Game added to favourites list!')
+          
+        } else {
+          this.snackBar.showMessage('Game deleted from favourites!')
+          this.game.liked = false;
+          if(this.onFavsPage) {
+            this.list = this.list.filter( e=> e.id != id)
+            this.dislikeEvent.emit(this.list)
+          }
         }
-      } else {  //dislike
-        let ids = localStorage.getItem('liked').split(',').filter(e => e !=id.toString())
-        localStorage.setItem('liked', ids.toString())
-        if(this.onFavsPage) {
-          this.list = this.list.filter( e=> e.id != id)
-          this.dislikeEvent.emit(this.list)
-        }
-        this.game.liked = false
-        this.snackBar.showMessage('Game deleted from favourites!')
-      }
+      }, err => {
+        this.snackBar.showMessage(err.message)
+      })
     }
   }
 

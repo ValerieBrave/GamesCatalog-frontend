@@ -32,3 +32,6 @@ export const user1 = {
 export const user_token = {
     token: 'Bearer 1q2w3e4r5t5t6y7u8i9o0p'
 }
+
+export const api_url = '/v4'
+export const backend_url = ''

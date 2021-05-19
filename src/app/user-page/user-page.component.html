@@ -4,21 +4,16 @@
             <span>PROFILE INFORMATION </span>
         </div>
         <div class="avatar__block_under">
-            <div *ngIf="!previewUrl" class="avatar">
+            <div *ngIf="!userInfo?.avatar" class="avatar">
                 <img class="avatar_pic" src="../../assets/img/default-avatar.jpg">
             </div>
-            <div *ngIf="previewUrl" class="avatar">
-                <img class="avatar_pic" [src]="previewUrl">
+            <div *ngIf="userInfo?.avatar" class="avatar">
+                <img class="avatar_pic" [src]="userInfo?.avatar">
             </div>
             <div class="avatar__block-actions">
                 <span class="light-caption">Set new profile picture:</span>
-                <!-- <button mat-stroked-button color="primary" type="file" class="profile__button">Choose a file</button> -->
-                <!-- <input type="file" class="profile__button" id="avatar" (change)="avatarSelected($event)"> -->
-                    <div class="file-input">
-                        <input type="file" class="profile__button" id="avatar" (change)="avatarSelected($event)">
-                        <label for="avatar">Select file</label>
-                    </div>
-                
+                <input type="file" class="profile__button" name="avatar" id="avatar" (change)="avatarSelected()" >
+                <label class="file-input__label" for="avatar">Select file</label>
             </div>
         </div>
     </div>
@@ -26,42 +21,88 @@
         <div class="title">
             <span>ACCOUNT INFORMATION </span>
         </div>
-        <form class="account-info__form">
+        <form class="account-info__form" [formGroup]='infoForm' (ngSubmit)="editInfo()">
             <div class="account-info__form-row">
-                <span class="account-info__form-label">First Name</span>
-                <input class="account-info__form-input" type="text">
-            </div>
-            <div class="account-info__form-row">
-                <span class="account-info__form-label">Last Name</span>
-                <input class="account-info__form-input" type="text">
+                <span class="account-info__form-label">Name</span>
+                <input formControlName='name' class="account-info__form-input" type="text" [value]='userInfo?.name'>
+                <span class="error-messages" *ngIf="infoForm.get('name').invalid">
+                    Name is required
+                </span>
             </div>
             <div class="account-info__form-row">
                 <span class="account-info__form-label">E-mail</span>
-                <input class="account-info__form-input" type="email">
-                <button mat-stroked-button color="primary" class="profile__button">Edit</button>
+                <input disabled="true" class="account-info__form-input" type="text" [value]='userInfo?.email'>
             </div>
-            
+            <div class="account-info__form-row">
+                <span class="account-info__form-label">Date of Birth</span>
+                <mat-form-field >
+                    <input matInput [matDatepicker]="birthdayDatePicker" formControlName='birthday' >
+                    <mat-datepicker-toggle matSuffix [for]="birthdayDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #birthdayDatePicker></mat-datepicker>
+                </mat-form-field>
+                <button mat-stroked-button color="primary" class="profile__button" type="submit" 
+                
+                [disabled]="infoForm.invalid || infoForm.untouched"
+                >Edit</button>
+                <span class="error-messages" *ngIf="infoForm.get('birthday').invalid">
+                    Date of Birth is required
+                </span>
+            </div>
         </form>
     </div>
     <div class="change-password__block">
         <div class="title">
             <span>CHANGE PASSWORD </span>
         </div>
-        <form class="account-info__form">
+        <form class="account-info__form" [formGroup]='passwordForm' (ngSubmit)="editPassword()">
             <div class="account-info__form-row">
                 <span class="account-info__form-label">Current Password</span>
-                <input class="account-info__form-input" type="password">
+                <input formControlName='oldPass' class="account-info__form-input" type="password">
+                <span *ngIf="passwordForm.get('oldPass').invalid && passwordForm.get('oldPass').touched" 
+                class="error-messages">
+                    <span  *ngIf="passwordForm.get('oldPass').errors['required']">
+                        Password is required
+                    </span>
+                    <span class="error-messages" *ngIf="passwordForm.get('oldPass').errors['minlength']">
+                        Password must be longer than 6 symbols
+                    </span>
+                </span>
             </div>
             <div class="account-info__form-row">
                 <span class="account-info__form-label">New Password</span>
-                <input class="account-info__form-input" type="password">
+                <input formControlName='newPass' class="account-info__form-input" type="password">
+                <span *ngIf="passwordForm.get('newPass').invalid && passwordForm.get('newPass').touched" 
+                class="error-messages">
+                    <span  *ngIf="passwordForm.get('newPass').errors['required']">
+                        Password is required
+                    </span>
+                    <span class="error-messages" *ngIf="passwordForm.get('newPass').errors['minlength']">
+                        Password must be longer than 6 symbols
+                    </span>
+                </span>
+                <span class="error-messages" *ngIf="passwordForm.errors?.passwordsDiffer">
+                    {{passwordForm.errors?.passwordsDiffer.text}}
+                </span>
             </div>
             <div class="account-info__form-row">
                 <span class="account-info__form-label">Confirm Password</span>
-                <input class="account-info__form-input" type="password">
-                <button mat-stroked-button color="primary" class="profile__button">Edit</button>
+                <input formControlName='newPassConfirm' class="account-info__form-input" type="password">
+                <button mat-stroked-button color="primary" class="profile__button" type="submit"
+                [disabled]="passwordForm.invalid"
+                >Edit</button>
+                <span *ngIf="passwordForm.get('newPassConfirm').invalid && passwordForm.get('newPassConfirm').touched" 
+                class="error-messages">
+                    <span  *ngIf="passwordForm.get('newPassConfirm').errors['required']">
+                        Password is required
+                    </span>
+                    <span class="error-messages" *ngIf="passwordForm.get('newPassConfirm').errors['minlength']">
+                        Password must be longer than 6 symbols
+                    </span>
+                </span>
             </div>
-            
+            <span class="error-messages" *ngIf="passwordForm.errors?.passwordsMatch">
+                {{passwordForm.errors?.passwordsMatch.text}}
+            </span>
         </form>
     </div>
 </div>
