@@ -2,6 +2,7 @@ import { HttpClient} from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { tap } from "rxjs/operators";
+import { api_url } from "../constants";
 import { Cover } from "../interfaces/cover";
 import { Game } from "../interfaces/game";
 import { FilterForm } from "../models/filter/form";
@@ -17,7 +18,7 @@ export class GameService {
         ids = ids.filter(e => {return e!= null})
         if(ids.length > 0)
             return this.http.post<Cover[]>(
-            'http://localhost:3000/covers',
+                `${api_url}/covers`,
             'fields game, url; where id = ('+ids.toString()+'); limit '+ids.length.toString()+';')
             .pipe(
                 tap(
@@ -35,11 +36,11 @@ export class GameService {
 
     private getPegiIdsByRating(rating: number): Promise<number[]> {
         return this.http.post<number[]>(
-        'http://localhost:3000/age_ratings',
+            `${api_url}/age_ratings`,
         `where category = 2 & rating = ${rating}; limit 100;`).toPromise()   
       }
     
-    private async constructQuery(values: FilterForm, limit: number, offset? :number, sort?: string): Promise<string> {
+    private async constructQuery(values: FilterForm, limit: number, offset? :number, sort?: string, comingSoon?: boolean): Promise<string> {
         let basicBody = 'fields cover, first_release_date, name, rating, summary; where rating != null & aggregated_rating != null & first_release_date != null;'
         if(!sort) basicBody += `sort first_release_date desc; `
         else basicBody += `sort rating ${sort}; `
@@ -104,12 +105,13 @@ export class GameService {
         return basicBody
     }
 
-    async getGames(limit: number, name?: string, form?: FilterForm, offset?: number, sort?: string): Promise<Game[]> {
+    async getGames(limit: number, name?: string, form?: FilterForm, offset?: number, sort?: string, comingSoon?: boolean): Promise<Game[]> {
         let body = ''
         // searching by name
         if(name) {
             body = 'fields cover, first_release_date,'+ 
             ' name, rating, summary; limit '+limit.toString()+'; search "'+name+'"; where rating != null & aggregated_rating != null & first_release_date != null;'
+            //if(comingSoon) body += ` where first_release_date > ${Math.floor(new Date().getTime() / 1000)}; `
             if(sort) body += ` sort rating ${sort};`
             if(offset) body +=` offset ${offset};`
         }
@@ -124,10 +126,11 @@ export class GameService {
             limit.toString() +';'
             if(!sort) body += `sort first_release_date desc;`
             else body += `sort rating ${sort}; `
+            //if(comingSoon) body += ` where first_release_date > ${Math.floor(new Date().getTime() / 1000)}; `
             if(offset) body += ` offset ${offset};`
         }
         
-        return this.http.post<Game[]>('http://localhost:3000/games', body).toPromise()
+        return this.http.post<Game[]>(`${api_url}/games`, body).toPromise()
     }
     
     public getGamesById(ids: number[], limit: number, offset?: number): Observable<Game[]> {
@@ -138,7 +141,7 @@ export class GameService {
         if(search.length > 0) {
             let body = `fields cover, first_release_date,'+ 
             ' name, rating, summary; where rating != null & aggregated_rating != null & first_release_date != null; where id = (${search}); limit ${limit};`
-            return this.http.post<Game[]>('http://localhost:3000/games', body)
+            return this.http.post<Game[]>(`${api_url}/games`, body)
         } else return of(null)
     }
 }

@@ -26,7 +26,7 @@ const routes: Routes = [
            {path:'companies', component: CompaniesPageComponent},
            {path: 'game/:id', component: GameinfoPageComponent},
            {path:'games', component: GamesPageComponent},
-           {path:'user/:id', component: UserPageComponent}
+           {path:'profile', component: UserPageComponent}
         ]
     },
     {path:'', redirectTo:'explore', pathMatch:'full'}
